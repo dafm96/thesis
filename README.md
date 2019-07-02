@@ -1,5 +1,6 @@
-# NOVAthesis LaTeX template
+# David Moura's Thesis Plan
 
+<!--
 --------
 
 *If you are here looking for the (deprecated) Word templates (not maintained anymore), please go to [this other repository](https://github.com/joaomlourenco/novathesis_word).*
@@ -52,3 +53,4 @@ All contributors, both sporadic and regular, are welcome. :) Please [contact me]
 ## Recent News
 
 Please check the file `changelog.txt` for the complete listing of changes.
+-->
