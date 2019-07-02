@@ -8,53 +8,39 @@
 \newcommand{\novathesis}{\emph{novathesis}}
 \newcommand{\novathesisclass}{\texttt{novathesis.cls}}
 
-
 \chapter{Introduction}
 \label{cha:introduction}
 
-% \begin{quotation}
-%   \itshape
-%   This work is licensed under the Creative Commons Attribution-NonCommercial~4.0 International License.
-%   To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-nc/4.0/}.
-% \end{quotation}
+This chapter focuses on introducing the preparation phase of this thesis. 
+It starts by describing the motivation and the context of the problem and describing the problem itself.
+Afterwards, the goals are set, and the expected contributions to the company \emph{Knowledgebiz Consulting} (\gls{KBZ}) and to the field of study are explained. Finishing this chapter, the structure of the rest of the document is presented.
 
 \section{Motivation and Context} % (fold)
 \label{sec:motivation_context}
-blablablablabla.
+In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, the sports industry is starting to use data in their behalf. Huge amounts of data are produced per game and per training session, and techniques like data mining and machine learning give coaches and players more insightful information and statistics. This rich data can also help the business side of sports, like the \gls{NBA} Drafts or the football transfer market.
 
-\section{Problem} % (fold)
-\label{sec:problem}
-blablablablabla.
+Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. There are two widely systems to track the position and collect metrics from the players: \gls{GPS} sensors attached to each player, some of them have included an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA}). %[https://pr.nba.com/nba-announces-multiyear-partnership-sportradar-second-spectrum/]
+
+
+These systems have various concerns: 
+\begin{itemize}
+    \item The \gls{GPS} signal can accurately measure the position, the speed and the displacement of a player. But it can’t measure metrics like jumps, shoots and passes or falls.
+    \item When in a closed court (like most of basketball courts), there is no \gls{GPS} signal. The tracking is made using cameras around the court. This visual system can accurately track the position of the players and gather advanced metrics. The downside of this system is the need of high processing power, and that the cameras are attached to the court.
+    \item The issue of the cameras being attached to the court is that every court needs to have this expensive system installed to be able to track the players performance.
+\end{itemize}
+
+The problem I am addressing is the necessity to use multiple devices to simultaneously track a player position in-game and get advanced metrics about the individual performance of a player, as well as the performance of the entire team. 
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
-blablablablabla.
+The proposed objective of this thesis is to develop an easy to use, portable and low-cost system using inertial sensors to accurately track the position and gather individual and collective player metrics in real-time, focusing the improvement of the game, the training sessions and the recovery of the player and the team.
+The sport chosen to implement this system was basket, because it is often played indoors, constraining the use of \gls{GPS}, the number of players per team is 5 (small when compared to 7 players in a handball team or 11 players in a soccer team), and it’s one of the sports that invests more in new technologies, like \gls{IoT} to track players and teams.
+
 
 \section{Expected Contribuitions} % (fold)
 \label{sec:contribuitions}
 blablablablabla.
 
-%%%OLD%%%
-% \section{A Bit of History} % (fold)
-% \label{sec:a_bit_of_history}
-
-% The \novathesis\ was originally developed to help MSc and PhD students of the Computer Science and Engineering Department of the Faculty of Sciences and Technology of NOVA University of Lisbon (DI-FCT-NOVA) to write their thesis and dissertations Using \LaTeX.
-% %
-% These student can easily cope with \LaTeX\ by themselves, and the only need some help in the bootstrap process to make their life easier.
-
-% However, as the template spread out among the students from other degrees at FCT-NOVA, the demand for am easier-to-use template as grown.
-% %
-% And the template in its current shape aims at answering the expectations of those that, although they are not familiar with programming nor with markup languages, so still feel brave enough to give \LaTeX\ a try and rejoice with the beauty of the texts typeset by this system.
-
-% % section a_bit_of_history (end)
-
-
-% \section{Disclaimer} % (fold)
-% \label{sec:disclaimer}
-
-% It is up to you, the student, to read the FCT and/or NOVA regulations on how to format and submit your MSc or PhD dissertation.  
-
-% This template is endorsed by the FCT-NOVA and even linked from its web pages, but it is not an official template.
-% %
-% This template exists to make your life easier, but in the end of the line you are accountable for both the looks and the contents of the document you submit as your dissertation.
-
+\section{Document Structure} % (fold)
+\label{sec:structure}
+The rest of the document is organized as follows: Chapter~\ref{cha:state_art} presents the state of the art: what are the approaches currently used by professional teams regarding player tracking and data collection, what sensors are used commonly used for this application, which communication protocols are more suitable for the goals set and the related works in the field. Chapter~\ref{cha:developed_work} will describe the developed work so far, and Chapter~\ref{cha:elaboration_proposal} proposes this thesis elaboration plan.

@@ -1,38 +1,125 @@
-\chapter{Sensors}
-\label{cha:sensors}
+%!TEX root = ../template.tex
+\chapter{State of the art and related work}
+\label{cha:state_art}
 
-A sensor is a device that detects or measures a physical property, and converts that value to an eletric signal, which is usually transmited to a processing unit.  
+A sensor is a device that detects or measures a physical property, and converts that value to an electric signal, which is usually transmitted to a processing unit.  
 
-% \begin{quotation}
-%   \itshape
-%   This work is licensed under the Creative Commons Attribution-NonCommercial~4.0 International License.
-%   To view a copy of this license, visit \url{http://creativecommons.org/licenses/by-nc/4.0/}.
-% \end{quotation}
-
-\section{Data Aquisition Sensors in Sports} % (fold)
-\label{sec:data_sensors}
+\section{Different Approaches} % (fold)
+\label{sec:approaches}
 blablablablabla.
 
-\section{Movement Aquisition Sensors} % (fold)
-\label{sec:movement_sensors}
+\subsection{Video Tracking System Approach}
+\label{subsec:video_approach}
 blablablablabla.
 
-\subsection{Accelerometer} % (fold)
-\label{subsec:accelerometer}
+\subsection{Sensor Tracking System Approach}
+\label{subsec:sensor_approach}
 blablablablabla.
 
-\subsection{Gyroscope} % (fold)
-\label{subsec:gyro}
+
+\section{Sensors} % (fold)
+\label{sec:sensors}
 blablablablabla.
 
-\subsection{Magnetometer} % (fold)
-\label{subsec:magne}
+\subsection{Data Acquisition Sensors in Sports}
+\label{subsec:data_sensors}
 blablablablabla.
 
-\subsection{GPS} % (fold)
-\label{subsec:gps}
+\subsection{Motion Sensors}
+\label{subsec:motion_sensors}
 blablablablabla.
 
-\section{Applications}
-\label{subsec:applications}
+\section{Communication Protocols}
+\label{sec:communication_protocols}
+blablablablabla.
+
+\subsection{Protocols}
+\label{subsec:protocols}
+
+\subsubsection{Cellular}
+\label{subsubsec:cellular}
+Cellular technology is meant to use cases where the need of data throughput is high, there is a big distance to cover and there are low restraints on power consumption.
+Using GSM/3G/4G (and soon 5G), peak data rates can reach up to 20Gbps \cite{5g}. Cellular communication protocol is meant to applications in mobile devices. 
+
+\subsubsection{SigFox}
+\label{subsubsec:sigfox}
+SigFox builds wireless networks to connect low power objects and devices, which are continuously turned on and send small amounts of data.
+SigFox uses Ultra Narrow Band modulation and communicates at 100 or 600 bits per second \cite{sigfox}. 
+SigFox is complementary with other technologies, like Bluetooth, GPS, Cellular and WiFi, unleashing the applications of this technology.
+
+\subsubsection{6LoWPAN}
+\label{subsubsec:6lowpan}
+6LoWPAN comes from the combination of IPv6 and Low Power Wireless Personal Area Network and aims to define the IPv6 to low data rates, low power and small footprint applications, providing an adaptation layer between the MAC and the network layer (IPv6). 
+It supports different types of topologies, like star and mesh~\cite{6lowpan}.
+
+\subsubsection{NFC}
+\label{subsubsec:nfc}
+Near Field Communication is a very short-range (0-10cm) wireless protocol, establishing wireless connections between network appliances and consumer electronic, carrying very low amounts of data (424 Kbits/second).
+Some examples are touching the pay terminal with the NFC-enabled phone to authorize the payment, or connecting electronic devices, like a smartphone and a headset~\cite{nfc}.
+
+\subsubsection{ZigBee}
+\label{subsubsec:zigbee}
+
+ZigBee is a widely used IoT protocol with different applications in the areas of home automation, offices and healthcare systems.
+The networks can be configured in multiple topologies, like star, mesh and cluster tree, and consists in three types of devices: end device, router and coordinator~\cite{protocols}. 
+
+\begin{itemize}
+  \item The coordinator is the most capable device, responsible for starting and maintaining the network, store security keys and connect with other networks. 
+  \item Router devices can run applications just like de end devices, but additionally can pass information from other devices and extend the network.   
+  \item End devices are the simplest and less expensive devices, can only talk to another device, but are able to sleep and to save more power than router or coordinator devices.
+\end{itemize}
+
+\subsubsection{Z-Wave}
+\label{subsubsec:zwave}
+
+\subsubsection{WiFi}
+\label{subsubsec:wifi}
+
+\subsubsection{Bluetooth}
+\label{subsubsec:bluetooth}
+...
+
+Bluetooth network topologies can be of different types, as shown in Figure~\ref{fig:bletopologies}:
+\begin{itemize}
+\item \textbf{Point-to-point (1:1) -} Point-to-point network topology is used for connecting devices one-to-one. In BR/EDR this type of communication is optimized for audio streaming, like headsets, speakers or free-hands systems. In BLE, this topology is optimized for data transfer with devices like fitness trackers and PC peripherals.
+\item \textbf{Broadcast (1:m) -} Broadcast establishes one-to-many connections and is only available in BLE. This topology is optimized for local information sharing, like point-of-interest information, indoor navigation and asset tracking.
+\item \textbf{Mesh (m:n) -} Mesh establishes many-to-many device connections and is only available in BLE. This type of topology is useful when a large number of devices are present and need a trustworthy and safe connection network, like a building with automatic lighting functions or a sensor network. Mesh networks can span a very large physical area. This is particularly useful when a device relies on data from another device that is not in his direct range.
+\end{itemize}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=1\linewidth]{Topologies}
+    \caption{BLE Topologies~\cite{ble_mesh_topologies}}
+    \label{fig:bletopologies}
+\end{figure}
+
+
+\subsection{Comparison}
+\label{subsec:comparison}
+
+As shown in Table \ref{tab:hla:communication_comparison} blablabla
+
+\begin{table}[ht]
+\caption{Communication Protocol comparison}
+\label{tab:hla:communication_comparison}
+\centering
+\begin{tabular}{lccccc}
+  \toprule
+  \multicolumn{1}{c}{\textbf{Technology}} & \textbf{Frequency} & \textbf{Max Data Rate} & \textbf{Range} & \textbf{Power Usage} & \textbf{Cost} \\
+  \midrule
+  Cellular (4G)                           & Cellular Bands     & 100 Mbps               & Several Km     & High                 & High          \\
+  SigFox                                  & < 1 GHz            & < 1 kbps               & Several Km     & Low                  & Medium        \\
+  6LoWPAN                                 & < 1 GHz            & 250 kbps               & 100 m          & Low                  & Low           \\
+  NFC                                     & 13.56 MHz          & 424 kbps               & 10 cm          & Low                  & Low           \\
+  ZigBee                                  & 2.4 GHz            & 250 kbps               & 100 m          & Low                  & Medium        \\
+  Z-Wave                                  & < 1 GHz            & 100 kbps               & 30 m           & Low                  & Medium        \\
+  WiFi                                    & 2.4/5 GHz          & 54 Mbps                & 100 m          & Medium               & Low           \\
+  BLE                                     & 2.4 - 2.48 GHz     & 2 Mbps                 & 100 m          & Low                  & Low           \\
+
+  \bottomrule
+\end{tabular}
+\end{table}
+
+\section{Related Work} % (fold)
+\label{sec:related_work}
 blablablablabla.
