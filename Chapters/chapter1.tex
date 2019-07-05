@@ -11,35 +11,66 @@
 \chapter{Introduction}
 \label{cha:introduction}
 
-This chapter focuses on introducing the preparation phase of this thesis. 
-It starts by describing the motivation and the context of the problem and describing the problem itself.
-Afterwards, the goals are set, and the expected contributions to the company \emph{Knowledgebiz Consulting} (\gls{KBZ}) and to the field of study are explained. Finishing this chapter, the structure of the rest of the document is presented.
+This chapter focuses on introducing the preparation phase of this thesis. It starts by describing the motivation and the context of the problem. Afterwards the goals are set, and the expected contributions to the field of study are explained. The reminder of this chapter finishes, by presenting the organizational structure of the rest of the document. This dissertation is currently being developed within a corporate context, with the support of Knowledgebiz company.
 
 \section{Motivation and Context} % (fold)
 \label{sec:motivation_context}
-In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, the sports industry is starting to use data in their behalf. Huge amounts of data are produced per game and per training session, and techniques like data mining and machine learning give coaches and players more insightful information and statistics. This rich data can also help the business side of sports, like the \gls{NBA} Drafts or the football transfer market.
+In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, the sports industry is starting to use data in their behalf. Huge amounts of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis. New discoveries on data can also help the business side of sports, like the NBA Drafts or the football transfer market.
 
-Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. There are two widely systems to track the position and collect metrics from the players: \gls{GPS} sensors attached to each player, some of them have included an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA}). %[https://pr.nba.com/nba-announces-multiyear-partnership-sportradar-second-spectrum/]
+%
+Innovations like wearable GPS tracking devices have added big insights in team sports. Initially, practitioners of sports were interested in answering the first obvious question of the chaotic set of player movements during a game: how far did an athlete traveled over the course of a match? GPS could easily answer this question, but soon more questions were raised. For example:
+\begin{itemize}
+    \item How many high velocity efforts were achieved?
+    \item How much time was spent at high speed?
+    \item What high accelerations and decelerations were performed? What impact does this have on the recovery strategies for each individual athlete?
+\end{itemize}
+
+This granular movements can be measured in a laboratory, using biomechanical tools like force plates that measure ground reaction forces, but this measurement tools can’t be deployed in real life cases like games or training sessions, and a “gross” positioning system like GPS can never measure this type of forces. 
+
+For a complete tracking solution, we need not only to analyze the “big picture” (the movement across the field), that can be provided by GPS, but to consider the micro or local movements, which can provide enormously relevant information for performance enhancing, fatigue analysis and recovery strategy planning. 
+
+%
+
+Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a GPS unit and an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in NBA). %[https://pr.nba.com/nba-announces-multiyear-partnership-sportradar-second-spectrum/]
 
 
-These systems have various concerns: 
+However, these systems have particular drawbacks: 
 \begin{itemize}
     \item The \gls{GPS} signal can accurately measure the position, the speed and the displacement of a player. But it can’t measure metrics like jumps, shoots and passes or falls.
     \item When in a closed court (like most of basketball courts), there is no \gls{GPS} signal. The tracking is made using cameras around the court. This visual system can accurately track the position of the players and gather advanced metrics. The downside of this system is the need of high processing power, and that the cameras are attached to the court.
     \item The issue of the cameras being attached to the court is that every court needs to have this expensive system installed to be able to track the players performance.
 \end{itemize}
 
-The problem I am addressing is the necessity to use multiple devices to simultaneously track a player position in-game and get advanced metrics about the individual performance of a player, as well as the performance of the entire team. 
+One of the problems I am addressing is the necessity to use multiple devices to simultaneously track a player position in-game and get advanced metrics about the individual performance of a player, as well as the performance of the entire team. 
+
+Another one is that the current solutions are often high priced and targeted to major teams, that have the financial power to support the costs. These systems are out of reach for low ranked professional teams or amateur teams. 
+
+There is also a lack in many systems of real time data analysis. Most systems need an operator to tag the events recorded by the video systems, or the video is recorded and then the processed data is provided to the coaches and players.
+
+An a priori problem that will need to be tackled is the quality of the data collected the sensors, that can present reading errors or unreliable data. This depends on various factors: the sensibility and the quality of the sensors, and the location of this sensors in the body. To help correct this errors, and depending on the metrics to be measured, two or more sensors are necessary.
+
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
-The proposed objective of this thesis is to develop an easy to use, portable and low-cost system using inertial sensors to accurately track the position and gather individual and collective player metrics in real-time, focusing the improvement of the game, the training sessions and the recovery of the player and the team.
-The sport chosen to implement this system was basket, because it is often played indoors, constraining the use of \gls{GPS}, the number of players per team is 5 (small when compared to 7 players in a handball team or 11 players in a soccer team), and it’s one of the sports that invests more in new technologies, like \gls{IoT} to track players and teams.
+The proposed objective of this thesis is to develop an easy to use, portable and low-cost system using inertial sensors to accurately track the position and gather individual and collective player metrics in real-time, focusing on the improvement of the game, the training sessions and the recovery of the player and the team as a whole.
+
+In the end of this work, the developed system should provide a report of the position of a single player or the whole team during the game in the format of a heatmap, giving insightful information about how the players move in the court.
+
+It should also provide individual metrics of every tracked player, like passes, steps, shoots, dribbles and blocks, and of the team, like attacks, defenses, loss and recovery of ball possession and percentage of ball possession.
+
+Summarizing, the developed system should gather player movement data in real-time during a game, process and analyze that data and provide it in a simple and quick fashion to the technical teams.
+
+The sport chosen to implement this system was basketball, because it is often played indoors, which constrains the use of GPS, has a high number of events occurring in small time frames when comparing to other sports like football, the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team), and it’s one of the sports that invests more in new technologies (IoT) to track players and teams.
 
 
 \section{Expected Contribuitions} % (fold)
 \label{sec:contribuitions}
-blablablablabla.
+As a result of this thesis, a direct contribution to Knowledgebiz is a prototype of a Basketball team tracking system, targeted to low budget teams, like college teams.
+
+The developed system will also be the development base for the h2020 Smart4Health project, that will use the same devices to measure movement from various parts of the body. The data collection and data analysis modules will be very similar to the ones developed in this thesis.
+
+For the field of study, a paper in international conference proceedings is expected.
+
 
 \section{Document Structure} % (fold)
 \label{sec:structure}

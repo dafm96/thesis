@@ -874,7 +874,7 @@
 
 \newcommand{\printtoc}{%
   % \pdfbookmark[0]{\contentsname}{contents}
-	\tableofcontents*
+	\tableofcontents
 }
 
 \newcommand{\printotherlists@i}{%

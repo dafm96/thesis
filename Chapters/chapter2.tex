@@ -23,7 +23,9 @@ blablablablabla.
 
 \subsection{Data Acquisition Sensors in Sports}
 \label{subsec:data_sensors}
-blablablablabla.
+
+\subsubsection{Magnetometer}
+\label{subsubsec:magnetometer}
 
 \subsection{Motion Sensors}
 \label{subsec:motion_sensors}
@@ -77,6 +79,21 @@ The networks can be configured in multiple topologies, like star, mesh and clust
 
 \subsubsection{Bluetooth}
 \label{subsubsec:bluetooth}
+\begin{table}[ht]
+  \caption{Bluetooth Comparison}
+  \label{tab:hla:bluetooth_comparison}
+  \centering
+  \begin{tabular}{lcc}
+    \toprule
+    \multicolumn{1}{c}{\textbf{Technology}} & \textbf{BR/EDR} & \textbf{BLE} \\
+    \midrule
+    Setup Time & 100 ms & < 6 ms \\
+    Data Rate & 125 Kb/s to 2 Mb/s & 1 Mb/s to 3 Mb/s \\
+    Power Consumption & 1 (Reference value) & 0.1 to 0.5 \\
+    \bottomrule
+  \end{tabular}
+  \end{table}
+
 ...
 
 Bluetooth network topologies can be of different types, as shown in Figure~\ref{fig:bletopologies}:
@@ -88,7 +105,7 @@ Bluetooth network topologies can be of different types, as shown in Figure~\ref{
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=1\linewidth]{Topologies}
+    \includegraphics[width=0.5\linewidth]{ble_topologies}
     \caption{BLE Topologies~\cite{ble_mesh_topologies}}
     \label{fig:bletopologies}
 \end{figure}
@@ -122,4 +139,26 @@ As shown in Table \ref{tab:hla:communication_comparison} blablabla
 
 \section{Related Work} % (fold)
 \label{sec:related_work}
-blablablablabla.
+The related work was presented in the Section~\ref{sec:approaches}. Camera approaches are the most common system, and provide precise accurate data and can deliver a more interactive experience to fans watching the game, but as presented in Chapter ~\ref{sec:objectives}, they’re against the motivation of this thesis by being costly systems, having the need to be installed in every field where the team plays and because some systems don’t provide real-time data analysis.
+
+The most related works are the sensor-based approaches. Most of these systems include Inertial Measuring Units, but these aren’t used to track the players. Instead, they use other positioning technologies, like GPS in the case of STATSports Apex, Ultra-Wide Band in Kinexon or RFID in Zebra, and use the IMU for gathering information on how the player moves, like counting steps and jumps.
+
+Our system aims to do the tracking and the movement metrics using only the Inertial Measuring Units, without the need of using two systems like most solutions do.
+
+
+Regarding pedestrian tracking, there are several proposed algorithms to calculate a subject position using IMUs. Carl Fischer, Poorna Sukumar and Mike Hazas propose an approach to implement a tracker using a Kalman Filter and correcting the velocity using zero-velocity updates. 
+%[https://ieeexplore.ieee.org/document/6127851]
+Sebastian Madgwick presents a novel orientation algorithm, that claims to be more accurate than the Kalman based algorithm. 
+%[https://ieeexplore.ieee.org/document/5975346]%
+Both approaches use a shoe-mounted sensor.
+
+
+In the area of activity recognition, there is research in general human activity recognition and in basketball specifically, using inertial measurement units. Kerem Altun and Billur Barshan
+%[https://link.springer.com/chapter/10.1007/978-3-642-14715-9_5]
+ propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using machine learning techniques. 
+
+
+Le Nguyen Ngu Nguyen et al. 
+%[https://dl.acm.org/citation.cfm?doid=2829875.2829930]%
+ use a multi-sensor system to identify general activities like walking, jogging and running, but also basketball-specific activities like jumpshot, layupshot and pivot, using a Support-Vector-Machine-based classifier.
+
