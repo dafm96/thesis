@@ -1,39 +1,268 @@
-%!TEX root = ../template.tex
 \chapter{State of the art and related work}
 \label{cha:state_art}
 
-A sensor is a device that detects or measures a physical property, and converts that value to an electric signal, which is usually transmitted to a processing unit.  
+This chapter will start by covering the different approaches available commercially to track players in different sports. Then the sensors and communication technologies often used in this kind of applications are described, and finally the related work of other authors in the same area is presented. 
 
 \section{Different Approaches} % (fold)
 \label{sec:approaches}
-blablablablabla.
+In this subchapter I will talk about the different approaches used nowadays to track players in sports (video tracking versus sensor tracking) and talk about the commercial applications that are available in the market.
+
+There are two main approaches when tackling the problem of tracking players and the ball during a sports game. The first one I’ll address is a system that uses video tracking. The second is using sensors attached to the players body. 
+
 
 \subsection{Video Tracking System Approach}
 \label{subsec:video_approach}
-blablablablabla.
+Video tracking systems like Second Spectrum (the official optical tracking provider for NBA 
+%[https://www.secondspectrum.com/]
+) use cameras located around the court to collect 3D spatial data of players and the ball like position and movements, and to gather data like speed, distance, shoots, passes, drives and many more.
+%[https://aws.amazon.com/pt/blogs/media/la-clippers-take-the-clippers-courtvision-viewing-experience-to-the-next-level-with-aws/]
+Then, using machine learning algorithms, players and coaches can get detailed reports and insights to improve their game. This system can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience. 
+
+In Football, video tracking systems are used in the VAR (Video Assistant Referees) system used by FIFA 
+%[https://football-technology.fifa.com/en/media-tiles/video-assistant-referee-var/]
+, which reviews the decisions made by the referee using video footage of the game. A video system is also used for the Goal-line Technology, to detect if the whole of the ball has crossed the goal line.
+%[https://football-technology.fifa.com/en/media-tiles/about-goal-line-technology/] [https://www.hawkeyeinnovations.com/sports/football]
+
+
+Baseball uses a system called Hawk-eye, that enables teams to make in-game decisions, like deciding when to challenge a call. This system uses 15 cameras, giving the team various angles to take an informed decision.
+%[https://www.hawkeyeinnovations.com/sports/baseball]
+Hawk-eye technologies are used in over 80 Tennis Tournaments to track close line calls, like foot faults or to accurately identify if a ball bounced in or out of the field.
+%[https://www.hawkeyeinnovations.com/sports/tennis]
+
+
+Videobserver is a match analysis service that joins the performance data inserted by the coach with video, in order to provide a statistical report of the matches. It is used mainly by football teams, but can be applied to handball, basket or hockey.
+%[https://www.videobserver.com/]
+
 
 \subsection{Sensor Tracking System Approach}
 \label{subsec:sensor_approach}
-blablablablabla.
+The sensor approaches usually combine the use of GNSS (Global Navigation Satellite System) and IMU (Inertial Measuring Unit) sensors. An IMU is a device that measures orientation, velocity and forces using accelerometers, gyroscopes and magnetometers. Other technologies can be used, like Ultra-Wide Band or RFID.
+
+For tracking soccer players, a high number of teams use STATSports Apex, a tracking device that includes GPS, accelerometer, gyroscope and magnetometer, and communicates using Bluetooth Low Energy. It is used by over 280 teams in Europe, 60 in the North America and 70 in the rest of the world. 
+%[https://statsports.com/statsports-clients/
+
+By using Bluetooth LE, this device can connect simultaneously to hearth rate sensor, smart watches and mobile devices, gathering all the data and becoming the center of a body network, and this data can be transferred, stored and accessed online, providing over 25 insightful metrics. 
+%[https://statsports.com/apex/]
+
+For positioning, this system uses GPS combined with Ultra-Wide Band (UWB) positional beacons. For outdoor or stadium environments, GPS is used, combined with 2 positional beacons to enhance the GPS position. For indoor environments, at least 4 UWB beacons are used for providing accurate positioning.
+%[https://statsports.com/mapps-technology/]
+
+In NBA, wearable devices aren’t allowed in game nights. However, these sensors are used in training situations. Kinexon 
+%[https://kinexon-sports.com/] 
+is a widely used system in basketball teams. Kinexon uses an Ultra-Wide Band Radio system to accurately measure the location of the players, based on the time-of-arrival of the signal sent by a beacon used by the players. 
+%[https://lib.ugent.be/fulltxt/RUG01/002/367/068/RUG01-002367068_2017_0001_AC.pdf]
+
+In the National Football League (NFL), Zebra 
+%[https://www.zebra.com/gb/en/solutions/rtls/sports-player-tracking.html] 
+uses RFID tags on the players shoulder pads to track and to provide analytics to coaches, players and fans.
+
 
 
 \section{Sensors} % (fold)
 \label{sec:sensors}
-blablablablabla.
+A sensor is a device that detects or measures a physical property, and converts that value to an electric signal, which is usually transmitted to a processing unit. The input can be something like light, heat, motion, pressure, moisture, and many other physical or chemical phenomenon. 
+
+A wide variety of different sensors are used in sport applications, to track the players. We are going to divide this in two main classes: a general overview of data acquisition sensors used in sports and focus on the sensors used to track position and motion. 
+%[https://shapeamerica.tandfonline.com/doi/pdf/10.1080/02640410903277427?needAccess=true]
+
 
 \subsection{Data Acquisition Sensors in Sports}
 \label{subsec:data_sensors}
 
-\subsubsection{Magnetometer}
-\label{subsubsec:magnetometer}
+\subsubsection{Hearth Rate}
+\label{subsubsec:hearth_rate}
+There are two main methods to measure the hearth rate: Electrocardiography (ECG) and Photoplethysmography (PPG).
+%[https://medcraveonline.com/IJBSBE/IJBSBE-04-00125.pdf]
+The first one uses electrodes placed on the skin (preferentially on the chest) to measure the electrical activity of the hearth. Hexoskin 
+%[https://www.hexoskin.com/]
+uses this method, as shown in Figure~\ref{fig:ecg}. The second one uses light to detect the change in blood vessels sensing the pulse, as shown in Figure~\ref{fig:ppg}. The latter is commonly used in smartwatches
+%[https://ieeexplore.ieee.org/document/7344944]
+, placed on the wrist. 
 
+\begin{figure}[htbp]
+  \centering
+  \subcaptionbox{ECG device \label{fig:ecg}}%
+    {\includegraphics[width=0.5\linewidth]{ecg}}%
+  \subcaptionbox{PPG device\label{fig:ppg}}%
+    {\includegraphics[width=0.5\linewidth]{ppg}}%
+  \caption{Hearth Rate measuring devices}
+  \label{fig:hearthrate}
+\end{figure}
+
+
+\subsubsection{Cameras}
+\label{subsubsec:cameras}
+Camera systems are widely used in sports and can accurately track the players of both teams and the ball. One example of this system is Stats SportVU, which is used in various sports, like soccer 
+%[https://www.stats.com/sportvu-football/]
+and basketball
+%[https://www.stats.com/sportvu-basketball/]
+, and by analyzing the video using machine learning techniques can provide statistics like distance traveled, average and maximum speeds, number of speeds, field coverage, team formation and many others. A representation of this system is shown in Figure~\ref{fig:cameras}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{cameras}
+  \caption{Cameras in a basketball court}
+  \label{fig:cameras}
+\end{figure}
+
+\subsubsection{Respiration}
+\label{subsubsec:respiration}
+Respiration rate is often obtained by measuring the change in thoracic volume using a chest mounted strap, shown in Figure~\ref{fig:resp}, equipped with a stretch sensor that measure the expansion or contraction of the rib cage 
+%[http://thoughttechnology.com/index.php/respiration-sensor.html]
+or a piezoelectric sensor to measure the displacement variations provoked by inhalation or exhalation.
+%[http://bitalino.com/datasheets/PZT_Sensor_Datasheet.pdf]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{respiration}
+  \caption{Respiration measuring strap}
+  \label{fig:resp}
+\end{figure}
+
+\subsubsection{Perspiration}
+\label{subsubsec:perspiration}
+UC Berkley is developing a sweat wearable sensor, that can measure metabolites and electrolytes in sweat, calibrate this data based on skin temperature (because temperature can alter the response of some sensors) and send this data wirelessly to a smartphone. This data can analyze continuous and non-invasively the user’s fatigue, hydration and body temperature. %[https://news.berkeley.edu/2016/01/27/wearable-sweat-sensors/] 
+
+\subsubsection{Insole Pressure Sensors}
+\label{subsubsec:pressure}
+Pressure sensors incorporated in the insole can provide critical information in medical diagnostics, rehabilitation and sports performance analysis.
+%[https://www.sciencedirect.com/science/article/pii/S2212017315001978?via%3Dihub]
+Companies like Moticon 
+%[https://www.moticon.de/]
+or FeetMe 
+%[https://feetmesport.com/en/index.php]
+provide insoles equipped with wireless sensors that can provide in real-time metrics as gait timing, balance, pressure points, applied force and motion for both feet.
+Figure~\ref{fig:pressure} shows the product commerciallized by Moticon.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{moticon}
+  \caption{Moticon insole pressure sensors}
+  \label{fig:pressure}
+\end{figure}
+
+\subsubsection{Body Temperature}
+\label{subsubsec:body_temp}
+In order to prevent body injuries (or in extreme cases, death), the body core temperature should be around 37 °C. The most accurate widely used techniques for measuring athletes core temperature are highly-invasive, like rectal probing or ingesting pills. The most adopted way to unobtrusively measure the core temperature of athletes is using the tympanic temperature inside the ear. An example of a tympanic measuring device is shown in Figure~\ref{fig:ear}
+% [https://www.cosinuss.com/degree/] [https://ieeexplore.ieee.org/document/6575484]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{cosinuss}
+  \caption{Cosinuss tympanic measuring device}
+  \label{fig:ear}
+\end{figure}
+
+
+\subsubsection{VO2 Max}
+\label{subsubsec:vo2}
+
+VO2 max stands for maximum volume of O2 consumed (i.e. the body’s ability to supply the muscles oxygen through the blood), often measured in laboratories from peak work rate achieved on a treadmill 
+%[https://www.ahajournals.org/doi/full/10.1161/CIR.0000000000000461]
+, using masks to capture every molecule of oxygen inhaled and exhaled.
+%[https://www.wareable.com/running/best-vo2-max-devices-tested-9129][https://www.wareable.com/health-and-wellbeing/vo2-max-guide-understand-and-increase-789]
+
+To estimate VO2 max, wearing a face mask isn’t within the capability of a smartwatch or smart band. Most consumer wearables use an estimation provided by a company called Firstbeat 
+%[https://www.firstbeat.com/en/]
+, which claims to be 95\% accurate when compared to laboratory measurements, according to the company’s white paper.
+%[https://assets.firstbeat.com/firstbeat/uploads/2017/06/white_paper_VO2max_30.6.2017.pdf]
+
+This estimation considers the weight, sex and age of the user, and using fixed tests like the Cooper test or the Rockport walk test collects hearth rate and speed. The collected data is segmented, and its reliability is calculated. Then, the most reliable data segments are used to estimate the users VO2 max.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Motion Sensors}
 \label{subsec:motion_sensors}
-blablablablabla.
+
+\subsubsection{Accelerometer}
+\label{subsubsec:accelerometer}
+Accelerometers measure acceleration forces, which is the rate of change of the velocity of an object, with respect to time. The unit used to acceleration is meter per second squared (m/s2), or G-forces (g). On planet Earth, at sea level, 1 g is equivalent to 9,8 m/s2. This value changes slightly with altitude, and will be different on different planets, because of different planet masses.
+
+Accelerometers are useful to measure vibrations, movements and orientation, and can measure static forces, like gravity, or dynamic forces, like moving the sensor.
+
+There are two main ways to measure these forces. Usually accelerometers use capacitive plates, either fixed or attached to springs, and the change of position between these plates changes de capacitance between them. This change is measured and converted into acceleration, as shown in Figure~\ref{fig:acc_cap}. Other way is to use the piezo-electric effect. These accelerometers have microscopic crystal structures can output electrical charge when put under stress, like an acceleration force, as shown in Figure~\ref{fig:acc_piezo}
+%[https://learn.sparkfun.com/tutorials/accelerometer-basics/all] [https://www.dimensionengineering.com/info/accelerometers]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=1\linewidth]{accelerometer_cap}
+  \caption{Capacitative accelerometer sensor}
+  \label{fig:acc_cap}
+\end{figure}
+
+\begin{figure}[htbp]
+  \centering
+  \subcaptionbox{Withouth applied force\label{fig:acc_piezo1}}%
+    {\includegraphics[width=0.5\linewidth]{accelerometer_piezo_1}}%
+  \subcaptionbox{With applied force\label{fig:acc_piezzo2}}%
+    {\includegraphics[width=0.5\linewidth]{accelerometer_piezo_2}}%
+  \caption{Piezo accelerometer sensor}
+  \label{fig:acc_piezo}
+\end{figure}
+
+
+\subsubsection{Gyroscope}
+\label{subsubsec:gyroscope}
+Gyroscopes are devices used to measure and maintain orientation and angular velocity.
+%[https://www.lexico.com/en/definition/gyroscope]
+There are various classes of gyroscopes, used for different needs of performance, cost and volume: mechanical gyroscopes, optical gyroscopes and Micro-electromechanical system (MEMS) gyroscopes.
+%[https://www.mdpi.com/1424-8220/17/10/2284]
+
+The most adopted class of gyroscopes for consumer use is the MEMS gyroscopes, due to their low cost and low performance. The unit used to measure angular velocity is degrees per second (º/s). MEMS gyroscopes usually use a vibrating mechanical element to determine the rate of rotation, in 1, 2 or 3 axes.
+%[https://learn.sparkfun.com/tutorials/gyroscope/all]
+
+
+Most MEMS gyroscope take advantage from the Coriolis effect to measure angular velocity. Using a tuning fork configuration, where two masses vibrate constantly in opposite directions, when these masses experience an angular velocity (rotation), the Coriolis force acts on each mass in opposite directions, resulting on a change of capacitance, which is measured to calculate the rate of rotation. This effect is shown in Figure~\ref{fig:gyro}
+%[https://electroiq.com/2010/11/introduction-to-mems-gyroscopes/]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{gyroscope}
+  \caption{Gyroscope sensor}
+  \label{fig:gyro}
+\end{figure}
+
+\subsubsection{Magnetometer}
+\label{subsubsec:magnetometer}
+A magnetometer is a device used to measure the strength and the direction of magnetic fields. The most common method for measuring magnetic fields is using the Hall Effect.  If we have a conductive plate, the electrons would flow from one end to the other. Bringing this plate near to a magnetic field, the electrons would deflect to one side or the other of the plate. Putting a meter between the two sides, the voltage would change accordingly to the direction and strength of the magnetic field, as shown in Figure~\ref{fig:magnetometer}.
+
+This effect can be used to measure the Magnetic North of the Earth, providing handheld devices a sense of orientation in relation to Earth. However, these small magnetometer measurements are easily disturbed by nearby objects, like a computer or a Wi-Fi router, which makes this device unreliable. 
+
+%[https://howtomechatronics.com/how-it-works/electrical-engineering/mems-accelerometer-gyrocope-magnetometer-arduino/] [https://pdfs.semanticscholar.org/ba9b/52bca1fd6244ce6b4783e86c0f981960b9a9.pdf]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{magnetometer}
+  \caption{Magnetometer sensor}
+  \label{fig:magnetometer}
+\end{figure}
+
+\subsubsection{GNSS}
+\label{subsubsec:gnss}
+GNSS stands for Global Navigation Satellite System, which is a system that provides autonomous geo-spatial, and allows small electronic devices to determine their location precisely. This location is expressed in longitude, latitude and altitude.
+
+There are three GNSS systems available for civilian use: Galileo, developed by the Europe Union, GLONASS, developed by Russia and GPS, developed by the United States of America. The latter is the most widely used. It was developed to accurately determine the absolute position on Earth, initially for military purposes, but soon was publicly released.
+
+This system is divided into three segments:
+\begin{itemize}
+  \item Space Segment – 24 satellites orbiting the earth
+  \item Control Segment – 5 ground stations positioned on the earth’s equator to control the Space Segment
+  \item User Segment – any user that receives the GPS signal
+\end{itemize}
+
+Triangulation is used to accurately position the user, using at least 4 satellites to obtain position and time correctly, as shown in Figure~\ref{fig:gnss}.
+%[http://webarchiv.ethz.ch/geometh-data/downloads/GPSBasics_en.pdf]
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{gps}
+  \caption{GNSS System}
+  \label{fig:gnss}
+\end{figure}
 
 \section{Communication Protocols}
 \label{sec:communication_protocols}
-blablablablabla.
+In order to communicate with the sensors, and to collect the data, a communication layer is needed. In this chapter the main communication protocols are presented and compared, in order to find the protocol that best suits the system requirements.
 
 \subsection{Protocols}
 \label{subsec:protocols}
@@ -52,18 +281,33 @@ SigFox is complementary with other technologies, like Bluetooth, GPS, Cellular a
 \subsubsection{6LoWPAN}
 \label{subsubsec:6lowpan}
 6LoWPAN comes from the combination of IPv6 and Low Power Wireless Personal Area Network and aims to define the IPv6 to low data rates, low power and small footprint applications, providing an adaptation layer between the MAC and the network layer (IPv6). 
-It supports different types of topologies, like star and mesh~\cite{6lowpan}.
+It supports different types of topologies, like star and mesh~\cite{6lowpan}. An example of an application using 6LoWPAN is shown in Figure~\ref{fig:6lowpan}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{6lowpan}
+  \caption{6LoWPAN Topology}
+  \label{fig:6lowpan}
+\end{figure}
+
 
 \subsubsection{NFC}
 \label{subsubsec:nfc}
 Near Field Communication is a very short-range (0-10cm) wireless protocol, establishing wireless connections between network appliances and consumer electronic, carrying very low amounts of data (424 Kbits/second).
-Some examples are touching the pay terminal with the NFC-enabled phone to authorize the payment, or connecting electronic devices, like a smartphone and a headset~\cite{nfc}.
+Some examples are touching the pay terminal with the NFC-enabled phone to authorize the payment, as shown in Figure~\ref{fig:nfc}, or connecting electronic devices, like a smartphone and a headset. \cite{nfc}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.25\linewidth]{nfc}
+  \caption{NFC Payment}
+  \label{fig:nfc}
+\end{figure}
 
 \subsubsection{ZigBee}
 \label{subsubsec:zigbee}
 
 ZigBee is a widely used IoT protocol with different applications in the areas of home automation, offices and healthcare systems.
-The networks can be configured in multiple topologies, like star, mesh and cluster tree, and consists in three types of devices: end device, router and coordinator~\cite{protocols}. 
+The networks can be configured in multiple topologies, like star, mesh and cluster tree, and consists in three types of devices: end device, router and coordinator. \cite{protocols}
 
 \begin{itemize}
   \item The coordinator is the most capable device, responsible for starting and maintaining the network, store security keys and connect with other networks. 
@@ -71,14 +315,61 @@ The networks can be configured in multiple topologies, like star, mesh and clust
   \item End devices are the simplest and less expensive devices, can only talk to another device, but are able to sleep and to save more power than router or coordinator devices.
 \end{itemize}
 
+These topologies are illustrated in Figure~\ref{fig:zigbee}.
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.6\linewidth]{ZigBee_Topologies}
+  \caption{ZigBee topologies}
+  \label{fig:zigbee}
+\end{figure}
+
+
 \subsubsection{Z-Wave}
 \label{subsubsec:zwave}
+Z-Wave is a protocol designed for reliable wireless communication in a low power system. Developed mainly for home automation uses, connects 30-50 nodes and has a point-to-point range of 30 meters.  Its data throughput is low (100 Kbps) but is suitable for small messages like light and energy control in household environments, as shown in Figure~\ref{fig:zwave}. \cite{protocols}
+
+\begin{figure}[htbp]
+  \centering
+  \includegraphics[width=0.5\linewidth]{zwave}
+  \caption{ZWave home application}
+  \label{fig:zwave}
+\end{figure}
 
 \subsubsection{WiFi}
 \label{subsubsec:wifi}
+Wi-Fi is a wireless technology that takes advantage of electromagnetic radiation (radio waves), operating in the 2.4GHz and 5 GHz frequencies, to connect mobile computers and network enabled devices like smartphones and IoT devices to local networks and the Internet. The name Wi-Fi is the brand name adopted by the Wi-Fi Alliance
+%[https://www.wi-fi.org/]
+, which holds the Wi-Fi trademark, and certifies products to use this technology. 
+
+Wi-Fi technology is based on the Institute of Electrical and Electronics Engineers (IEEE) wireless communication standard 802.11, which has been around for over 20 years, with various different versions of the protocol. 
+%[https://paginas.fe.up.pt/~ee05005/tese/arquivos/ieee80211.pdf]
+The currently used version is IEEE 802.11ac (Wi-Fi 5), presenting faster and more scalable capabilities than the previous version (802.11n), allowing more bandwidth, faster speeds and lower power usage for each user. 
+%[https://www.cisco.com/c/dam/en/us/products/collateral/wireless/aironet-3600-series/white-paper-c11-713103.pdf]
+
+Regarding IoT, IEEE 802.11 Working Group defined the 802.11ah specification that operates in the sub-1-GHz frequency and supports a greater number of devices per access point, longer transmission range and lower data rate, and is targeted to sensors and meters, competing with Bluetooth technology.
+%[https://ieeexplore.ieee.org/abstract/document/7263359][https://www.cse.wustl.edu/~jain/papers/ftp/iot_accs.pdf]
+
+
 
 \subsubsection{Bluetooth}
 \label{subsubsec:bluetooth}
+Bluetooth is a low power wireless technology for exchanging data between mobile devices over short distances.
+%[http://www.mt-system.ru/sites/default/files/docs/documents/bluetooth_le_comparison.pdf] 
+
+Bluetooth is managed by Bluetooth Special Interest Group (SIG), which develops, licenses and holds the trademark. To be able to use Bluetooth, a device manufacturer must meet the Bluetooth SIG standards.
+%[https://3pl46c46ctx02p7rzdsvsg21-wpengine.netdna-ssl.com/wp-content/uploads/2019/04/Launch-Studio-Checklist.pdf]
+
+
+There are two types of Bluetooth technologies: 
+\begin{itemize}
+  \item Basic Rate/Enhanced Data Rate (BR/EDR) 
+  \item Low Energy (BLE).  
+\end{itemize}
+While BR/EDR data rates and bandwidth are bigger and support higher data streams like audio streaming, BLE has a lower latency and lower power consumption, which is ideal for small IoT devices that only transfer small data packages at a time, as shown in Table~\ref{tab:hla:bluetooth_comparison}.
+%[http://www.mt-system.ru/sites/default/files/docs/documents/bluetooth_le_comparison.pdf]
+
+
 \begin{table}[ht]
   \caption{Bluetooth Comparison}
   \label{tab:hla:bluetooth_comparison}
@@ -94,18 +385,18 @@ The networks can be configured in multiple topologies, like star, mesh and clust
   \end{tabular}
   \end{table}
 
-...
-
-Bluetooth network topologies can be of different types, as shown in Figure~\ref{fig:bletopologies}:
+Bluetooth network topologies can be of different types:
 \begin{itemize}
 \item \textbf{Point-to-point (1:1) -} Point-to-point network topology is used for connecting devices one-to-one. In BR/EDR this type of communication is optimized for audio streaming, like headsets, speakers or free-hands systems. In BLE, this topology is optimized for data transfer with devices like fitness trackers and PC peripherals.
 \item \textbf{Broadcast (1:m) -} Broadcast establishes one-to-many connections and is only available in BLE. This topology is optimized for local information sharing, like point-of-interest information, indoor navigation and asset tracking.
 \item \textbf{Mesh (m:n) -} Mesh establishes many-to-many device connections and is only available in BLE. This type of topology is useful when a large number of devices are present and need a trustworthy and safe connection network, like a building with automatic lighting functions or a sensor network. Mesh networks can span a very large physical area. This is particularly useful when a device relies on data from another device that is not in his direct range.
 \end{itemize}
 
+These topologies are illustrated in Figure~\ref{fig:bletopologies}.
+
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=0.5\linewidth]{ble_topologies}
+    \includegraphics[width=0.8\linewidth]{ble_topologies}
     \caption{BLE Topologies~\cite{ble_mesh_topologies}}
     \label{fig:bletopologies}
 \end{figure}
@@ -114,7 +405,12 @@ Bluetooth network topologies can be of different types, as shown in Figure~\ref{
 \subsection{Comparison}
 \label{subsec:comparison}
 
-As shown in Table \ref{tab:hla:communication_comparison} blablabla
+Table~\ref{tab:hla:communication_comparison} shows a comparison of the communication protocols mentioned above, regarding the frequency used, the maximum data rate, the range, the power usage and the cost of the technologies.
+%[https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8079928&tag=1]
+
+In order to meet the requirements, a low power and low-cost device is needed, with a medium range (enough to cover a basketball court), and a data throughput capable of handling rates of 20-50 Hz. 
+
+BLE is the technology that meets most of these requirements and is the technology that will be used in the following phases of this work. Besides meeting the requirements, this choice has in consideration other factors: Bluetooth is a technology that I had worked before and the sensors available in the beginning of this work were equipped with BLE technology. 
 
 \begin{table}[ht]
 \caption{Communication Protocol comparison}
@@ -139,26 +435,25 @@ As shown in Table \ref{tab:hla:communication_comparison} blablabla
 
 \section{Related Work} % (fold)
 \label{sec:related_work}
-The related work was presented in the Section~\ref{sec:approaches}. Camera approaches are the most common system, and provide precise accurate data and can deliver a more interactive experience to fans watching the game, but as presented in Chapter ~\ref{sec:objectives}, they’re against the motivation of this thesis by being costly systems, having the need to be installed in every field where the team plays and because some systems don’t provide real-time data analysis.
+The related work regarding commercial solutions was presented in the Section~\ref{sec:approaches}. Camera approaches are the most common system, and provide precise accurate data and can deliver a more interactive experience to fans watching the game, but as presented in Chapter~\ref{sec:objectives}, they’re against the motivation of this thesis by being costly systems, having the need to be installed in every field where the team plays and because some systems don’t provide real-time data analysis.
 
 The most related works are the sensor-based approaches. Most of these systems include Inertial Measuring Units, but these aren’t used to track the players. Instead, they use other positioning technologies, like GPS in the case of STATSports Apex, Ultra-Wide Band in Kinexon or RFID in Zebra, and use the IMU for gathering information on how the player moves, like counting steps and jumps.
 
 Our system aims to do the tracking and the movement metrics using only the Inertial Measuring Units, without the need of using two systems like most solutions do.
 
 
-Regarding pedestrian tracking, there are several proposed algorithms to calculate a subject position using IMUs. Carl Fischer, Poorna Sukumar and Mike Hazas propose an approach to implement a tracker using a Kalman Filter and correcting the velocity using zero-velocity updates. 
+In terms of academic research regarding pedestrian tracking, there are several proposed algorithms to calculate a subject position using IMUs. Carl Fischer, Poorna Sukumar and Mike Hazas propose an approach to implement a tracker using a Kalman Filter and correcting the velocity using zero-velocity updates. 
 %[https://ieeexplore.ieee.org/document/6127851]
 Sebastian Madgwick presents a novel orientation algorithm, that claims to be more accurate than the Kalman based algorithm. 
 %[https://ieeexplore.ieee.org/document/5975346]%
 Both approaches use a shoe-mounted sensor.
 
 
-In the area of activity recognition, there is research in general human activity recognition and in basketball specifically, using inertial measurement units. Kerem Altun and Billur Barshan
+In the area of activity recognition, there is research in general human activity recognition and in basketball specifically, using inertial measurement units. Kerem Altun and Billur Barshan 
 %[https://link.springer.com/chapter/10.1007/978-3-642-14715-9_5]
- propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using machine learning techniques. 
+propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using machine learning techniques. 
 
 
-Le Nguyen Ngu Nguyen et al. 
+Le Nguyen Ngu Nguyen \textit{et al.} 
 %[https://dl.acm.org/citation.cfm?doid=2829875.2829930]%
- use a multi-sensor system to identify general activities like walking, jogging and running, but also basketball-specific activities like jumpshot, layupshot and pivot, using a Support-Vector-Machine-based classifier.
-
+use a multi-sensor system to identify general activities like walking, jogging and running, but also basketball-specific activities like jumpshot, layupshot and pivot, using a Support-Vector-Machine-based classifier.
