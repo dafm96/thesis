@@ -1,3 +1,4 @@
+%!TEX root = ../template.tex
 \chapter{Developed Work}
 \label{cha:developed_work}
 
@@ -32,15 +33,15 @@ The connection to the devices, data collection and storage is being made using a
 \label{sec:developments}
 So far, the developed work has been focused on the player tracking. The extraction of metrics from wearable sensors hasn’t been yet tackled.
 
-To address this issue, the research was focused on Pedestrian Dead Reckoning, using Inertial Measurement Units. Dead reckoning is a technique used for estimating an object’s position or its trajectory considering their current speed and direction. %https://run.unl.pt/bitstream/10362/56377/1/Santos_2018.pdf.
+To address this issue, the research was focused on Pedestrian Dead Reckoning, using Inertial Measurement Units. Dead reckoning is a technique used for estimating an object’s position or its trajectory considering their current speed and direction~\cite{deadreck}.
+
 It is mainly used by marine or air navigation, but recently it has been applied to pedestrians.
 
 Pedestrian Dead Reckoning is based on the usage of accelerometers to detect a step and estimate step-length, and gyroscopes to compute changes in direction. Magnetometers can be also used to determine the orientation according to Earth’s North Pole, but this method might fail due to magnetic interferences, as described in Section~\ref{subsubsec:magnetometer}.
 
 The algorithms used in this prototype are referenced in the Section~\ref{sec:related_work}.
 
-I started to implement the Madgwick algorithm, using the code available publicly in %https://github.com/xioTechnologies/Gait-Tracking-With-x-IMU
-, gathering data from the available sensors. This method was chosen by comparing the results of the different algorithms. This algorithm presented very accurate tracking, based on the demo presented by the authors. 
+I started to implement the Madgwick algorithm, using the code available publicly in~\cite{madgwickgit}, gathering data from the available sensors. This method was chosen by comparing the results of the different algorithms. This algorithm presented very accurate tracking, based on the demo presented by the authors. 
 
 However, the results achieved using our sensors were very poor, as the path calculated by the algorithm was off by thousands of meters. This could be because of the high frame rate needed by the algorithm (512 HZ = 2ms). At this rate, our sensor skips a high number of samples, loosing essential parts of the data set.
 
@@ -55,7 +56,7 @@ Initially the sensor was placed below the shoe laces, as shown in Figure~\ref{fi
     \label{fig:fix1}
 \end{figure}
 
-Afterwards, the sensor was attached to the foot using three small rubber band, as shown in Figure~\ref{fig:fix2}. 
+Afterwards, the sensor was attached to the foot using three small rubber bands, as shown in Figure~\ref{fig:fix2}. 
 
 \begin{figure}[htbp]
     \centering
@@ -109,7 +110,7 @@ As shown in Figure~\ref{fig:track2}, this corrected the deviation.
 
 This is not a perfect approach to the final solution, but now it is known that the placement and fixation of the device to the foot is an important aspect of a successful positional tracking. 
 
-One of the things that helped to correct the performance of the tracking algorithm was to do an accelerometer bias correction. When the sensor was placed on the foot, it was tilted, so the acceleration on the z axis (the force of gravity) was being measured in both x and y axis, when it should be approximately 0. To correct this, 60 seconds of accelerometer data were collected with the foot rested. Then the values on x and y were averaged and removed from every measurement of the accelerometer. The results before and after the accelerometer bias correction are shown in the Figure~\ref{fig:acc_bias}. The traced path is straighter, specially the corners. With the accelerometer bias correction, the perpendicular corridors are reproduced in Subfigure~\ref{fig:track4}, as oposed to the deviations presented in Subfigure~\ref{fig:track3}.
+One of the things that helped to correct the performance of the tracking algorithm was to do an accelerometer bias correction. When the sensor was placed on the foot, it was tilted, so the acceleration on the z axis (the force of gravity) was being measured in both x and y axis, when it should be approximately 0. To correct this, 60 seconds of accelerometer data were collected with the foot rested. Then the values on x and y were averaged and removed from every measurement of the accelerometer. The results before and after the accelerometer bias correction are shown in the Figure~\ref{fig:acc_bias}. The traced path is straighter, specially the corners. With the accelerometer bias correction, the perpendicular corridors are reproduced in Subfigure~\ref{fig:track4}, as opposed to the deviations presented in Subfigure~\ref{fig:track3}.
 
 \begin{figure}[htbp]
     \centering

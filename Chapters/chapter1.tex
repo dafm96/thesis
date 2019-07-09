@@ -15,23 +15,23 @@ This chapter focuses on introducing the preparation phase of this thesis. It sta
 
 \section{Motivation and Context} % (fold)
 \label{sec:motivation_context}
-In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, the sports industry is starting to use data in their behalf. Huge amounts of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis. New discoveries on data can also help the business side of sports, like the NBA Drafts or the football transfer market.
+In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, the sports industry is starting to use data in their behalf. Huge amounts of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis. New discoveries on data can also help the business side of sports, like the \gls{NBA} Drafts or the football transfer market.
 
 %
-Innovations like wearable GPS tracking devices have added big insights in team sports. Initially, practitioners of sports were interested in answering the first obvious question of the chaotic set of player movements during a game: how far did an athlete traveled over the course of a match? GPS could easily answer this question, but soon more questions were raised. For example:
+Innovations like wearable \gls{GPS} tracking devices have added big insights in team sports. Initially, practitioners of sports were interested in answering the first obvious question of the chaotic set of player movements during a game: how far did an athlete traveled over the course of a match? \gls{GPS} could easily answer this question, but soon more questions were raised. For example:
 \begin{itemize}
     \item How many high velocity efforts were achieved?
     \item How much time was spent at high speed?
     \item What high accelerations and decelerations were performed? What impact does this have on the recovery strategies for each individual athlete?
 \end{itemize}
 
-This granular movements can be measured in a laboratory, using biomechanical tools like force plates that measure ground reaction forces, but this measurement tools can’t be deployed in real life cases like games or training sessions, and a “gross” positioning system like GPS can never measure this type of forces. 
+This granular movements can be measured in a laboratory, using biomechanical tools like force plates that measure ground reaction forces, but this measurement tools can’t be deployed in real life cases like games or training sessions, and a “gross” positioning system like \gls{GPS} can never measure this type of forces. 
 
-For a complete tracking solution, we need not only to analyze the “big picture” (the movement across the field), that can be provided by GPS, but to consider the micro or local movements, which can provide enormously relevant information for performance enhancing, fatigue analysis and recovery strategy planning. 
+For a complete tracking solution, we need not only to analyze the “big picture” (the movement across the field), that can be provided by \gls{GPS}, but to consider the micro or local movements, which can provide enormously relevant information for performance enhancing, fatigue analysis and recovery strategy planning. 
 
 %
 
-Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a GPS unit and an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in NBA). %[https://pr.nba.com/nba-announces-multiyear-partnership-sportradar-second-spectrum/]
+Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a \gls{GPS} unit and an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA}). %[https://pr.nba.com/nba-announces-multiyear-partnership-sportradar-second-spectrum/]
 
 
 However, these systems have particular drawbacks: 
@@ -60,7 +60,7 @@ It should also provide individual metrics of every tracked player, like passes, 
 
 Summarizing, the developed system should gather player movement data in real-time during a game, process and analyze that data and provide it in a simple and quick fashion to the technical teams.
 
-The sport chosen to implement this system was basketball, because it is often played indoors, which constrains the use of GPS, has a high number of events occurring in small time frames when comparing to other sports like football, the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team), and it’s one of the sports that invests more in new technologies (IoT) to track players and teams.
+The sport chosen to implement this system was basketball, because it is often played indoors, which constrains the use of \gls{GPS}, has a high number of events occurring in small time frames when comparing to other sports like football, the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team), and it’s one of the sports that invests more in new technologies (\gls{IoT}) to track players and teams.
 
 
 \section{Expected Contribuitions} % (fold)

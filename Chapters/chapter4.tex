@@ -1,10 +1,38 @@
 %!TEX root = ../template.tex
 \chapter{Elaboration Proposal}
 \label{cha:elaboration_proposal}
+Previous chapters describe the issues that this thesis will address, the theories that support the proposed solution and the other approaches that currently exist and try to solve the same issues.
+
+This thesis is divided into three segments: player and team positional tracking, basketball metrics extraction, and the fusion of this data to provide insightful analytics. These segments are divided in the following steps:
+
+\begin{enumerate}
+    \item \label{enum:1} Tracking
+    \begin{enumerate}
+        \item \label{enum:1a} Study of the state of the art
+        \item \label{enum:1b} Enabling data extraction from multiple sensors
+        \item \label{enum:1c} Developing tracking system algorithms
+        \item \label{enum:1d} Improving the tracking system
+    \end{enumerate}
+    \item \label{enum:2} Basketball metrics
+    \begin{enumerate}
+        \item \label{enum:2a} Studying and identifying relevant game related metrics
+        \item \label{enum:2b} Development of metrics identification algorithms
+    \end{enumerate}
+    \item \label{enum:3} Integrating both systems
+    \begin{enumerate}
+        \item \label{enum:3a} Building a sensor network
+        \item \label{enum:3b} Development of a data dashboard
+        \item \label{enum:3c} Final testing and tunings
+    \end{enumerate}
+\end{enumerate}
 
 \section{Elaboration Phases}
 \label{sec:elaboration_phases}
-blablablablabla.
+Step~\ref{enum:1}, as described in Section~\ref{sec:developments}, was almost fully developed during the preparation phase. Step~\ref{enum:1b} enabled the collection of data from multiple sensors placed on an individual. In the elaboration phase a better way to attach the sensor to the foot will have to be found.
+
+Step~\ref{enum:2} will start with a survey of basketball metrics measured in professional leagues, and the most relevant ones will be selected. Afterwards a system will be developed to identify and measure these metrics. The goal of this step is to correctly identify and measure individual metrics like passes, steps, shoots, dribbles and blocks, and team metrics like attacks, defenses, loss and recovery of ball possession and percentage of ball possession.
+
+In Step~\ref{enum:3} the tracking system and the metrics identification system will be merged. Step~\ref{enum:3a} aims to extend Step~\ref{enum:1b}, in order to collect multiple sensor data from multiple individuals (collect data from a whole team). A final prototype will emerge, collecting data from multiple sensors and displaying results such as heatmaps and statistical analysis of basketball metrics. This data will be displayed in a dashboard, providing coaches an easy way interpret complex data.
 
 \section{Elaboration Schedule}
 \label{sec:elaboration_schedule}
