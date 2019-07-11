@@ -1,7 +1,7 @@
 %!TEX root = ../template.tex
 \chapter{Developed Work}
 \label{cha:developed_work}
-
+This chapter will cover the technologies and hardware used in the developed work so far, the system architecture that will be implemented in the following phase of this dissertation and describe the work developed until the writing of this dissertation plan.
 \section{Technologies and Hardware}
 \label{sec:tec_hard}
 The device being used is capable of BLE point-to-point connection and have built-in 3 sensors: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer. Figure~\ref{fig:device} shows one of the devices.
@@ -19,14 +19,15 @@ I had worked previously with this device in the SmartLife
 
 Although the devices are equipped with a gyroscope and a magnetometer, they were only sending data from the accelerometer sensor. In order to retrieve data from the gyroscope and magnetometer, it was necessary to activate these sensors, sending a special instruction to the device. As more data was received (9 axis instead of 3), the database had to be modified.
 
-It was only possible to receive data from 1 sensor at a time, but BLE can stand up to 7 point-to-point connections. This feature was implemented and tested, and we now can receive data from 7 devices at the same time, with negligible data loss.
+It was only possible to receive data from 1 device at a time, but BLE can stand up to 7 point-to-point connections. This feature was implemented and tested, and we now can receive data from 7 devices at the same time, with negligible data loss.
 
-In this case, it seems that the Mesh topology of BLE should be the best for our use case. However, the amount of data produced by each device per second is very high (20 to 50 samples/second), which could lead to a data clogging. Mesh implementation is also device-specific, and our devices don’t have (and can’t have) it implemented.
+In this case, it seems that the Mesh topology of BLE should be the best for our use case. However, the amount of data produced by each device per second is very high (20 to 50 samples/second), which could lead to a data clogging. Mesh implementation is also device-specific, and our devices don’t have (and can’t have) it implemented. %referencia??
 
-Even though the following alternative hasn’t been tested, a way to gather data from multiple sensors at the same time could be using a Raspberry Pi, equipped with various Bluetooth adapters. A single Raspberry Pi could have the onboard Bluetooth adapter plus four external adapters, resulting in a maximum of 35 devices connected at the same time.
+Even though the following alternative hasn’t been tested, a way to gather data from multiple devices at the same time could be using a Raspberry Pi, equipped with various Bluetooth adapters. A single Raspberry Pi could have the onboard Bluetooth adapter plus four external adapters, resulting in a maximum of 35 devices connected at the same time. %referencia??
 
 The connection to the devices, data collection and storage is being made using an android application. The data is then exported and used as input to the tracking algorithm, written in MATLAB. In the future Python will be used in order to use machine learning to improve the analytics.
 
+The architecture should be composed of two segments: player team segment, where each player wears one or more device, and a central device (an Android device, a Rasperry Pi or a computer) that connect and collects the data from all the devices, analyses it and displays the processed data in real-time.
 
 
 \section{Developments}
@@ -43,11 +44,11 @@ The algorithms used in this prototype are referenced in the Section~\ref{sec:rel
 
 I started to implement the Madgwick algorithm, using the code available publicly in~\cite{madgwickgit}, gathering data from the available sensors. This method was chosen by comparing the results of the different algorithms. This algorithm presented very accurate tracking, based on the demo presented by the authors. 
 
-However, the results achieved using our sensors were very poor, as the path calculated by the algorithm was off by thousands of meters. This could be because of the high frame rate needed by the algorithm (512 HZ = 2ms). At this rate, our sensor skips a high number of samples, loosing essential parts of the data set.
+However, the results achieved using our sensors were very poor, as the path calculated by the algorithm was off by thousands of meters. This could be because of the high frame rate needed by the algorithm (512 HZ = 2ms). At this rate, our device skips a high number of samples, loosing essential parts of the data set.
 
-The following step was to try the Tutorial approach. Better results were achieved using this algorithm, but there were still some tweaks to make, and an error associated with the position of the sensor on the foot and its displacement while walking. The tests results shown were made walking at normal pace, in the same floor on straight or parallel corridors.
+The following step was to try the Tutorial approach. Better results were achieved using this algorithm, but there were still some tweaks to make, and an error associated with the position of the device on the foot and its displacement while walking. The tests results shown were made walking at normal pace, in the same floor on straight or parallel corridors.
 
-Initially the sensor was placed below the shoe laces, as shown in Figure~\ref{fig:fix1}, but we found that the sensor moved while walking, and the position of the sensor was tilted, which introduced a deviation in the results.
+Initially the device was placed below the shoe laces, as shown in Figure~\ref{fig:fix1}, but we found that the device moved while walking, and the position of the device was tilted, which introduced a deviation in the results.
 
 \begin{figure}[htbp]
     \centering
@@ -56,7 +57,7 @@ Initially the sensor was placed below the shoe laces, as shown in Figure~\ref{fi
     \label{fig:fix1}
 \end{figure}
 
-Afterwards, the sensor was attached to the foot using three small rubber bands, as shown in Figure~\ref{fig:fix2}. 
+Afterwards, the device was attached to the foot using three small rubber bands, as shown in Figure~\ref{fig:fix2}. 
 
 \begin{figure}[htbp]
     \centering
@@ -65,7 +66,7 @@ Afterwards, the sensor was attached to the foot using three small rubber bands, 
     \label{fig:fix2}
 \end{figure}
 
-While walking, the sensor moved to front and to the right of the right foot. This caused a deviation in the route traced by the algorithm, as shown in Figure \ref{fig:track1}.
+While walking, the device moved to front and to the right of the right foot. This caused a deviation in the route traced by the algorithm, as shown in Figure \ref{fig:track1}.
 
 \begin{figure}[htbp]
     \centering
@@ -87,7 +88,7 @@ To solve this issue, more rubber bands were added around the device, as shown in
 \end{figure}
 
 
-The best solution found to stop the displacement was fitting the sensor inside a fabric pocket and putting this pocket in the right place with a sock around the foot, as shown in Figure~\ref{fig:sock}.
+The best solution found to stop the displacement was fitting the device inside a fabric pocket and putting this pocket in the right place with a sock around the foot, as shown in Figure~\ref{fig:sock}.
 
 \begin{figure}[htbp]
     \centering
@@ -110,7 +111,7 @@ As shown in Figure~\ref{fig:track2}, this corrected the deviation.
 
 This is not a perfect approach to the final solution, but now it is known that the placement and fixation of the device to the foot is an important aspect of a successful positional tracking. 
 
-One of the things that helped to correct the performance of the tracking algorithm was to do an accelerometer bias correction. When the sensor was placed on the foot, it was tilted, so the acceleration on the z axis (the force of gravity) was being measured in both x and y axis, when it should be approximately 0. To correct this, 60 seconds of accelerometer data were collected with the foot rested. Then the values on x and y were averaged and removed from every measurement of the accelerometer. The results before and after the accelerometer bias correction are shown in the Figure~\ref{fig:acc_bias}. The traced path is straighter, specially the corners. With the accelerometer bias correction, the perpendicular corridors are reproduced in Subfigure~\ref{fig:track4}, as opposed to the deviations presented in Subfigure~\ref{fig:track3}.
+One of the things that helped to correct the performance of the tracking algorithm was to do an accelerometer bias correction. When the device was placed on the foot, it was tilted, so the acceleration on the z axis (the force of gravity) was being measured in both x and y axis, when it should be approximately 0. To correct this, 60 seconds of accelerometer data were collected with the foot rested. Then the values on x and y were averaged and removed from every measurement of the accelerometer. The results before and after the accelerometer bias correction are shown in the Figure~\ref{fig:acc_bias}. The traced path is straighter, specially the corners. With the accelerometer bias correction, the perpendicular corridors are reproduced in Subfigure~\ref{fig:track4}, as opposed to the deviations presented in Subfigure~\ref{fig:track3}.
 
 \begin{figure}[htbp]
     \centering
@@ -122,7 +123,7 @@ One of the things that helped to correct the performance of the tracking algorit
     \label{fig:acc_bias}
 \end{figure}
 
-At this moment the system is tracking the position using a foot-mounted sensor and correcting the accelerometer bias. The positioning still needs some adjustments, and a better fixation of the device to the foot still needs to be found. The results can be viewed on the Figure~\ref{fig:estacionamento}, which overlaps the path traced by the algorithm with a satellite view of the area where the test was made.
+At this moment the system is tracking the position using a foot-mounted device and correcting the accelerometer bias. The positioning still needs some adjustments, and a better fixation of the device to the foot still needs to be found. The results can be viewed on the Figure~\ref{fig:estacionamento}, which overlaps the path traced by the algorithm with a satellite view of the area where the test was made.
 
 
 \begin{figure}[htbp]
@@ -131,18 +132,3 @@ At this moment the system is tracking the position using a foot-mounted sensor a
     \caption{Path in map}
     \label{fig:estacionamento}
 \end{figure}
-
-% \begin{figure}[htbp]
-% 	\centering
-%     \subbottom[primeiro] {%
-% 		\label{fig:sensor_5}
-% 		\includegraphics[width=0.25\linewidth]{sensor5}
-%     }
-% \qquad\qquad
-%     \subbottom[segundo] {%
-% 		\label{fig:sensor_6}
-% 		\includegraphics[width=0.25\linewidth]{sensor6}
-%     }
-%   \caption{Exemplo de utilização de \emph{subbottom}}
-%   \label{fig:figura-completa}
-% \end{figure}
