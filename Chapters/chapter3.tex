@@ -4,7 +4,7 @@
 This chapter will cover the technologies and hardware used in the developed work so far, the system architecture that will be implemented in the following phase of this dissertation and describe the work developed until the writing of this dissertation plan.
 \section{Technologies and Hardware}
 \label{sec:tec_hard}
-The device being used is capable of BLE point-to-point connection and have built-in 3 sensors: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer. Figure~\ref{fig:device} shows one of the devices.
+The device being used is capable of \gls{BLE} point-to-point connection and have built-in 3 sensors: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer. Figure~\ref{fig:device} shows one of the devices.
 
 \begin{figure}[htbp]
     \centering
@@ -19,15 +19,15 @@ I had worked previously with this device in the SmartLife
 
 Although the devices are equipped with a gyroscope and a magnetometer, they were only sending data from the accelerometer sensor. In order to retrieve data from the gyroscope and magnetometer, it was necessary to activate these sensors, sending a special instruction to the device. As more data was received (9 axis instead of 3), the database had to be modified.
 
-It was only possible to receive data from 1 device at a time, but BLE can stand up to 7 point-to-point connections. This feature was implemented and tested, and we now can receive data from 7 devices at the same time, with negligible data loss.
+It was only possible to receive data from 1 device at a time, but \gls{BLE} can stand up to 7 point-to-point connections. This feature was implemented and tested, and we now can receive data from 7 devices at the same time, with negligible data loss.
 
-In this case, it seems that the Mesh topology of BLE should be the best for our use case. However, the amount of data produced by each device per second is very high (20 to 50 samples/second), which could lead to a data clogging. Mesh implementation is also device-specific, and our devices don’t have (and can’t have) it implemented. %referencia??
+In this case, it seems that the Mesh topology of \gls{BLE} should be the best for our use case. However, the amount of data produced by each device per second is very high (20 to 50 samples/second), which could lead to a data clogging. Mesh implementation is also device-specific, and our devices don’t have (and can’t have) it implemented. %reference??
 
-Even though the following alternative hasn’t been tested, a way to gather data from multiple devices at the same time could be using a Raspberry Pi, equipped with various Bluetooth adapters. A single Raspberry Pi could have the onboard Bluetooth adapter plus four external adapters, resulting in a maximum of 35 devices connected at the same time. %referencia??
+Even though the following alternative hasn’t been tested, a way to gather data from multiple devices at the same time could be using a Raspberry Pi, equipped with various Bluetooth adapters. A single Raspberry Pi could have the onboard Bluetooth adapter plus four external adapters, resulting in a maximum of 35 devices connected at the same time. %reference??
 
-The connection to the devices, data collection and storage is being made using an android application. The data is then exported and used as input to the tracking algorithm, written in MATLAB. In the future Python will be used in order to use machine learning to improve the analytics.
+The connection to the devices, data collection and storage is being made using an android application. The data is then exported and used as input to the tracking algorithm, written in MATLAB. %In the future Python will be used in order to use machine learning to improve the analytics.
 
-The architecture should be composed of two segments: player team segment, where each player wears one or more device, and a central device (an Android device, a Rasperry Pi or a computer) that connect and collects the data from all the devices, analyses it and displays the processed data in real-time.
+The architecture should be composed of two segments: player team segment, where each player wears one or more device, and a central device (an Android device, a Raspberry Pi or a computer) that connect and collects the data from all the devices, analyses it and displays the processed data in real-time.
 
 
 \section{Developments}
@@ -40,7 +40,7 @@ It is mainly used by marine or air navigation, but recently it has been applied 
 
 Pedestrian Dead Reckoning is based on the usage of accelerometers to detect a step and estimate step-length, and gyroscopes to compute changes in direction. Magnetometers can be also used to determine the orientation according to Earth’s North Pole, but this method might fail due to magnetic interferences, as described in Section~\ref{subsubsec:magnetometer}.
 
-The algorithms used in this prototype are referenced in the Section~\ref{sec:related_work}.
+The algorithms used in this prototype are referenced in the Section~\ref{subsub:applicationscenarios}.
 
 I started to implement the Madgwick algorithm, using the code available publicly in~\cite{madgwickgit}, gathering data from the available sensors. This method was chosen by comparing the results of the different algorithms. This algorithm presented very accurate tracking, based on the demo presented by the authors. 
 
@@ -75,7 +75,7 @@ While walking, the device moved to front and to the right of the right foot. Thi
     \label{fig:track1}
 \end{figure}
 
-To solve this issue, more rubber bands were added around the device, as shown in Subfigure~\ref{fig:sensor_3}. But the contact of the rubber bands with the ground made them move and move from holding the device, and the device still moved, as shown in Sufigure~\ref{fig:sensor_4}.
+To solve this issue, more rubber bands were added around the device, as shown in Subfigure~\ref{fig:sensor_3}. But the contact of the rubber bands with the ground made them move and move from holding the device, and the device still moved, as shown in Subfigure~\ref{fig:sensor_4}.
 
 \begin{figure}[htbp]
     \centering
