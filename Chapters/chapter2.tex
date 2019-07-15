@@ -10,7 +10,7 @@ In this subchapter, I will describe the most common approaches used nowadays to 
 There are two main approaches when tackling the problem of tracking players and the ball during a sports game. The first one I’ll address is a system that uses video tracking. The second is using sensors attached to the players body. 
 
 
-\subsection{Video Tracking System Approach}
+\subsection{Video Based Tracking System}
 \label{subsec:video_approach}
 
 Camera systems are widely used in sports and can accurately track the players of both teams and the ball. One example of this system is Stats SportVU, which is used in various sports, like soccer~\cite{stats_football} and basketball~\cite{stats_basketball}, and by analyzing the video using machine learning techniques can provide statistics like distance traveled, average and maximum speeds, number of speeds, field coverage, team formation and many others. A representation of this system is shown in Figure~\ref{fig:cameras}
@@ -36,7 +36,7 @@ Video tracking systems can give very accurate measurements about the players loc
 
 \subsection{Sensor Based Tracking Systems}
 \label{subsec:sensor_approach}
-The sensor approaches usually combine the use of a positioning system like a \gls{GNSS} (Global Navigation Satellite System) or a Radio Frequency positioning system like \gls{UWB} (Ultra-Wide Band) or \gls{RFID} (Radio Frequency Identification) and \gls{IMU} (Inertial Measuring Unit) sensors. An \gls{IMU} is a device that measures orientation, velocity and forces using accelerometers, gyroscopes and magnetometers.
+The sensor approaches usually combine the use of a positioning system like a \gls{GNSS} (Global Navigation Satellite System) or a Radio Frequency positioning system like \gls{UWB} (Ultra-Wideband) or \gls{RFID} (Radio Frequency Identification) and \gls{IMU} (Inertial Measuring Unit) sensors. An \gls{IMU} is a device that measures orientation, velocity and forces using accelerometers, gyroscopes and magnetometers.
 
 For tracking soccer players, a high number of teams use STATSports Apex, a tracking device that includes \gls{GPS}, accelerometer, gyroscope and magnetometer, and communicates using \gls{BLE} (Bluetooth Low Energy). It is used by over 280 teams in Europe, 60 in the North America and 70 in the rest of the world~\cite{statsports_clients}. 
 
@@ -379,7 +379,7 @@ Table~\ref{tab:hla:communication_comparison} shows a comparison of the communica
 
 In order to meet the requirements, a low power and low-cost device is needed, with a medium range (enough to cover a basketball court), and a data throughput capable of handling rates of 20-50 Hz. 
 
-\gls{BLE} is the technology that meets most of these requirements and is the technology that will be used in the following phases of this work. Besides meeting the requirements, this choice has in consideration other factors: Bluetooth is a technology that I had worked before and the sensors available in the beginning of this work were equipped with \gls{BLE} technology. 
+\gls{BLE} is the technology that meets most of these requirements and is the technology that will be used in the following phases of this work. Besides meeting the requirements, this choice has in consideration other factors: Bluetooth is a technology that I had worked before and the devices available in the beginning of this work were equipped with \gls{BLE} technology. 
 
 \begin{table}
 

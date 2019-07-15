@@ -41,7 +41,7 @@ However, these systems have particular drawbacks:
     
 \end{itemize}
 
-In order to tackle the drawbacks of video and \gls{GPS} solutions, Kinexon~\cite{kinexon} developed a system using a wearable sensor that can accurately track basketball players positions indoors, using Ultra-Wide Band (\gls{UWB}) technology, and claims to monitor player load and efforts measured in real-time during practices or matches, providing tactic and technic analysis~\cite{kinexonarticle}.
+In order to tackle the drawbacks of video and \gls{GPS} solutions, Kinexon~\cite{kinexon} developed a system using a wearable sensor that can accurately track basketball players positions indoors, using Ultra-WideBand (\gls{UWB}) technology, and claims to monitor player load and efforts measured in real-time during practices or matches, providing tactic and technic analysis~\cite{kinexonarticle}.
 
 However, this system falls short in the field of micro-movement identification, where the analysis of shoots and passes or attacks and defenses can be a useful tool for coaches to improve the performance of the team.
 
@@ -64,11 +64,11 @@ In order to track players, the following topics need to be studied:
 
 After this analysis, a body sensor wireless network will be specified and implemented, using the most suitable sensors and communication protocols for this application.
 
-Then, the data collected by the inertial sensors will be used and analysed in order to calculate the trajectories performed by each individual player and also to provide other metrics, such as distance traveled and number of jumps. A dashboard will be developed, capable to illustrate individual metrics for each player, but also providing an aggregated view regarding the whole team performance, like attacking and defending strategies in the form of heatmaps. Finally, this system (body sensor network and dashboard) will be tested and validated.
+Then, the data collected by the inertial sensors will be used and analysed in order to calculate the trajectories performed by each individual player and also to provide other metrics, such as distance traveled and number of jumps. An application will be developed, capable to visually track, analyse and display individual metrics for each player, but also providing an aggregated view regarding the whole team performance, like attacking and defending strategies in the form of heatmaps. Finally, this system (body sensor network and application) will be tested and validated.
 
 An a priori problem that will need to be tackled is the quality of the data collected the sensors, that can present reading errors or unreliable data. This depends on various factors: the sensibility and the quality of the sensors, and the location of this sensors in the body. To help correct these errors, a filtering technique can be used. Depending to detect other activities, like dribbles or shoots, more sensors will be necessary on different body parts on the metrics to be measured, different placements of the sensors on the body will have to be tested.
 
-Summarizing, the main goal of this dissertation is to study and analyse ways to track player positions and to measure basketball game metrics, collected from inertial sensors, and to provide that insights to coaches through an easy to understand dashboard.
+Summarizing, the main goal of this dissertation is to study and analyse ways to track player positions and to measure basketball game metrics, collected from inertial sensors, and to illustrate those insights to the users (e.g.\ coaches, players) through an application, providing a central location to monitor and analyze the players and the team.
 
 \section{Expected Contributions} % (fold)
 \label{sec:contribuitions}
@@ -84,7 +84,7 @@ The expected contributions of this dissertation are:
 \begin{enumerate}
     \item Exploratory analysis of relevant basketball metrics, obtained from inertial sensor data
     \item Implementation of a body sensor using a wireless communication protocol to transmit data
-    \item Development of an application that collects data from inertial sensors, analyses it and displays the insights in a dashboard
+    \item Development of an application that collects data from inertial sensors, analyses it and displays the insights for the players and the team
     \item Provide the development base for the H2020 Smart4Health project, in which the data collection and data analysis modules will be very similar to the ones developed in this thesis.
 \end{enumerate}
 
