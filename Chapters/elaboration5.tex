@@ -1,0 +1,35 @@
+\chapter{Results}
+\label{cha:results}
+
+\begin{table*}[ht]
+%\vspace{-0.2cm}
+\caption{Percentage of data loss (Raspberry Pi 3b+).}\label{tab:example2} \centering
+    \begin{tabular}{lllllllll}
+              & 0,6m & 1,2m & 3m    & 6m    & 9m    & 12m   & 15m   & 18m   \\ \cline{2-9}
+    1 Device  & 4,27 & 4,39 & 11,25 & 18,22 & 28,04 & 15,43 & 28,16 & 19,79 \\
+    3 Devices & 5,65 & 7,68 & 12,50 & 18,79 & 21,76 & 16,60 & 39,50 & 26,78 \\
+    6 Devices & 6,52 & 6,05 & 15,53 & 16,31 & 21,64 & 19,77 & 32,90 & 21,78 \\
+    9 Devices & 6,17 & 7,63 & 12,80 & 19,98 & 28,65 & 36,62 & 40,37 & 32,96 \\
+    \end{tabular}
+\end{table*}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=\textwidth]{PacketLoss(RaspberryPi3).pdf}
+    \caption{Percentage of data loss (Raspberry Pi 3b+)}
+    \label{fig:datalossrPi3}
+\end{figure}
+
+\begin{enumerate}
+    \item Comunicação - Perda de pacotes IMU -$>$ rPi
+    \begin{enumerate}
+        \item raspberry Pi 3b+
+        \item raspberry Pi 4
+    \end{enumerate}
+    \item Fiabilidade dos algoritmos
+    \begin{enumerate}
+        \item Dribbles
+        \item Saltos
+        \item Passos/Distância
+    \end{enumerate}
+\end{enumerate}

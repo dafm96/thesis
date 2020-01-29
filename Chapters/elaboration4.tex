@@ -1,0 +1,74 @@
+
+\chapter{System Implementation}
+\label{cha:implementation}
+\noindent -----//-----
+\begin{enumerate}
+    \item Raspberry Pi
+    \begin{enumerate}
+        \item quais os algoritmos
+        \begin{enumerate}
+            \item Dribbles
+            \item Saltos
+            \item Passos/Distância/Posição
+            \item Tempo parado/andar/correr
+        \end{enumerate}
+        \item operações sensores
+        \item como se controlam os sensores
+        \item como são enviados os dados (mqtt)
+        \item feito em node
+    \end{enumerate}
+    \item Server
+    \begin{enumerate}
+        \item REST API feita em Node
+        \item DB em mySQL, explicar modelo
+        \item como troca mensagens com o rPi
+    \end{enumerate}
+    \item Cliente
+    \begin{enumerate}
+        \item Feito em React
+        \item Permite gerir equipas, jogadores e jogos
+        \item métricas por jogo, vários sensores por jogador
+    \end{enumerate}
+\end{enumerate}aaa
+-----//----- 
+
+\noindent The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client.
+
+\section{Edge}
+\subsection{IMU Sensor Control and Communication}
+\noindent The IMU Sensors used in the implementation were developed by AITEX. They communicate through Bluetooth Low Energy and have 3 sensors built-in: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer.
+
+The following operations are supported by IMU Sensors:
+\begin{itemize}
+    \item State control
+    \begin{itemize}
+        \item Start Raw Data Collection
+        \item Stop Raw Data Collection
+        \item Shutdown
+    \end{itemize}
+    \item Sample Rate
+    \item MPU Configuration
+\end{itemize}
+
+The IMU Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the IMU Sensors through Bluetooth Notifications. 
+
+Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
+
+In order to start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
+When the metrics are calculated, they are sent to the server via mqtt, to be stored there. %TODO citar mqtt?
+The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors. 
+
+A single Raspberry Pi is then responsible by maintaining the connection with several IMU Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarly; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the 
+
+
+\subsection{Metrics Algorithms}
+\subsection{Steps}
+
+\subsection{Dribbles}
+
+\subsection{Jumps}
+
+\section{Server}
+
+\section{Client}
+The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
