@@ -35,6 +35,15 @@
 \noindent The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client.
 
 \section{Edge}
+
+The edge segment, composed by one or more IMU Sensors and one or more Raspberry Pi, as described in section~\ref{sec:edge}, is the scalable part of the architecture. The number of IMU sensors used can vary by the number of metrics being used (different metrics may require the use of more sensors) or the number of players being tracked.
+
+In order to accomodate the physical limitation of Bluetooth connections, 
+%TODO support this affirmation
+one Raspberry Pi may not be sufficient to handle all the IMU Sensors. 
+It is necessary to ensure that the communication flows from the Server to the IMU Sensors being just a mean of distributing the correct data to and from the multiple sensors.
+
+
 \subsection{IMU Sensor Control and Communication}
 \noindent The IMU Sensors used in the implementation were developed by AITEX. They communicate through Bluetooth Low Energy and have 3 sensors built-in: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer.
 
@@ -54,19 +63,19 @@ The IMU Sensors must pair with a Raspberry Pi, which is searching for the known 
 
 Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
 
-In order to start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
+To start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
 When the metrics are calculated, they are sent to the server via mqtt, to be stored there. %TODO citar mqtt?
 The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors. 
 
-A single Raspberry Pi is then responsible by maintaining the connection with several IMU Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarly; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the 
+A single Raspberry Pi is then responsible by maintaining the connection with several IMU Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarly; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
 
 
 \subsection{Metrics Algorithms}
-\subsection{Steps}
+\subsubsection{Steps}
 
-\subsection{Dribbles}
+\subsubsection{Dribbles}
 
-\subsection{Jumps}
+\subsubsection{Jumps}
 
 \section{Server}
 
