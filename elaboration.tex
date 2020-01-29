@@ -36,7 +36,7 @@
 % The default option marked with (*)
 \documentclass[
   docdegree=msc,        % phd(*), phdplan, phdprop, msc, mscplan, bsc
-  school=nova/fct,      % nova/fct(*), nova/fcsh, nova/ims, ul/ist, ul/fc
+  school=nova/fct,      % nova/fct(*), nova/fcsh, nova/ims, ul/ist, ul/fc, ipl/isel
   lang=en,              % en(*), fr, it, pt
   % coverlang=en,         % defaults to main language
   % copyrightlang=en,     % defaults to main language
@@ -51,7 +51,7 @@
   linkscolor=darkblue,  % darkblue, black (Set to 'black' for PRINTING)
   printcommittee=true,  % set to 'false' from submitted versins who should not have 
                         % the list of committee memebers
-  spine=true,          % (Set to 'true' for PRINTING the book spine)
+  spine=false,          % (Set to 'true' for PRINTING the book spine)
   cdcover=false,         % (Set to 'true' for PRINTING the CD cover)
   biblatex={            % Options for biblatex (see biblatex documentation)
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -71,7 +71,7 @@
     backend=bibtex,     % use bibtex if possible
     style=numeric-comp, % numeric(*), alphabetic, authoryear, bwl-FU
     sortcites=true,     % If numeric, sort cites by crescent order
-    sorting=none,        % none, nyt(*), ynt
+    sorting=nyt,        % none, nyt(*), ynt
     %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
     %%% uncomment for 'numeric-by-order-of-citation' like citations
     % backend=bibtex,   % use bibtex if possible
@@ -87,7 +87,7 @@
     % showtrims,          % DEBUG
     a4paper,            % the paper size/format
     11pt,               % 10pt, 11pt(*), 12pt
-    draft,              % draft, final  <= Replace 'draft' with 'final' in final version
+    final,              % draft, final  <= Replace 'draft' with 'final' in final version
   },
   media=screen,         % screen(*), paper
           % behavior to be defined in school options based in "\novathesis@opt@media"
@@ -143,7 +143,10 @@
 %     frame=single,
 % }
 
-
+% epigraph configuration
+\epigraphfontsize{\small\itshape}
+\setlength\epigraphwidth{12.5cm}
+\setlength\epigraphrule{0pt}
 
 
 %%============================================================
@@ -156,7 +159,8 @@
 % \majorfield[en]={Biomedical Engineering}
 % \thesiscover[msc,front]={cover-megi-nova-ims}
 % \thesiscover[msc,front]={cover-mgi-nova-ims}
-\glstocfalse
+% \glstocfalse % Uncomment to remove 
+               % Glossary, Acronyms, and Symbols from TOC
 %%============================================================
 
 \title[Exploratory Analysis of Individual Metrics in Team Sports Using \emph{IoT} Sensors]{Exploratory Analysis of Individual Metrics in Team Sports Using Inertial Sensors}
@@ -170,6 +174,9 @@
 % Date
 \datemonth{\DTMmonthname{\month}}
 \dateyear{\the\year}
+
+% Front page image - for ISEL template - must be 12 x 8 cm
+%\frontpageimage{frontPageImage.png}
 
 
 % Advisers
@@ -190,16 +197,16 @@
 % committee (maximum of 9 elements)
 % Use [c] for chair, [r] for raporteurs, [a] for advisers, [m] or nothing for remaining members
 % Chair of the committee
-% \committee[c,m]{Name of the committee chairperson}
+\committee[c,m]{Name of the committee chairperson}
 % Main raporteurs
-% \committee[r,f]{Name of a raporteur}
-% \committee[r,f]{Name of another raporteur}
+\committee[r,f]{Name of a raporteur}
+\committee[r,f]{Name of another raporteur}
 % Advisers
-% \committee[a,f]{Name of an adviser}
-% \committee[a,f]{Name of another adviser}
+\committee[a,f]{Name of an adviser}
+\committee[a,f]{Name of another adviser}
 % Other members of the committee - include the Adviser in this list
-% \committee[m,m]{Another member of the committee}
-% \committee[m,f]{Yet another member of the committee}
+\committee[m,m]{Another member of the committee}
+\committee[m,f]{Yet another member of the committee}
 
 %%------------------------------------------------------------
 %% All the names inside braces below sould correspond to a file
@@ -221,8 +228,9 @@
 \abstractfile[fr]{abstract-fr}  % Abstract in French
 \glossaryfile{glossary}
 \setglossarystyle{super}
+\setabbreviationstyle[acronym]{long-short}
 \acronymsfile{acronyms} 
-%\symbolsfile{symbols}
+\symbolsfile{symbols}
 
 % definition of the second cover, to be printed before the copyright (to serve FCSH-NOVA)
 \aftercoverfile{aftercover-nova-ims}
@@ -232,7 +240,7 @@
 % The other lists below may be commented and omitted.
 \addlisttofrontmatter{\listoffigures}  % The List of Figures. Comment to omit.
 \addlisttofrontmatter{\listoftables}   % The List of Tables. Comment to omit.
-% \addlisttofrontmatter{\lstlistoflistings}  % The List of Code Listings. Comment to omit.
+\addlisttofrontmatter{\lstlistoflistings}  % The List of Code Listings. Comment to omit.
 \addlisttofrontmatter{\glsnogroupskiptrue\setlength{\glsdescwidth}{0.8\textwidth}\printnoidxglossaries}  % The Glossary and List of Acrnonyms
 
 
@@ -257,7 +265,7 @@
 
 
 % BibTeX bibiography files. Can be used multiple times with a single file nae each time.
-\addbibfile{bibliography.bib}
+\addbibresource{bibliography.bib}
 
 
 
@@ -286,23 +294,22 @@
 \printacknowledgements  % Print the acknowledgments (will only be printed if adequate for the document type)
 \printquote        % Print the quote (if file exists and is adequate for the document type)
 \printabstract    % Print abstracts (in PT and EN). The abstract in the document main language will
-% be printed first, the abstract in the foreign language will be printed second
+                  % be printed first, the abstract in the foreign language will be printed second
 \printtoc         % Always print the table of contents
 \printotherlists   % If option 'otherlistsat=front', print other lists of contents according
-% to instructions given above, otherwise do nothing
+                  % to instructions given above, otherwise do nothing
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \thesismainmatter  % The main text
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \printchapthers    % Print document chapters
-\emergencystretch 3em%
 \printbib    % Print the bibliography
 % \printotherlists   % Alternative location to print the other lists (if you uncomment this one, comment the other one above)
 \printotherlists   % If option 'otherlistsat=back', print other lists of contents according to instructions given above, otherwise do nothing
 % \addtocontents{toc}{\setlength{\cftsecnumwidth}{4em}}
-%\printappendixes  % Print appendixes, if any!
-%\printannexes  % Print appendixes, if any!
+\printappendixes  % Print appendixes, if any!
+\printannexes  % Print appendixes, if any!
 \printbackcoverpage
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% End of document
