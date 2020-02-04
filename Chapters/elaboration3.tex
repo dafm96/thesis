@@ -34,14 +34,32 @@ The proposed architecture is shown in Figure~\ref{fig:architecure}, and it is co
 
 \section{Edge}
 \label{sec:edge}
-\noindent The Edge segment is composed of at least one IMU Sensor and one Raspberry Pi, connected via Bluetooth.
+\noindent The Edge segment is composed of at least one \gls{IMU} Sensor and one Raspberry Pi, connected via Bluetooth.
 
-As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver, %http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
-the number of Raspberry Pi's can also grow, in order to establish connection with all the IMU Sensors. This also helps to share the computation of the game metrics between the Raspberry Pi's.
+A \gls{IMU} Sensor is an integrated sensor package that measures a body's specific force, angular rate and orientation.
+
+Specific force is a measurement of coordinate acceleration, which can be obtained by removing the gravitational acceleration.
+It is measured with accelerometers.
+Angular rate is the rate at which a body rotates, measured by gyroscopes.
+Orientation is a description of how a body is placed in the place it occupies.
+Using magnetometers, a body can be oriented relatively to the Earth's magnetic field.
+%REFERENCE https://www.vectornav.com/support/library/imu-and-ins
+
+A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing
+%REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
+
+It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
+
+As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
+%REFERENCE http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
+the number of Raspberry Pi's can also grow, in order to establish connection with all the IMU Sensors.
+This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
 \subsection{IMU Sensors}
 \label{subsec:imu}
-\noindent The IMU sensors are attached to the players, and their only job is to send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
+\noindent The \gls{IMU} sensors are attached to the player's body, in different locations to track different metrics.
+Their job is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
+%unidades, sensores imbutidos, bateria, bluetooth, armazenamento
 
 \subsection{Raspberry Pi}
 \label{subsec:raspi}
