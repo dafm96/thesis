@@ -1,7 +1,7 @@
 %!TEX root = ../elaboration.tex
 \chapter{System Proposal}
 \label{cha:systemProposal}
-%\noindent Descrição da arquitetura
+%Descrição da arquitetura
 %\begin{itemize}
 %    \item Como recebemos dados dos IMU
 %    \item Quando recebemos dados dos IMU (freq.)
@@ -15,9 +15,9 @@
 %\end{itemize}
 %---------
 
-\noindent To achieve the goals set in Chapter \ref{cha:introduction}, a system that collects and processes the raw data from the IMU sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user has to be built.
+To achieve the goals set in Chapter \ref{cha:introduction}, a system that collects and processes the raw data from the IMU sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user has to be built.
 
-The proposed architecture is shown in Figure~\ref{fig:architecure}, and it is comprised of three segments:
+The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments:
 
 \begin{enumerate}
     \item \label{enum:segEdge} Edge - Data Collection and Processing
@@ -27,15 +27,17 @@ The proposed architecture is shown in Figure~\ref{fig:architecure}, and it is co
 
 \begin{figure}
     \centering
-    \includegraphics[width=.47\textwidth]{BLESportsTrackerArchitecture.pdf}
+    \includegraphics[width=.7\textwidth]{BLESportsTrackerArchitetureProposal.pdf}
     \caption{Proposed Architecture}
-    \label{fig:architecure}
+    \label{fig:architectureProposal}
 \end{figure}
 
 \section{Edge}
 \label{sec:edge}
-\noindent The Edge segment is composed of at least one \gls{IMU} Sensor and one Raspberry Pi, connected via Bluetooth.
+The Edge segment is composed of at least one \gls{IMU} Sensor and one \gls{EPU}, that controls and receives information directly from the \gls{IMU} Sensor. The \gls{EPU} should also be capable of calculating insightful metrics, calculated with the raw data acquired from the \gls{IMU} Sensors.
 
+\subsection{IMU Sensors}
+\label{subsec:imu}
 A \gls{IMU} Sensor is an integrated sensor package that measures a body's specific force, angular rate and orientation.
 
 Specific force is a measurement of coordinate acceleration, which can be obtained by removing the gravitational acceleration.
@@ -45,36 +47,27 @@ Orientation is a description of how a body is placed in the place it occupies.
 Using magnetometers, a body can be oriented relatively to the Earth's magnetic field.
 %REFERENCE https://www.vectornav.com/support/library/imu-and-ins
 
-A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing
-%REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
+For this application, IMU Sensors armed with 3-axis accelerometer and gyroscope should be used.
 
-It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
+The \gls{IMU} sensors should attached to the player's body, in different locations (like the back, the foot or the hand), to track different metrics.
 
-As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
-%REFERENCE http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
-the number of Raspberry Pi's can also grow, in order to establish connection with all the IMU Sensors.
-This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
-\subsection{IMU Sensors}
-\label{subsec:imu}
-\noindent The \gls{IMU} sensors are attached to the player's body, in different locations to track different metrics.
-Their job is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
-%unidades, sensores imbutidos, bateria, bluetooth, armazenamento
-
-\subsection{Raspberry Pi}
-\label{subsec:raspi}
-\noindent In the Raspberry Pi is where the "hard" work is done. Besides connecting and controlling the IMU Sensors, this unit has two main jobs: to collect the raw data sent by the IMU Sensors several times per second, and perform calculations with the gathered data to measure in-game metrics, which are then broadcasted to the server, to be stored and shown to the User.
+\subsection{Edge Processing Unit}
+\label{subsec:epu}
+The \gls{EPU} does the "hard work". Besides handling the connection and controlling the IMU Sensors operations, like starting and stopping the raw data collection, this unit has to collect the raw data sent by the IMU Sensors several times per second, and perform calculations with the gathered raw data to measure in-game metrics, which are then sent to the server, to be stored and shown to the User.
 
 
 \section{Server}
 \label{sec:server}
-\noindent The Server is the main piece of the architecture, allowing the interaction between the User and the IMU Sensors.
+The Server is the main piece of the architecture, allowing the interaction between the User and the IMU Sensors.
 
-The Server can broadcast instructions to the Raspberry Pi, controlling the IMU Sensors.
-When data is received from the Raspberry Pi's, the Server stores it, so that it can be shown to the User.
+The Server can send instructions to the \gls{EPU}, controlling the \gls{IMU} Sensors operations.
+When data is received from the \gls{EPU}, the Server stores it, so that it can be shown to the User, through the Client application.
 
-The Server also hosts the Client Application, where it receives the instructions to be sent to the Edge, and it shows the received data to the User.
+The Server also hosts the Client Application, which communicates tightly with the Server.
 
 \section{Client}
 \label{sec:client}
-\noindent The Client Application provides the User an interface in which he can control the IMU Sensors, and displays the edge-computed in-game metrics.
+The Client Application provides the User an interface in which he can control and consult information about players, teams and games. 
+
+Indirectly he should trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.

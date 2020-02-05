@@ -1,7 +1,7 @@
 %!TEX root = ../elaboration.tex
 \chapter{System Implementation}
 \label{cha:implementation}
-\noindent -----//-----
+-----//-----
 \begin{enumerate}
     \item Raspberry Pi
     \begin{enumerate}
@@ -30,26 +30,36 @@
         \item métricas por jogo, vários sensores por jogador
     \end{enumerate}
 \end{enumerate}aaa
------//----- 
+-----//-----\\
 
-\noindent The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client.
+The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
+    \caption{Proposed Architecture}
+    \label{fig:architectureImplementation}
+\end{figure}
 
 \section{Edge}
 
-The edge segment, composed by one or more IMU Sensors and one or more Raspberry Pi, as described in section~\ref{sec:edge}, is the scalable part of the architecture. 
+As described in section~\ref{sec:edge}, the edge segment is composed by one or more IMU Sensors and one or more \gls{EPU}. 
+
+The IMU Sensors used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
+
+In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing.
+%REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
+It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
 
 The number of IMU sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
 
-In order to accommodate the physical limitation of Bluetooth connections, 
-%TODO support this affirmation
-one Raspberry Pi may not be sufficient to handle all the IMU Sensors. 
-It is necessary to ensure that the communication flows from the Server to the IMU Sensors being just a mean of distributing the correct data to and from the multiple sensors.
-
+As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
+%REFERENCE http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
+the number of Raspberry Pi's can also grow, in order to establish connection with all the IMU Sensors.
+This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
 \subsection{IMU Sensor Control and Communication}
-\noindent The IMU Sensors used in the implementation were developed by AITEX.
-%REFERENCE gls AITEX
-They communicate through Bluetooth Low Energy and have 3 sensors built-in: 3-axis accelerometer, 3-axis gyroscope and 3-axis magnetometer.
+The role of the IMU Sensors is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
 
 The following operations are supported by IMU Sensors:
 \begin{itemize}
@@ -68,6 +78,9 @@ The IMU Sensors must pair with a Raspberry Pi, which is searching for the known 
 Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
 
 To start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
+
+%TODO How is the data received?
+
 When the metrics are calculated, they are sent to the server via MQTT, to be stored there.
 %TODO citar mqtt?
 %TODO gls MQTT
@@ -77,13 +90,16 @@ A single Raspberry Pi is then responsible by maintaining the connection with sev
 
 
 \subsection{Metrics Algorithms}
+To achieve the goal to collect insightful information of a basketball game, a set of metrics were chosen, focusing on three body locations: foot, lower back and hand.
+Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory. In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team. In the lower back, the sensor was used to collect data and analyze it to detect the number of jumps and time in air.
+
+\subsubsection{Trajectories}
+
 \subsubsection{Steps}
 
 \subsubsection{Dribbles}
 
 \subsubsection{Jumps}
-
-\subsubsection{Trajectories}
 
 \section{Server}
 The server is built as an Rest API, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and API's. %REFERENCE nodejs, rest, api, express
@@ -107,15 +123,13 @@ The Developed API exposes endpoints to control the different resources available
 
 \subsubsection{Games}
 
-
-
 \subsection{Database Model}
 
 The database, developed in MySQL, was designed in order to store all the data from the main resources, its relations and meaningful data in those relations.
 
 %REFERENCE reference figures
 
-The main resources that need are represented in the following tables: Peripherals; Players; Teams; Games; Metrics. 
+The main resources are represented in the following tables: Peripherals; Players; Teams; Games; Metrics. 
 
 Each entry in the Peripheral table represents a IMU Sensor, and it's stored the peripheral MAC Address, and its attributed number for easier identification.
 
@@ -125,9 +139,9 @@ The Team table only stores the name of the team. %could store city, year of foun
 
 To store information about a game, the Game table has the date of the game, and a reference for both teams attending the game. %could store where it is, the score of the game, the referee....
 
-For the metrics, each player has a set of metrics per game. 
+For the metrics, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using. 
 
-One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game, and another that relates that relation with a peripheral, and stores 
+One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game, and another that relates that with a peripheral, storing where the peripheral is placed in the player's body.
 
 \section{Client}
 The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
