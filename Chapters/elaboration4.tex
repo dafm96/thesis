@@ -4,31 +4,31 @@
 -----//-----
 \begin{enumerate}
     \item Raspberry Pi
-    \begin{enumerate}
-        \item quais os algoritmos
-        \begin{enumerate}
-            \item Dribbles
-            \item Saltos
-            \item Passos/Distância/Posição
-            \item Tempo parado/andar/correr
-        \end{enumerate}
-        \item operações sensores
-        \item como se controlam os sensores
-        \item como são enviados os dados (mqtt)
-        \item feito em node
-    \end{enumerate}
+          \begin{enumerate}
+              \item quais os algoritmos
+                    \begin{enumerate}
+                        \item Dribbles
+                        \item Saltos
+                        \item Passos/Distância/Posição
+                        \item Tempo parado/andar/correr
+                    \end{enumerate}
+              \item operações sensores
+              \item como se controlam os sensores
+              \item como são enviados os dados (mqtt)
+              \item feito em node
+          \end{enumerate}
     \item Server
-    \begin{enumerate}
-        \item REST API feita em Node
-        \item DB em mySQL, explicar modelo
-        \item como troca mensagens com o rPi
-    \end{enumerate}
+          \begin{enumerate}
+              \item REST API feita em Node
+              \item DB em mySQL, explicar modelo
+              \item como troca mensagens com o rPi
+          \end{enumerate}
     \item Cliente
-    \begin{enumerate}
-        \item Feito em React
-        \item Permite gerir equipas, jogadores e jogos
-        \item métricas por jogo, vários sensores por jogador
-    \end{enumerate}
+          \begin{enumerate}
+              \item Feito em React
+              \item Permite gerir equipas, jogadores e jogos
+              \item métricas por jogo, vários sensores por jogador
+          \end{enumerate}
 \end{enumerate}aaa
 -----//-----\\
 
@@ -43,7 +43,7 @@ The description of the System Implementation according to the proposed architect
 
 \section{Edge}
 
-As described in section~\ref{sec:edge}, the edge segment is composed by one or more IMU Sensors and one or more \gls{EPU}. 
+As described in section~\ref{subsec:edge}, the edge segment is composed by one or more IMU Sensors and one or more \gls{EPU}.
 
 The IMU Sensors used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
 
@@ -64,16 +64,16 @@ The role of the IMU Sensors is to receive instructions issued by the user, and s
 The following operations are supported by IMU Sensors:
 \begin{itemize}
     \item State control
-    \begin{itemize}
-        \item Start Raw Data Collection
-        \item Stop Raw Data Collection
-        \item Shutdown
-    \end{itemize}
+          \begin{itemize}
+              \item Start Raw Data Collection
+              \item Stop Raw Data Collection
+              \item Shutdown
+          \end{itemize}
     \item Sample Rate
     \item MPU Configuration
 \end{itemize}
 
-The IMU Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the IMU Sensors through Bluetooth Notifications. 
+The IMU Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the IMU Sensors through Bluetooth Notifications.
 
 Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
 
@@ -84,25 +84,77 @@ To start collecting data from an IMU Sensor, it is needed to provide information
 When the metrics are calculated, they are sent to the server via MQTT, to be stored there.
 %TODO citar mqtt?
 %TODO gls MQTT
-The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors. 
+The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors.
 
 A single Raspberry Pi is then responsible by maintaining the connection with several IMU Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarily; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
 
 
 \subsection{Metrics Algorithms}
 To achieve the goal to collect insightful information of a basketball game, a set of metrics were chosen, focusing on three body locations: foot, lower back and hand.
-Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory. In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team. In the lower back, the sensor was used to collect data and analyze it to detect the number of jumps and time in air.
+Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory.
+
+In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team. In the lower back, the sensor was used to collect data and analyze it to detect the number of jumps and time in air.
+
+The following sections will explain in detail how the algorithms work.
 
 \subsubsection{Trajectories}
+\label{subsubsec:trajectories}
+To track the player's trajectories, the selected approach was Implementing a Pedestrian Tracker Using Inertial Sensors~\cite{tutorial},
 
 \subsubsection{Steps}
+The detection of steps takes advantage of the algorithm explained in ~\ref{subsubsec:trajectories}, especially the Zero-Velocity Detection.
+Whenever a Zero-Velocity is detected, it is recorded in a binary array (zeros meaning no movement, ones meaning movement). Afterwards, when the Trajectory detection algorithm ends, the array is analysed.
+
+The analysis is made by counting the meaningful "sections"{} of ones. Listing~\ref{lst:stepArray} shows an example of a step detection array, where we can clearly see there are two main kernels of ones, meaning that using this example the algorithm should count two steps.
+\lstset{caption=Steps Array Example, label=lst:stepArray}
+\begin{lstlisting}
+[0000000000100001111111111111111000100000000000000010111111111111111111100110000000000]
+\end{lstlisting}
+
+However the algorithm must take into account the outliers, and shouldn't identify it as steps. This can be ensured by only counting after a number of consecutive ones is observed. If a zero appears in the middle, the possible step is discarded.
+The behaviour of the algorithm is described in Listing~\ref{lst:stepAlgorithm}
+
+%TODO passar isto para pseudoCode
+\lstset{language=Matlab, caption=Steps Counting Algorithm, label=lst:stepAlgorithm}
+\begin{lstlisting}
+    steps = 0;
+    no_ones = 0;
+    no_zeros = 0;
+    last = 0;
+    out = [pos_r(1,:); pos_r(2,:); walking(:)']';
+    printf('{"data": [');
+    %% Algorithm to identify steps in ones %%
+    for idx = 1:data_size
+        pos_r(:,idx) = rotation_matrix*[pos_n(1,idx) pos_n(2,idx)]';
+        current = walking(idx);
+        if (last == 0 && current == 1)
+            no_ones++;
+            no_zeros = 0;
+        elseif (last == 1 && current == 1)
+            no_ones++;
+            if (no_ones == 12)
+                no_zeros = 0;
+                steps++;
+                %%%STEP%%%
+            endif
+        elseif (last == 1 && current == 0)
+            no_zeros++;
+        elseif (last == 0 && current == 0)
+            no_zeros++;
+            no_ones = 0;
+        endif
+        last = current;
+    endfor
+\end{lstlisting}
 
 \subsubsection{Dribbles}
+The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in figure %TODO arranjar figura
+, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
 
 \subsubsection{Jumps}
 
 \section{Server}
-The server is built as an Rest API, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and API's. %REFERENCE nodejs, rest, api, express
+The server is built as a Rest API, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and API's. %REFERENCE nodejs, rest, api, express
 
 To manage peripherals (IMU Sensors), Players, Teams, and Games, there are API endpoints for each one of this resources, and all the data is saved in a MySQL Database.
 
@@ -129,17 +181,17 @@ The database, developed in MySQL, was designed in order to store all the data fr
 
 %REFERENCE reference figures
 
-The main resources are represented in the following tables: Peripherals; Players; Teams; Games; Metrics. 
+The main resources are represented in the following tables: Peripherals; Players; Teams; Games; Metrics.
 
-Each entry in the Peripheral table represents a IMU Sensor, and it's stored the peripheral MAC Address, and its attributed number for easier identification.
+Each entry in the Peripheral table represents an \gls{IMU} Sensor, and it's stored the peripheral MAC Address, and its attributed number for easier identification.
 
-In the Players table, each player has stored its name, and a identifier of the team they belong to. %could store age, height, weight, position
+In the Players table, each player has stored its name, and an identifier of the team they belong to. %could store age, height, weight, position
 
 The Team table only stores the name of the team. %could store city, year of foundation, score in the league, coach....
 
 To store information about a game, the Game table has the date of the game, and a reference for both teams attending the game. %could store where it is, the score of the game, the referee....
 
-For the metrics, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using. 
+For the metrics, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using.
 
 One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game, and another that relates that with a peripheral, storing where the peripheral is placed in the player's body.
 
