@@ -16,11 +16,13 @@
 %---------
 
 \epigraph{
-    To achieve the goals set in Chapter \ref{cha:introduction}, this chapter proposes a system architecture that collects and processes the raw data from the IMU sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user has to be built.
+    To achieve the goals set in Chapter \ref{cha:introduction}, this chapter proposes a system architecture that collects and processes the raw data from the IMU sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user.
 }
 
 \section{Requirements}
 \label{sec:requirements}
+%TODO Explicar problematica e justificar arquitetura
+
 With the goals set, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
 
 It should be able to work indoors, thus avoiding the use of systems like GPS, and it should work in any field, without the need of preinstalled structures (like a video system). 
@@ -31,10 +33,10 @@ In order to collect data from all the players of the game, the system should be 
 
 \section{Architecture}
 \label{sec:architecture}
-The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: Edge - Data Collection and Processing; Server - Data Storing and Application Server; Client - Frontend Application
+The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storing and Application Server; \textbf{Client} - Frontend Application.
 
-%TODO justificar escolhas
----Justificar escolhas da arquitetura---
+The layering of the architecture allows that each segment is completely independent in its implementation. 
+The architecture will be explained in more detail in the following subsections.
 
 \begin{figure}
     \centering
@@ -60,13 +62,14 @@ Using magnetometers, a body can be oriented relatively to the Earth's magnetic f
 
 For this application, IMU Sensors armed with 3-axis accelerometer and gyroscope should be used.
 
-The \gls{IMU} sensors should attached to the player's body, in different locations (like the back, the foot or the hand), to track different metrics.
+The \gls{IMU} sensors should be attached to the player's body, in different locations (like the back, the foot or the hand), to track different metrics.
 
 
 \subsubsection{Edge Processing Unit}
 \label{subsubsec:epu}
 The \gls{EPU} does the "hard work". Besides handling the connection and controlling the IMU Sensors operations, like starting and stopping the raw data collection, this unit has to collect the raw data sent by the IMU Sensors several times per second, and perform calculations with the gathered raw data to measure in-game metrics, which are then sent to the server, to be stored and shown to the User.
 
+In order to be able to receive data and calculate in-game metrics from all the \gls{IMU} Sensors, one \gls{EPU} may not be sufficient. An array of \gls{EPU}'s, each one connected to different \gls{IMU} Sensors and sending data in parallel to the Server should be used.
 
 \subsection{Server}
 \label{subsec:server}
