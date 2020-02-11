@@ -1,36 +1,36 @@
 %!TEX root = ../elaboration.tex
 \chapter{System Implementation}
 \label{cha:implementation}
------//-----
-\begin{enumerate}
-    \item Raspberry Pi
-          \begin{enumerate}
-              \item quais os algoritmos
-                    \begin{enumerate}
-                        \item Dribbles
-                        \item Saltos
-                        \item Passos/Distância/Posição
-                        \item Tempo parado/andar/correr
-                    \end{enumerate}
-              \item operações sensores
-              \item como se controlam os sensores
-              \item como são enviados os dados (mqtt)
-              \item feito em node
-          \end{enumerate}
-    \item Server
-          \begin{enumerate}
-              \item REST API feita em Node
-              \item DB em mySQL, explicar modelo
-              \item como troca mensagens com o rPi
-          \end{enumerate}
-    \item Cliente
-          \begin{enumerate}
-              \item Feito em React
-              \item Permite gerir equipas, jogadores e jogos
-              \item métricas por jogo, vários sensores por jogador
-          \end{enumerate}
-\end{enumerate}aaa
------//-----\\
+% -----//-----
+% \begin{enumerate}
+%     \item Raspberry Pi
+%           \begin{enumerate}
+%               \item quais os algoritmos
+%                     \begin{enumerate}
+%                         \item Dribbles
+%                         \item Saltos
+%                         \item Passos/Distância/Posição
+%                         \item Tempo parado/andar/correr
+%                     \end{enumerate}
+%               \item operações sensores
+%               \item como se controlam os sensores
+%               \item como são enviados os dados (mqtt)
+%               \item feito em node
+%           \end{enumerate}
+%     \item Server
+%           \begin{enumerate}
+%               \item REST API feita em Node
+%               \item DB em mySQL, explicar modelo
+%               \item como troca mensagens com o rPi
+%           \end{enumerate}
+%     \item Cliente
+%           \begin{enumerate}
+%               \item Feito em React
+%               \item Permite gerir equipas, jogadores e jogos
+%               \item métricas por jogo, vários sensores por jogador
+%           \end{enumerate}
+% \end{enumerate}aaa
+% -----//-----\\
 
 The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
 
@@ -158,6 +158,26 @@ The server is built as a Rest API, developed with Node.js, and taking advantage 
 
 To manage peripherals (IMU Sensors), Players, Teams, and Games, there are API endpoints for each one of this resources, and all the data is saved in a MySQL Database.
 
+\subsection{Database Model}
+
+The database, developed in MySQL, was designed in order to store all the data from the main resources, its relations and meaningful data in those relations.
+
+%REFERENCE reference figures
+
+The main resources are represented in the following tables: Peripherals; Players; Teams; Games; Metrics.
+%TODO add figures.
+Each entry in the Peripheral table represents an \gls{IMU} Sensor. It's stored the peripheral MAC Address, and its attributed number for easier identification.
+
+In the Players table, each player has stored its name, and an identifier of the team they belong to. %could store age, height, weight, position
+
+The Team table only stores the name of the team. %could store city, year of foundation, score in the league, coach....
+
+To store information about a game, the Game table has the date of the game, and a reference for both teams attending the game. %could store where it is, the score of the game, the referee....
+
+For the metrics, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using. The metrics being currently stored are: number of steps and distance traveled; number of jumps; number of dribbles and dribbling time; time spent being still, walking and running.
+
+One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game, and another that relates that with a peripheral, storing where the peripheral is placed in the player's body.
+
 \subsection{API Description}
 The Developed API exposes endpoints to control the different resources available in the system. Those resources are:
 \begin{itemize}
@@ -175,25 +195,7 @@ The Developed API exposes endpoints to control the different resources available
 
 \subsubsection{Games}
 
-\subsection{Database Model}
 
-The database, developed in MySQL, was designed in order to store all the data from the main resources, its relations and meaningful data in those relations.
-
-%REFERENCE reference figures
-
-The main resources are represented in the following tables: Peripherals; Players; Teams; Games; Metrics.
-
-Each entry in the Peripheral table represents an \gls{IMU} Sensor, and it's stored the peripheral MAC Address, and its attributed number for easier identification.
-
-In the Players table, each player has stored its name, and an identifier of the team they belong to. %could store age, height, weight, position
-
-The Team table only stores the name of the team. %could store city, year of foundation, score in the league, coach....
-
-To store information about a game, the Game table has the date of the game, and a reference for both teams attending the game. %could store where it is, the score of the game, the referee....
-
-For the metrics, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using.
-
-One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game, and another that relates that with a peripheral, storing where the peripheral is placed in the player's body.
 
 \section{Client}
 The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
