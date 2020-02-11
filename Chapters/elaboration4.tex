@@ -79,10 +79,25 @@ Before starting the data collection, it is necessary to set the sample rate to 5
 
 To start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
 
-%TODO How is the data received?
+The IMU Sensors send time ($ms$), accelerometer ()$m/s^2$) and gyroscope ($^\circ/s$) data in a bite array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the IMU Sensors can be seen in Table~\ref{tab:raw}.
+
+\begin{table}
+    \centering
+    \caption{Raw Data Example}
+    \label{tab:raw}
+    \begin{tabular}{lllllll}
+        time & accX    & accY     & accZ    & gyrX    & gyrY    & gyrZ     \\
+        0.02 & 0,46178 & -0,83982 & 9,46772 & 0,07084 & 0,05007 & -0,03089 \\
+        0.04 & 0,44264 & -0,80991 & 9,42465 & 0,07031 & 0,04954 & -0,03196 \\
+        0.06 & 0,42948 & -0,83384 & 9,42106 & 0,07031 & 0,04900 & -0,03196 \\
+        0.08 & 0,41991 & -0,82786 & 9,44858 & 0,07031 & 0,04954 & -0,03196 \\
+        0.10 & 0,43666 & -0,82666 & 9,41030 & 0,06978 & 0,04794 & -0,03196
+    \end{tabular}
+\end{table}
+
 
 When the metrics are calculated, they are sent to the server via MQTT, to be stored there.
-%TODO citar mqtt?
+%REFERENCE citar mqtt?
 %TODO gls MQTT
 The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors.
 
