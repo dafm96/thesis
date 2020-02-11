@@ -36,7 +36,7 @@ The description of the System Implementation according to the proposed architect
 
 \begin{figure}
     \centering
-    \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
+    \includegraphics[width=.6\textwidth]{BLESportsTrackerArchiteture.pdf}
     \caption{Implemented Architecture}
     \label{fig:architectureImplementation}
 \end{figure}
@@ -59,6 +59,7 @@ the number of Raspberry Pi's can also grow, in order to establish connection wit
 This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
 \subsection{IMU Sensor Control and Communication}
+\label{subsec:imuControl}
 The role of the IMU Sensors is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
 
 The following operations are supported by IMU Sensors:
@@ -109,7 +110,7 @@ To achieve the goal to collect insightful information of a basketball game, a se
 
 Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory.
 
-In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team. 
+In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team.
 
 In the lower back, the sensor was used to collect data and analyze it to detect the number of jumps and time in air.
 
@@ -133,7 +134,6 @@ The analysis is made by counting the meaningful "sections"{} of ones. Listing~\r
 However the algorithm must take into account the outliers, and shouldn't identify it as steps. This can be ensured by only counting a step after a number of consecutive ones is observed. If two consecutive zeros appears in the middle, the possible step is discarded.
 The behavior of the algorithm is described in Listing~\ref{lst:stepAlgorithm}.
 
-%TODO passar isto para pseudoCode
 \lstset{language=Matlab, caption=Steps Counting Algorithm, label=lst:stepAlgorithm}
 \begin{lstlisting}
     steps = 0;
@@ -202,15 +202,48 @@ The Developed API exposes endpoints to control the different resources available
     \item Games
 \end{itemize}
 
-\subsubsection{Peripherals}
+%TODO mostrar mensagens de exemplo?
+\subsubsection{Teams}
+\label{subsubsec:teams}
+The Teams endpoint enables the \gls{CRUD} actions over the teams of the system.
+
+It lets the user create a new team, given their name, the ability to consult all the teams registered in the system, to consult a specific team and their respective information or the players that belong to that team. This endpoint also serves to update information about a team or to delete the team from the system.
 
 \subsubsection{Players}
+\label{subsubsec:players}
+The Players endpoint provides the user the \gls{CRUD} actions over the players of the system.
 
-\subsubsection{Teams}
+It enables the creation of a new player, given their name and the team they belong to, the ability to consult all the players registered in the system, or to consult a specific player and their respective information; for a given player, this endpoint also serves to update information or to delete the player from the system.
 
 \subsubsection{Games}
+\label{subsubsec:games}
+This endpoint, besides providing Create, Read and Delete operations for the games, also manages the attribution of peripherals to each player, in multiple parts of their body, and also to fetch the metrics for each player.
 
+For the Create operation, it is possible to create a game providing the date of the game and the two teams that are playing the game.
+
+For the Read operation, it is possible to get a list of the games (that already occurred or that will occur), get the main info about a specific game (the date and the teams) or to get specific info about a specific game (like the players of each team, and the assigned peripherals for each player).
+
+For the Delete operation, it is possible to delete a game.
+
+To manage the peripherals for each player, it is possible to assign a peripheral to a player in a given game, providing the player identifier, the peripheral address and the location of the body where the \gls{IMU} Sensor is located, and it is possible to remove this assignment.
+
+It is also possible to read the metrics for each player, and to get a sum of the dribbling time for each team, which gives an insight for the total ball possession during a game.
+
+\subsubsection{Peripherals}
+\label{subsubsec:peripherals}
+The peripherals endpoint enables the control of the \gls{IMU} Sensors from the Client app, and stores temporary state on the peripherals, like what are the currently connected peripherals, and which ones are collecting data.
+
+As specified in Subsection~\ref{subsec:imuControl}, there are 3 main controls that can be sent to the \gls{IMU} Sensors: start, stop or shutdown. The Peripherals endpoint allows 3 ways of sending this command to the Edge segment: control only one given peripheral, control all the peripherals in a game or control all connected devices.
+
+The control instructions are sent to the Edge Segment through the MQTT protocol, and are activated notifications to receive updates from the Edge. For example, if the instructions to start all the peripherals in a game, the server will be awaiting for notifications from each of the peripherals, with the calculated game metrics, depending on the position of the \gls{IMU} Sensor in the body of the player.
 
 
 \section{Client}
-The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
+% The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
+
+\begin{itemize}
+    \item Descrever  funcionalidades, que interagem com API
+    \item Screenshots
+\end{itemize}
+
+%TODO some of the features explained above of the API weren't implemented, like editing and deleting players and teams
