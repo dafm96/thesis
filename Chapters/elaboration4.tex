@@ -164,7 +164,7 @@ This algorithm can be improved in the detection of the "sections"{} of ones, as 
 \subsubsection{Jumps}
 The method of identifying jumps was developed by Alexandre Martins, during his internship in \gls{KBZ}.
 %TODO como referenciar o trabalho do alexandre?
-Alexandre's approach to jump detection relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back. 
+Alexandre's approach to jump detection relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
 
 To start this analysis, he first collected data from all the sensors of the \gls{IMU} while jumping, and searched for a pattern that could be used to identify the jump movement. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
 
@@ -185,6 +185,8 @@ After identifying this pattern, Alexandre suggests a Fourier analysis on the dat
     \caption{Jump Fourier Analysis}
     \label{fig:jumpfourier}
 \end{figure}
+
+The algorithm that was developed by Alexandre was used in the system implementation, and received the real time data from the X-axis of the \gls{IMU} Sensor placed in the lower back.
 
 \section{Server}
 The server is built as a Rest API, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and API's. %REFERENCE nodejs, rest, api, express
@@ -260,12 +262,31 @@ As specified in Subsection~\ref{subsec:imuControl}, there are 3 main controls th
 The control instructions are sent to the Edge Segment through the MQTT protocol, and are activated notifications to receive updates from the Edge. For example, if the instructions to start all the peripherals in a game, the server will be awaiting for notifications from each of the peripherals, with the calculated game metrics, depending on the position of the \gls{IMU} Sensor in the body of the player.
 
 
-\section{Client}
-% The client application was developed in React, with the goal of controlling the IMU Sensors, and manage teams, players and games. It should also display Player and Team game-related metrics.
+\section{Client}%TODO images. 
+The client application was developed in React, and is capable of controlling the IMU Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
 
-\begin{itemize}
-    \item Descrever  funcionalidades, que interagem com API
-    \item Screenshots
-\end{itemize}
+The application communicates directly with the API, through HTTP, and consumes the API exposed by the server. This means that the Client application is divided into 3 parts: players, teams and games.
+
+\subsection{Players}
+The main Players page shows a list of all players, and their current team. It also allows the user to add a player, by providing their name and the team they belong to.
+
+The player detail page shows the information about a single player, and supports the operations of editing the details of the player and deleting the player. In the current system implementation, only the information of the player is displayed, the other operations are currently unimplemented on the client application.
+
+\subsection{Teams}
+The Teams page shows a list of all the teams registered in the system, and allows the creation of new teams, given the team name.
+
+The Team detail list shows the information about a team, and the team players.
+
+\subsection{Games}
+The Games page shows a list of past and future games, with the date of the game, and the two teams that are playing that game. In this pages, it is also possible to create a new game, providing the date and the opponent teams.
+
+In a game detail page, it is displayed more information about the game, like the players of each team, what \gls{IMU} Sensors are they wearing and were they are located.
+
+In this page the user can assign \gls{IMU} Sensors to each player, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game.
+
+% \begin{itemize}
+%     \item Descrever funcionalidades, que interagem com API
+%     \item Screenshots
+% \end{itemize}
 
 %TODO some of the features explained above of the API weren't implemented, like editing and deleting players and teams
