@@ -80,7 +80,7 @@ Before starting the data collection, it is necessary to set the sample rate to 5
 
 To start collecting data from an \gls{IMU} Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
 
-The \gls{IMU} Sensors send time ($ms$), accelerometer ()$m/s^2$) and gyroscope ($^\circ/s$) data in a bite array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the \gls{IMU} Sensors can be seen in Table~\ref{tab:raw}.
+The \gls{IMU} Sensors send time ($ms$), accelerometer ($m/s^2$) and gyroscope ($^\circ/s$) data in a bite array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the \gls{IMU} Sensors can be seen in Table~\ref{tab:raw}.
 
 \begin{table}
     \centering
@@ -155,11 +155,24 @@ The behavior of the algorithm is described in Listing~\ref{lst:stepAlgorithm}.
     endfor
 \end{lstlisting}
 
-This algorithm can be improved in the detection of the "sections"{} of ones, as it can sometimes fail. For example, if in one step sequence we had 3 occurrences of zeros inside a large sequence of ones, the algorithm would count 2 steps instead of 1 step  However, when testing the results were satisfactory, so no more work was done in the development of this algorithm.
+This algorithm can be improved in the detection of the "sections"{} of ones, as it can sometimes fail. For example, if in one step sequence we had 3 occurrences of zeros inside a large sequence of ones, the algorithm would count 2 steps instead of 1 step. However, when testing the results were satisfactory, so no more work was done in the development of this algorithm.
 
 \subsubsection{Dribbles}
-% The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in figure %TODO arranjar figura
-% , and uses the data from the Y-axis accelerometer and X-axis gyroscope.
+For measuring the dribbling, an algorithm developed by Alexandre Martins during his internship in \gls{KBZ}.
+
+The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
+
+The data is analysed, and 
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Sensor outside the glove\label{fig:outside}}%
+    {\includegraphics[width=0.5\linewidth]{sensor_dribble1.pdf}}%
+    \subcaptionbox{Sensor inside the glove\label{fig:inside}}%
+    {\includegraphics[width=0.5\linewidth]{sensor_dribble2.pdf}}%
+    \caption{Position of the sensor in the hand}
+    \label{fig:sensorDribble}
+\end{figure}
 
 \subsubsection{Jumps}
 The method of identifying jumps was developed by Alexandre Martins, during his internship in \gls{KBZ}.
