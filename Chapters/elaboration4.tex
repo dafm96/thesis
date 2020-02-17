@@ -162,8 +162,6 @@ For measuring the dribbling, an algorithm developed by Alexandre Martins during 
 
 The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
 
-The data is analysed, and 
-
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Sensor outside the glove\label{fig:outside}}%
@@ -173,6 +171,23 @@ The data is analysed, and
     \caption{Position of the sensor in the hand}
     \label{fig:sensorDribble}
 \end{figure}
+
+By collecting data from the \gls{IMU} Sensor placed in the hand, Alexandre concluded that the Y-Axis from the accelerometer (the movement to the front or to the back of the arm) and the X-Axis of the gyroscope (rotating the hand up or down) where the most important axis to analyse the dribbling movement. The graphs shown in Figure~\ref{fig:graphdribble} presents the graphs of a sequence of 20 dribbles, with data from the Y-Axis of the accelerometer and the X-Axis of the gyroscope.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Accelerometer y-axis graph\label{fig:accDribble}}%
+    {\includegraphics[width=0.7\linewidth]{dribble_acc.pdf}}%
+\\
+    \subcaptionbox{Gyroscope x-axis graph\label{fig:gyrDribble}}%
+    {\includegraphics[width=0.7\linewidth]{dribble_gyr.pdf}}%
+    \caption{Accelerometer and gyroscope during 20 dribbles}
+    \label{fig:graphdribble}
+\end{figure}
+
+To detect if it is a dribble, the algorithm finds a maximum value in both accelerometer data and gyroscope, that are above a certain threshold, and if they meet this criteria, a Fourier analysis is made to confirm that the frequency of the movement matches the frequency of a dribble, discarding other arm movements that could lead to erroneous detection of dribbles.
+
+This algorithm was adapted and implemented in the system, to receive data in real-time from the \gls{IMU} sensor placed in the wrist.
 
 \subsubsection{Jumps}
 The method of identifying jumps was developed by Alexandre Martins, during his internship in \gls{KBZ}.
