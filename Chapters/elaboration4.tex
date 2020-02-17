@@ -43,26 +43,26 @@ The description of the System Implementation according to the proposed architect
 
 \section{Edge}
 
-As described in section~\ref{subsec:edge}, the edge segment is composed by one or more IMU Sensors and one or more \gls{EPU}.
+As described in section~\ref{subsec:edge}, the edge segment is composed by one or more \gls{IMU} Sensors and one or more \gls{EPU}.
 
-The IMU Sensors used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
+The \gls{IMU} Sensors used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
 
 In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing.
 %REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
 It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
 
-The number of IMU sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
+The number of \gls{IMU} sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
 
 As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
 %REFERENCE http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
-the number of Raspberry Pi's can also grow, in order to establish connection with all the IMU Sensors.
+the number of Raspberry Pi's can also grow, in order to establish connection with all the \gls{IMU} Sensors.
 This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
 \subsection{IMU Sensor Control and Communication}
 \label{subsec:imuControl}
-The role of the IMU Sensors is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
+The role of the \gls{IMU} Sensors is to receive instructions issued by the user, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected, over Bluetooth.
 
-The following operations are supported by IMU Sensors:
+The following operations are supported by \gls{IMU} Sensors:
 \begin{itemize}
     \item State control
           \begin{itemize}
@@ -74,13 +74,13 @@ The following operations are supported by IMU Sensors:
     \item MPU Configuration
 \end{itemize}
 
-The IMU Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the IMU Sensors through Bluetooth Notifications.
+The \gls{IMU} Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the \gls{IMU} Sensors through Bluetooth Notifications.
 
 Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
 
-To start collecting data from an IMU Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
+To start collecting data from an \gls{IMU} Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
 
-The IMU Sensors send time ($ms$), accelerometer ()$m/s^2$) and gyroscope ($^\circ/s$) data in a bite array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the IMU Sensors can be seen in Table~\ref{tab:raw}.
+The \gls{IMU} Sensors send time ($ms$), accelerometer ()$m/s^2$) and gyroscope ($^\circ/s$) data in a bite array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the \gls{IMU} Sensors can be seen in Table~\ref{tab:raw}.
 
 \begin{table}
     \centering
@@ -102,7 +102,7 @@ When the metrics are calculated, they are sent to the server via MQTT, to be sto
 %TODO gls MQTT
 The Raspberry Pi's don't store data, they only server as a vehicle of instructions and data between the server and the sensors.
 
-A single Raspberry Pi is then responsible by maintaining the connection with several IMU Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarily; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
+A single Raspberry Pi is then responsible by maintaining the connection with several \gls{IMU} Sensors; communicate instructions; receive accelerometer, gyroscope and magnetometer data, and stores it temporarily; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
 
 
 \subsection{Game Metrics}
@@ -189,9 +189,9 @@ After identifying this pattern, Alexandre suggests a Fourier analysis on the dat
 The algorithm that was developed by Alexandre was used in the system implementation, and received the real time data from the X-axis of the \gls{IMU} Sensor placed in the lower back.
 
 \section{Server}
-The server is built as a Rest API, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and API's. %REFERENCE nodejs, rest, api, express
+The server is built as a \gls{REST} \gls{API}, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and \gls{API}'s. %REFERENCE nodejs, rest, api, express
 
-To manage peripherals (IMU Sensors), Players, Teams, and Games, there are API endpoints for each one of this resources, and all the data is saved in a MySQL Database.
+To manage peripherals (\gls{IMU} Sensors), Players, Teams, and Games, there are \gls{API} endpoints for each one of this resources, and all the data is saved in a MySQL Database.
 
 \subsection{Database Model}
 
@@ -219,9 +219,9 @@ For the metrics, each player has a set of metrics per game, with the data gather
 One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game (Player\_Game Table), and another that relates that with a peripheral (PG\_Peripheral Table), storing where the peripheral is placed in the player's body.
 
 \subsection{API Description}
-The Developed API exposes endpoints to control the different resources available in the system. Those resources are:
+The Developed \gls{API} exposes endpoints to control the different resources available in the system. Those resources are:
 \begin{itemize}
-    \item Peripherals (IMU Sensors)
+    \item Peripherals (\gls{IMU} Sensors)
     \item Players
     \item Teams
     \item Games
@@ -263,26 +263,87 @@ The control instructions are sent to the Edge Segment through the MQTT protocol,
 
 
 \section{Client}%TODO images. 
-The client application was developed in React, and is capable of controlling the IMU Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
+The client application was developed in React, and is capable of controlling the \gls{IMU} Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
 
-The application communicates directly with the API, through HTTP, and consumes the API exposed by the server. This means that the Client application is divided into 3 parts: players, teams and games.
+The application communicates directly with the \gls{API}, through HTTP, and consumes the \gls{API} exposed by the server. This means that the Client application is divided into 3 parts: players, teams and games.
 
 \subsection{Players}
-The main Players page shows a list of all players, and their current team. It also allows the user to add a player, by providing their name and the team they belong to.
+The main Players page shows a list of all players, and their current team, as shown in Figure~\ref{fig:playerList}. It also allows the user to add a player, by providing their name and the team they belong to, as shown in Figure~\ref{fig:playerAdd}.
 
-The player detail page shows the information about a single player, and supports the operations of editing the details of the player and deleting the player. In the current system implementation, only the information of the player is displayed, the other operations are currently unimplemented on the client application.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Players List\label{fig:playerList}}%
+    {\includegraphics[width=0.5\linewidth]{client/players_list.png}}%
+    \subcaptionbox{Add Player\label{fig:playerAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/players_add.png}}%
+    \caption{Players List Page}
+    \label{fig:players}
+\end{figure}
+
+The player detail page shows the information about a single player, and supports the operations of editing the details of the player and deleting the player. In the current system implementation, shown in Figure~\ref{fig:playerDetail} , only the information of the player is displayed, the other operations are currently unimplemented on the client application.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/players_detail.png}
+    \caption{Players Detail Page}
+    \label{fig:playerDetail}
+\end{figure}
 
 \subsection{Teams}
-The Teams page shows a list of all the teams registered in the system, and allows the creation of new teams, given the team name.
+The Teams page shows a list of all the teams registered in the system, and allows the creation of new teams, given the team name. This pages are illustrated in Figure~\ref{fig:teamList} and Figure~\ref{fig:teamsAdd}.
 
-The Team detail list shows the information about a team, and the team players.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Teams List\label{fig:teamList}}%
+    {\includegraphics[width=0.5\linewidth]{client/teams_list.png}}%
+    \subcaptionbox{Add Team\label{fig:teamsAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/teams_add.png}}%
+    \caption{Teams List Page}
+    \label{fig:teams}
+\end{figure}
+
+The Team detail page shows the information about a team, and the team players. As explained in \ref{subsubsec:teams}, the \gls{API} supports the operations of editing and deleting teams. However, as shown in Figure~\ref{fig:teamsDetail}, it was not implemented in this system.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/teams_detail.png}
+    \caption{Teams Detail Page}
+    \label{fig:teamsDetail}
+\end{figure}
 
 \subsection{Games}
-The Games page shows a list of past and future games, with the date of the game, and the two teams that are playing that game. In this pages, it is also possible to create a new game, providing the date and the opponent teams.
+The Games page shows a list of past and future games, with the date of the game, and the two teams that are playing that game. In this pages, it is also possible to create a new game, providing the date and the opponent teams. This page is shown in Figure~\ref{fig:games}. Similar to the previous pages, even though it is supported by the \gls{API}, it isn't possible to edit game details and delete a game.
 
-In a game detail page, it is displayed more information about the game, like the players of each team, what \gls{IMU} Sensors are they wearing and were they are located.
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Games List\label{fig:gameList}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_list.png}}%
+    \subcaptionbox{Add Game\label{fig:gameAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_add.png}}%
+    \caption{Games List Page}
+    \label{fig:games}
+\end{figure}
 
-In this page the user can assign \gls{IMU} Sensors to each player, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game.
+In a game detail page (Figure~\ref{fig:gamesDetail}), it is displayed more information about the game, like the players of each team, what \gls{IMU} Sensors are they wearing and were they are located.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/games_detail.png}
+    \caption{Games Detail Page}
+    \label{fig:gamesDetail}
+\end{figure}
+
+In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Assign Peripheral to Player\label{fig:assignPeripheral}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_detail_peripheral.png}}%
+    \subcaptionbox{Player's in-game metrics\label{fig:gameMetrics}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_detail_metrics.png}}%
+    \caption{Game Detail Operations}
+    \label{fig:gamesOperations}
+\end{figure}
 
 % \begin{itemize}
 %     \item Descrever funcionalidades, que interagem com API
