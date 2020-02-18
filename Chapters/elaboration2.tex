@@ -2,8 +2,29 @@
 \chapter{Related Work}
 \label{cha:relatedWork}
 Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
-
 The following will discuss the related works that served as a starting point to this dissertation.
+
+As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
+
+In basketball most of the games are played in an indoor court, where GPS signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use GPS won't be discussed.
+
+The most used way of track Basketball players is using video tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}. %REFERENCE NBAstuffer. Second Spectrum Data. 2018. url: https://www.nbastuffer.com/analytics101/second-spectrum/ (visited on 07/09/2019).
+This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more. %REFERENCE https://aws.amazon.com/pt/blogs/media/la-clippers-take-the-clippers-courtvision-viewing-experience-to-the-next-level-with-aws/
+Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
+
+Many other sports use video tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
+
+Other way to track players is using a sensor based approach. Multiple commercial products are used by both amateur and professional teams. 
+
+Kinexon~\cite{kinexon} developed a player tracking system based on \gls{UWB}. It is comprised of wearable player sensors, and an array of base-sensors placed around the court. It can deliver precise 3D-position data, and detects metrics like jumps, sprints, impact, changes of direction, accelerations and deceleration, among many others. It also works both indoors and outdoors.~\cite{kinexonarticle}.
+%REFERENCE https://kinexon.com/technology/player-tracking
+
+ShotTracker is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court.
+The Anchors are what locates the players and the ball. All the data that is collected is analysed and displayed in an application in real-time.
+%REFERENCE https://shottracker.com/howitworks
+
+Both systems claim to be very precise in the metrics they measure, but both
+
 
 
 % Porque é que vou falar destes tópicos?

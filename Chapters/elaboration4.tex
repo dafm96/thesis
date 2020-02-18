@@ -196,7 +196,7 @@ Alexandre's approach to jump detection relied on the recognition of a jumping pa
 
 To start this analysis, he first collected data from all the sensors of the \gls{IMU} while jumping, and searched for a pattern that could be used to identify the jump movement. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
 
-As identified by the number in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground; maximum jump height reached; the feet touch the ground. These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window.
+As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window.
 
 \begin{figure}
     \centering
