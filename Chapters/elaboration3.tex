@@ -16,7 +16,7 @@
 %---------
 
 \epigraph{
-    To achieve the goals set in Chapter \ref{cha:introduction}, this chapter proposes a system architecture that collects and processes the raw data from the IMU sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user.
+    To achieve the goals set in Chapter \ref{cha:introduction}, this chapter proposes a system architecture that collects and processes the raw data from the \gls{IMU} sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user.
 }
 
 \section{Requirements}
@@ -25,9 +25,9 @@
 
 With the goals set, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
 
-It should be able to work indoors, thus avoiding the use of systems like GPS, and it should work in any field, without the need of preinstalled structures (like a video system). 
+It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of preinstalled structures (like a video system).
 
-It also should provide real-time data of individual game metrics, calculated with the raw data from the IMU Sensors. 
+It also should provide real-time data of individual game metrics, calculated with the raw data from the \gls{IMU} Sensors.
 
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
@@ -35,7 +35,7 @@ In order to collect data from all the players of the game, the system should be 
 \label{sec:architecture}
 The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storing and Application Server; \textbf{Client} - Frontend Application.
 
-The layering of the architecture allows that each segment is completely independent in its implementation. 
+The layering of the architecture allows that each segment is completely independent in its implementation.
 The architecture will be explained in more detail in the following subsections.
 
 \begin{figure}
@@ -57,23 +57,22 @@ Specific force is a measurement of coordinate acceleration, which can be obtaine
 It is measured with accelerometers.
 Angular rate is the rate at which a body rotates, measured by gyroscopes.
 Orientation is a description of how a body is placed in the place it occupies.
-Using magnetometers, a body can be oriented relatively to the Earth's magnetic field.
-%REFERENCE https://www.vectornav.com/support/library/imu-and-ins
+Using magnetometers, a body can be oriented relatively to the Earth's magnetic field~\cite{VectorNav}.
 
-For this application, IMU Sensors armed with 3-axis accelerometer and gyroscope should be used.
+For this application, \gls{IMU} Sensors armed with 3-axis accelerometer and gyroscope should be used.
 
 The \gls{IMU} sensors should be attached to the player's body, in different locations (like the back, the foot or the hand), to track different metrics.
 
 
 \subsubsection{Edge Processing Unit}
 \label{subsubsec:epu}
-The \gls{EPU} does the "hard work". Besides handling the connection and controlling the IMU Sensors operations, like starting and stopping the raw data collection, this unit has to collect the raw data sent by the IMU Sensors several times per second, and perform calculations with the gathered raw data to measure in-game metrics, which are then sent to the server, to be stored and shown to the User.
+The \gls{EPU} does the "hard work". Besides handling the connection and controlling the \gls{IMU} Sensors operations, like starting and stopping the raw data collection, this unit has to collect the raw data sent by the \gls{IMU} Sensors several times per second, and perform calculations with the gathered raw data to measure in-game metrics, which are then sent to the server, to be stored and shown to the User.
 
 In order to be able to receive data and calculate in-game metrics from all the \gls{IMU} Sensors, one \gls{EPU} may not be sufficient. An array of \gls{EPU}'s, each one connected to different \gls{IMU} Sensors and sending data in parallel to the Server should be used.
 
 \subsection{Server}
 \label{subsec:server}
-The Server is the main piece of the architecture, allowing the interaction between the User and the IMU Sensors.
+The Server is the main piece of the architecture, allowing the interaction between the User and the \gls{IMU} Sensors.
 
 The Server can send instructions to the \gls{EPU}, controlling the \gls{IMU} Sensors operations.
 When data is received from the \gls{EPU}, the Server stores it, so that it can be shown to the User, through the Client application.

@@ -22,7 +22,7 @@
 \epigraph{
     This chapter introduces this dissertation, presenting its motivation, the challenges it poses and the objectives to be achieved. After, the expected contribuitions are defined. It finishes by describing the organizational structure of the remainder of the document.
 
-    This dissertation was developed within a corporate context, with the support of KnowledgeBiz Consulting (\gls{KBZ})~\cite{kbz}.
+    This dissertation was developed within a corporate context, with the support of \gls{KBZ}~\cite{kbz}.
 }
 
 \section{Motivation and Context} % (fold)
@@ -42,7 +42,7 @@ This granular movements can be measured in a laboratory, using biomechanical too
 
 For a complete tracking solution, we need not only to analyze the “big picture” (the movement across the field), that can be provided by \gls{GPS}, but to consider the micro or local movements, which can provide enormously relevant information for performance enhancing, fatigue analysis and recovery strategy planning.
 
-Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a \gls{GPS} unit and an inertial measuring unit (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA})~\cite{secondspectrumnba}.
+Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a \gls{GPS} unit and an \gls{IMU} (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA})~\cite{secondspectrumnba}.
 
 
 However, these systems have particular drawbacks: The \gls{GPS} signal can accurately measure the position, the speed and the displacement of a player. But it can’t measure metrics like jumps, shoots and passes or falls; When in a closed court (like most of basketball courts), there is no \gls{GPS} signal. The tracking is made using cameras around the court; Visual systems  can accurately track the position of the players and gather advanced metrics. The downside of these systems is the need of high processing power, and that the cameras are attached to the court. In this way, every court needs to have this expensive system installed to be able to track the players performance, something that is often out of reach for low ranked and amateur teams; Most times an operator is needed to tag the events recorded by the video systems, or the video is recorded and then the processed data is provided to the coaches and players.
@@ -50,16 +50,16 @@ However, these systems have particular drawbacks: The \gls{GPS} signal can accur
 In order to tackle the drawbacks of video and \gls{GPS} solutions, some commercial solutions have emerged. Kinexon and ShotTracker aim to solve this problem, by using sensors attached to the players and the ball, and having an array of sensors around the court, to collect player positions and some other metrics like distance traveled, top speed, accelerations and decelerations, and shots and passes analysis. Yet, these systems need fixed frameworks (instead of cameras, there need to be sensors attached to the field) in order to function, and are out of budget for amateur teams.
 %REFERENCE Kinexon and ShotTracker
 
-With this motivation, KnowledgeBiz Consulting (\gls{KBZ}) challenged me to develop a system capable of tracking the position and to collect insights on performance metrics of a single player and of the entire team, using real-time data from inertial sensors. Apart from the technical challenges, this system should also be available for every team, in any performance level, by being low-cost and easy to include in a training or match environment. \gls{KBZ} is providing the devices that contain the inertial sensors (accelerometer, gyroscope and magnetometer), and communicate via Bluetooth.
+With this motivation, \gls{KBZ} challenged me to develop a system capable of tracking the position and to collect insights on performance metrics of a single player and of the entire team, using real-time data from \gls{IMU} sensors. Apart from the technical challenges, this system should also be available for every team, in any performance level, by being low-cost and easy to include in a training or match environment. \gls{KBZ} is providing the devices that contain the \gls{IMU} sensors (accelerometer, gyroscope and magnetometer), and communicate via Bluetooth.
 
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
-The proposed objective of this dissertation is to develop a system based on inertial sensors like accelerometers and gyroscopes, capable of tracking game metrics, in order to provide insights about player and team performance in real-time.
+The proposed objective of this dissertation is to develop a system based on \gls{IMU} sensors like accelerometers and gyroscopes, capable of tracking game metrics, in order to provide insights about player and team performance in real-time.
 
-Several sports are often practiced indoors, which prevents the use of \gls{GPS} positioning. In this cases, a tracking system using inertial sensors like accelerometers or gyroscopes can be used. In order to test this tracking system, basketball was the sport chosen.
+Several sports are often practiced indoors, which prevents the use of \gls{GPS} positioning. In this cases, a tracking system using \gls{IMU} sensors like accelerometers or gyroscopes can be used. In order to test this tracking system, basketball was the sport chosen.
 
-Basketball is a good sport to track player movements because: it has a high number of events occurring in small time frames when comparing to other team sports like football; the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team); it’s one of the sports that invests more in new technologies (\gls{IoT}) to track players and teams.
+Basketball is a good sport to track player movements because: it has a high number of events occurring in small time frames when comparing to other team sports like football; the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team); it’s one of the sports that invests more in new technologies \gls{IoT} to track players and teams.
 
 % In order to track players, the following topics need to be studied:
 % \begin{itemize}
@@ -81,7 +81,7 @@ A frontend application should be developed, displaying individual metrics for ea
 
 % An a priori problem that will need to be tackled is the quality of the data collected the sensors, that can present reading errors or unreliable data. This depends on various factors: the sensibility and the quality of the sensors, and the location of this sensors in the body. To help correct these errors, a filtering technique can be used. Depending to detect other activities, like dribbles or shoots, more sensors will be necessary on different body parts on the metrics to be measured, different placements of the sensors on the body will have to be tested.
 
-Summarizing, the main goal of this dissertation is to study and analyse ways to track player positions and to measure basketball game metrics, collected from inertial sensors, and to illustrate those insights to the users (e.g.\ coaches, players) through an application, providing a central location to monitor and analyze the players and the team.
+Summarizing, the main goal of this dissertation is to study and analyse ways to track player positions and to measure basketball game metrics, collected from \gls{IMU} sensors, and to illustrate those insights to the users (e.g.\ coaches, players) through an application, providing a central location to monitor and analyze the players and the team.
 
 \section{Expected Contributions} % (fold)
 \label{sec:contribuitions}
@@ -95,9 +95,9 @@ Summarizing, the main goal of this dissertation is to study and analyse ways to 
 
 The expected contributions of this dissertation are:
 \begin{enumerate}
-    \item Exploratory analysis of relevant basketball metrics, obtained from inertial sensor data
+    \item Exploratory analysis of relevant basketball metrics, obtained from \gls{IMU} sensor data
     \item Implementation of a body sensor using a wireless communication protocol to transmit data
-    \item Development of an system that collects data from inertial sensors, analyses it and displays the insights for the players and the team
+    \item Development of an system that collects data from \gls{IMU} sensors, analyses it and displays the insights for the players and the team
     \item Publication of a paper in international conference proceedings
 \end{enumerate}
 

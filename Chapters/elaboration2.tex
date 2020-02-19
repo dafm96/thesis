@@ -2,50 +2,56 @@
 \chapter{Related Work}
 \label{cha:relatedWork}
 Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
-The following will discuss the related works that served as a starting point to this dissertation.
+The following will present some current commercial solutions and discuss the related works that served as a starting point to this dissertation.s
 
 As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
 
-In basketball most of the games are played in an indoor court, where GPS signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use GPS won't be discussed.
+In basketball most of the games are played in an indoor court, where \gls{GPS} signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use \gls{GPS} won't be discussed.
 
-The most used way of track Basketball players is using video tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}. %REFERENCE NBAstuffer. Second Spectrum Data. 2018. url: https://www.nbastuffer.com/analytics101/second-spectrum/ (visited on 07/09/2019).
-This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more. %REFERENCE https://aws.amazon.com/pt/blogs/media/la-clippers-take-the-clippers-courtvision-viewing-experience-to-the-next-level-with-aws/
+\section{Commercial Solutions}
+The most used way of track Basketball players is using video tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}.
+
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
 
-Many other sports use video tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
+Many other sports use video tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred~\cite{VanderKruk2018}.
 
-Other way to track players is using a sensor based approach. Multiple commercial products are used by both amateur and professional teams. 
+Other way to track players is using a sensor based approach. Multiple commercial products are used by both amateur and professional teams.
 
-Kinexon~\cite{kinexon} developed a player tracking system based on \gls{UWB}. It is comprised of wearable player sensors, and an array of base-sensors placed around the court. It can deliver precise 3D-position data, and detects metrics like jumps, sprints, impact, changes of direction, accelerations and deceleration, among many others. It also works both indoors and outdoors.~\cite{kinexonarticle}.
-%REFERENCE https://kinexon.com/technology/player-tracking
+Kinexon~\cite{Kinexon20} developed a player tracking system based on \gls{UWB}. It is comprised of wearable player sensors, and an array of base-sensors placed around the court. It can deliver precise 3D-position data, and detects metrics like jumps, sprints, impact, changes of direction, accelerations and deceleration, among many others. It also works both indoors and outdoors.~\cite{WearableTechnologies}.
 
-ShotTracker is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court.
+ShotTracker~\cite{ShotTracker} is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court.
 The Anchors are what locates the players and the ball. All the data that is collected is analysed and displayed in an application in real-time.
-%REFERENCE https://shottracker.com/howitworks
 
-Both systems claim to be very precise in the metrics they measure, but both
+Both systems claim to be very precise in the metrics they measure, but both systems also need a infrastructure to be placed around the field, which increases the cost and removes the ability to play in different fields, which are two important factors for amateur teams.%TODO REFERENCE
 
+\section{Related work}
 
+Apart from these already implemented commercial solutions, several authors propose means of transforming data from \gls{IMU} Sensor into meaningful metrics.
 
-% Porque é que vou falar destes tópicos?
-% Porque não vou falar do GPS? 
-% "Como falado nos objetivos....."
+\subsection{Human Activity Recognition}
+In the area of general human activity recognition, Kerem Altun and Billur Barshan~\cite{Altun2010} propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using machine learning techniques.
+%TODO terminar
 
-% Trabalho relacionado sobre:
-% \begin{enumerate}
-%     \item Algoritmos de tracking de posição usando IMUs
-%     \begin{itemize}
-%         \item Analysis of NBN23 system: %https://www.mdpi.com/1424-8220/18/6/1940
-%         \item Madgwick %https://x-io.co.uk/gait-tracking-with-x-imu/
-%         \item Carl Fischer %https://ieeexplore.ieee.org/document/6127851
-%         \item https://iopscience.iop.org/article/10.1088/1757-899X/138/1/012005/pdf
-%     \end{itemize}
-%     \item Algoritmos de métricas
-%         \begin{itemize}
-%             \item 9 movement recognition with neural networks:
-%             \item %https://ieeexplore.ieee.org/abstract/document/8713634
-%             \item Using Wrist-Worn Activity Recognition for Basketball Game Analysis %10.1145/3266157.3266217
-%         \end{itemize}
-%     \item Outros trabalhos de métricas de performance (em equipa?)
-%     \item ???Rede de Sensores???
-% \end{enumerate}
+Regarding pedestrian tracking, Wonho Kang and Youngnam Han~\cite{Kang2015} propose an indoor location system using smartphone sensors, using step detection, step length estimation and heading direction estimation to trace the path.
+
+Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} propose a tutorial that implements a pedestrian tracker using a Kalman Filter and correcting the velocity using zero-velocity updates and correcting the gyroscope bias.
+
+Sebastian Madgwick~\cite{Madgwick} presents a novel orientation algorithm, that claims to be more accurate than the Kalman based algorithm.
+Both approaches use a shoe-mounted sensor.
+
+%TODO Bruno Figueira???
+
+% From these three approaches, Madgwick~\cite{madgwick} shows the best results, with a result of walking distance and heading very close to the real distance and path covered. 
+
+\subsection{Basketball Activity Recognition}
+N. F. Ghazali \textit{et al.}~\cite{Ghazali2018} compare different machine learning techniques to identify common human activities like walking, jogging, running and jumping, achieving an accuracy of 91\% in the best classifier.
+
+Le Nguyen Ngu Nguyen \textit{et al.}~\cite{Nguyen2015} use a multi-sensor system to identify general activities like walking, jogging and running, but also basketball-specific activities like jumpshot, layupshot and pivot, using a Support-Vector-Machine-based classifier.
+
+Xiangyi Meng \textit{et al.}~\cite{Meng2018} use a wrist worn inertial sensor to identify shoots, passes and dribbles using an SVM classifier. Dribbles were well recognized, but shoots and passes were often confused.
+
+Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in order to identify the posture of basketball player, and recognize nine other basketball movements, such as stand, walk, run, jump, in-situ dribble, dribble while walking, dribble while running, set shot, and jump shot. Using a neural network algorithm to identify this movements, an accuracy of 98.9\% is achieved.
+
+Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifiyng activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
+
+% Although there is some research in pedestrian dead reckoning and human activity recognition, especially on basketball activity recognition, these areas don’t seem to be related. This dissertation aims to bring those areas together, performing positional tracking and basketball activity recognition using the same inertial sensors.
