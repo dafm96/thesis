@@ -30,7 +30,7 @@ To measure these properties of the movement, there are three type of sensors tha
 The \gls{IMU} Sensors used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
 
 \section{Performance Metrics in Basketball}
-To achieve the goal to collect insightful information of a basketball game, a set of game metrics were chosen, focusing on three body locations: foot, lower back and hand.
+To achieve the goal to collect insightful information of a basketball game, with the data described in \ref{sec:data}, a set of game metrics were chosen, focusing on three body locations: foot, lower back and hand.
 
 Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory.
 
@@ -43,7 +43,9 @@ The following sections will explain in detail how the metrics are calculated, us
 \subsection{Trajectories}
 \label{subsubsec:trajectories}
 %TODO falar que este algoritmo deu bons resultados quando apenas se andava, mas não é mmuito fiável a correr. Also a distância era bastante mais alta que a trajetória real pecorrida
-% To track the player's trajectories, the selected approach was Implementing a Pedestrian Tracker Using Inertial Sensors~\cite{tutorial},
+To track the player's trajectories, the tutorial Implementing a Pedestrian Tracker Using Inertial Sensors~\cite{Fischer2013} was followed, as it produces good results in their implementation.
+
+Fischer proposes a simple and effective way to implement an accurate pedestrian tracker, using Kalman Filtering to estimate velocity, position and orientation errors, and Zero Velocity Detection, to correct these errors. 
 
 \subsection{Steps}
 The detection of steps takes advantage of the algorithm explained in ~\ref{subsubsec:trajectories}, especially the Zero-Velocity Detection.
