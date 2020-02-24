@@ -158,7 +158,8 @@ The behavior of the algorithm is described in Listing~\ref{lst:stepAlgorithm}.
 This algorithm can be improved in the detection of the "sections"{} of ones, as it can sometimes fail. For example, if in one step sequence we had 3 occurrences of zeros inside a large sequence of ones, the algorithm would count 2 steps instead of 1 step. However, when testing the results were satisfactory, so no more work was done in the development of this algorithm.
 
 \subsubsection{Dribbles}
-For measuring the dribbling, an algorithm developed by Alexandre Martins during his internship in \gls{KBZ}.
+
+For measuring the dribbling, an algorithm was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
 
 The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
 
@@ -171,8 +172,7 @@ The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist 
     \caption{Position of the sensor in the hand}
     \label{fig:sensorDribble}
 \end{figure}
-
-By collecting data from the \gls{IMU} Sensor placed in the hand, Alexandre concluded that the Y-Axis from the accelerometer (the movement to the front or to the back of the arm) and the X-Axis of the gyroscope (rotating the hand up or down) where the most important axis to analyse the dribbling movement. The graphs shown in Figure~\ref{fig:graphdribble} presents the graphs of a sequence of 20 dribbles, with data from the Y-Axis of the accelerometer and the X-Axis of the gyroscope.
+By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded that the Y-Axis from the accelerometer (the movement to the front or to the back of the arm) and the X-Axis of the gyroscope (rotating the hand up or down) where the most important axis to analyse the dribbling movement. The graphs shown in Figure~\ref{fig:graphdribble} present the plot of a sequence of 20 dribbles, with data from the Y-Axis of the accelerometer and the X-Axis of the gyroscope.
 
 \begin{figure}[htbp]
     \centering
@@ -190,11 +190,10 @@ To detect if it is a dribble, the algorithm finds a maximum value in both accele
 This algorithm was adapted and implemented in the system, to receive data in real-time from the \gls{IMU} sensor placed in the wrist.
 
 \subsubsection{Jumps}
-The method of identifying jumps was developed by Alexandre Martins, during his internship in \gls{KBZ}.
-%TODO como referenciar o trabalho do alexandre?
-Alexandre's approach to jump detection relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
+The method of identifying jumps was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
+To detect jumps, the approach relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
 
-To start this analysis, he first collected data from all the sensors of the \gls{IMU} while jumping, and searched for a pattern that could be used to identify the jump movement. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
+To start this analysis, it was firstly collected data from all the sensors of the \gls{IMU} while jumping, and a pattern that could be used to identify the jump movement was searched. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
 
 As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window.
 
@@ -205,7 +204,7 @@ As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 
     \label{fig:jumpacc}
 \end{figure}
 
-After identifying this pattern, Alexandre suggests a Fourier analysis on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, Alexandre concluded that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
+After identifying this pattern, a Fourier analysis is applied on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, the conclusion was that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
 
 \begin{figure}
     \centering
@@ -214,7 +213,7 @@ After identifying this pattern, Alexandre suggests a Fourier analysis on the dat
     \label{fig:jumpfourier}
 \end{figure}
 
-The algorithm that was developed by Alexandre was used in the system implementation, and received the real time data from the X-axis of the \gls{IMU} Sensor placed in the lower back.
+The developed algorithm is used in the system implementation, and it received the real time data from the X-axis of the \gls{IMU} Sensor placed in the lower back.
 
 \section{Server}
 The server is built as a \gls{REST} \gls{API}, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and \gls{API}'s. %REFERENCE nodejs, rest, api, express
