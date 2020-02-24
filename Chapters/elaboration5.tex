@@ -22,16 +22,21 @@
 \end{figure}
 
 \begin{enumerate}
-    \item Comunicação - Perda de pacotes IMU -$>$ rPi
+    \item Disponibilidade dos dados
     \begin{enumerate}
-        \item raspberry Pi 3b+
-        \item raspberry Pi 4
+        \item de acordo com a Distância
+        \item de acordo com o nº de dispositivos
+        \item de acordo com a versão do rPi
     \end{enumerate}
-    \item Fiabilidade dos algoritmos
+    \item Qualidade dos dados
+    \begin{enumerate}
+        \item registos errados (outliers, gravdiade errada)
+        \item Ruido associado
+    \end{enumerate}
+    \item Fiabilidade das métricas
     \begin{enumerate}
         \item Dribbles
         \item Saltos - Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
         \item Passos/Distância
     \end{enumerate}
-    \item Apresentação dos dados
 \end{enumerate}
