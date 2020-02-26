@@ -1,28 +1,6 @@
 %!TEX root = ../elaboration.tex
 \chapter{System Proposal}
 \label{cha:systemProposal}
-%Descrição da arquitetura
-%\begin{itemize}
-%    \item Como recebemos dados dos IMU
-%    \item Quando recebemos dados dos IMU (freq.)
-%    \item 3 "Módulos" - Explicar cada um deles
-%    \begin{enumerate}
-%        \item Edge: sensores e raspberry Pi
-%        \item Server
-%        \item Client
-%    \end{enumerate}
-%    \item Comunicação entre os módulos
-%\end{itemize}
-%---------
-
-%TODO porque é q a arquitetura foi pensada assim
-%TODO justificar a escalabilidade
-%TODO inicialmente pensou-se em processamento no terminal (telemovel), mas porque é que se deve passar para a edge
-%TODO descrever mais cada um dos módulos
-%TODO server métricas já calculadas, que possa ter por cima uma camada analitica
-%TODO interface para ambientes moveis que permite consultar dados armazenados, e ter por cima uma camada analitica
-%TODO diferente informações para treinadores ou público
-
 
 \epigraph{
     To achieve the goals set in Chapter \ref{cha:introduction}, this chapter proposes a system architecture that collects and processes the raw data from the \gls{IMU} sensors and transforms it into meaningful metrics, storing it, and then presents it in a clear way to the user.
@@ -30,8 +8,6 @@
 
 \section{Requirements}
 \label{sec:requirements}
-%TODO Explicar problematica e justificar arquitetura
-
 With the goals set, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
 
 It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of preinstalled structures (like a video system).
@@ -40,12 +16,11 @@ It also should provide real-time data of individual game metrics, calculated wit
 
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
+Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the \gls{IMU} Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
+
 \section{Architecture}
 \label{sec:architecture}
-The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storing and Application Server; \textbf{Client} - Frontend Application.
-
-The layering of the architecture allows that each segment is completely independent in its implementation.
-The architecture will be explained in more detail in the following subsections.
+The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storage and Application Server; \textbf{Client} - Frontend Application.
 
 \begin{figure}
     \centering
@@ -54,9 +29,14 @@ The architecture will be explained in more detail in the following subsections.
     \label{fig:architectureProposal}
 \end{figure}
 
+The layering of the architecture allows that each segment is completely independent in its implementation.
+The architecture will be explained in more detail in the following subsections.
+
 \subsection{Edge}
 \label{subsec:edge}
 The Edge segment is composed of at least one \gls{IMU} Sensor and one \gls{EPU}, that controls and receives information directly from the \gls{IMU} Sensor. The \gls{EPU} should also be capable of calculating insightful metrics, calculated with the raw data acquired from the \gls{IMU} Sensors.
+
+Due to the variable number of players being tracked, and the number of \gls{IMU} sensors placed in each player, the system should be able to collect data from all the \gls{IMU} sensors. The scalability of the system relies on this segment. In order to accommodate the increase of \gls{IMU} sensors used, more \gls{EPU} may need to be used. These should work seamlessly, collecting data from the sensors, performing calculations and sending the data to the Server.
 
 \subsubsection{IMU Sensors}
 \label{subsubsec:imu}
@@ -86,10 +66,14 @@ The Server is the main piece of the architecture, allowing the interaction betwe
 The Server can send instructions to the \gls{EPU}, controlling the \gls{IMU} Sensors operations.
 When data is received from the \gls{EPU}, the Server stores it, so that it can be shown to the User, through the Client application.
 
+The server should only store processed data. The raw data should only be used in the Edge to perform calculations. This relieves the need to process raw data in the Server, leaving room for a more complex analysis, over a bigger set of data.
+
 The Server also hosts the Client Application, which communicates tightly with the Server.
 
 \subsection{Client}
 \label{subsec:client}
-The Client Application provides the User an interface in which he can control and consult information about players, teams and games.
+The Client Application provides the end user an interface in which he can control and consult information about players, teams and games. This interface should work in multiple platforms, and should be mobile-focused.
 
-Indirectly he should trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.
+This interface should offer different operations and views for different types of users. Fans could consult more generic metrics and statistics, while a coach could manage their team and players, see detailed metrics and statistics of a player, a team or a match, and manage the sensors being used by the players.
+
+The interface should, indirectly, trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.
