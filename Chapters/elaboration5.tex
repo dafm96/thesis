@@ -2,9 +2,25 @@
 \chapter{Results}
 \label{cha:results}
 
+\section{Data Availability and Quality}
+\label{sec:resultsData}
+The evaluation of the data will be separated in two parts: the availability and the quality of the data.
+The availability will measure if all the raw data sent by the \gls{IMU} Sensors is received by the Raspberry Pi's, and what factors affect it.
+The quality will measure the degree of truthfulness of the raw data measured by the \gls{IMU} Sensors.
+
+\subsection{Data Availability}
+To measure the availability of data, it is retrieved from the \gls{IMU} Sensors, at 50Hz, from the accelerometer and gyroscope. No computations are made on the data. This means that the Raspberry Pi should receive 50 samples of Raw Data in 1 second. Measuring how many samples are missing, we can calculate the percentage of lost samples.
+
+This measurements will be made in an open space, and 3 factors will change:
+\begin{enumerate}
+    \item Distance
+    \item Number of \gls{IMU} Sensors
+    \item Raspberry Pi version (3B+ vs 4)
+\end{enumerate}
+
 \begin{table*}[ht]
 %\vspace{-0.2cm}
-\caption{Percentage of data loss (Raspberry Pi 3b+).}\label{tab:example2} \centering
+\caption{Percentage of data loss (Raspberry Pi 3b+).}\label{tab:datalossrPi3} \centering
     \begin{tabular}{lllllllll}
               & 0,6m & 1,2m & 3m    & 6m    & 9m    & 12m   & 15m   & 18m   \\ \cline{2-9}
     1 Device  & 4,27 & 4,39 & 11,25 & 18,22 & 28,04 & 15,43 & 28,16 & 19,79 \\
@@ -21,22 +37,38 @@
     \label{fig:datalossrPi3}
 \end{figure}
 
-\begin{enumerate}
-    \item Disponibilidade dos dados
-    \begin{enumerate}
-        \item de acordo com a Distância
-        \item de acordo com o nº de dispositivos
-        \item de acordo com a versão do rPi
-    \end{enumerate}
-    \item Qualidade dos dados
-    \begin{enumerate}
-        \item registos errados (outliers, gravdiade errada)
-        \item Ruido associado
-    \end{enumerate}
-    \item Fiabilidade das métricas
-    \begin{enumerate}
-        \item Dribbles
-        \item Saltos - Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
-        \item Passos/Distância
-    \end{enumerate}
-\end{enumerate}
+\subsection{Data Quality}
+\lipsum[1-2]
+
+\section{Metrics Performance}
+\label{sec:resultsMetrics}
+\subsection{Trajectories}
+\lipsum[1-2]
+
+\subsection{Steps}
+\lipsum[1-2]
+
+\subsection{Dribbles}
+\lipsum[1-2]
+
+\subsection{Jumps}
+\lipsum[1-2]
+% \begin{enumerate}
+%     \item Disponibilidade dos dados
+%     \begin{enumerate}
+%         \item de acordo com a Distância
+%         \item de acordo com o nº de dispositivos
+%         \item de acordo com a versão do rPi
+%     \end{enumerate}
+%     \item Qualidade dos dados
+%     \begin{enumerate}
+%         \item registos errados (outliers, gravdiade errada)
+%         \item Ruido associado
+%     \end{enumerate}
+%     \item Fiabilidade das métricas
+%     \begin{enumerate}
+%         \item Dribbles
+%         \item Saltos - Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
+%         \item Passos/Distância
+%     \end{enumerate}
+% \end{enumerate}
