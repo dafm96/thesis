@@ -11,48 +11,104 @@ The quality will measure the degree of truthfulness of the raw data measured by 
 \subsection{Data Availability}
 To measure the availability of data, it is retrieved from the \gls{IMU} Sensors, at 50Hz, from the accelerometer and gyroscope. No computations are made on the data. This means that the Raspberry Pi should receive 50 samples of Raw Data in 1 second. Measuring how many samples are missing, we can calculate the percentage of lost samples.
 
-This measurements will be made in an open space, and 3 factors will change:
-\begin{enumerate}
-    \item Distance
-    \item Number of \gls{IMU} Sensors
-    \item Raspberry Pi version (3B+ vs 4)
-\end{enumerate}
+This measurements will be made in an open space, changing 3 factors: the Raspberry Pi version (3B+ vs 4); the distance between the Raspberry Pi and the \gls{IMU} Sensors; the number of \gls{IMU} Sensors.
 
-\begin{table*}[ht]
-%\vspace{-0.2cm}
-\caption{Percentage of data loss (Raspberry Pi 3b+).}\label{tab:datalossrPi3} \centering
-    \begin{tabular}{lllllllll}
-              & 0,6m & 1,2m & 3m    & 6m    & 9m    & 12m   & 15m   & 18m   \\ \cline{2-9}
-    1 Device  & 4,27 & 4,39 & 11,25 & 18,22 & 28,04 & 15,43 & 28,16 & 19,79 \\
-    3 Devices & 5,65 & 7,68 & 12,50 & 18,79 & 21,76 & 16,60 & 39,50 & 26,78 \\
-    6 Devices & 6,52 & 6,05 & 15,53 & 16,31 & 21,64 & 19,77 & 32,90 & 21,78 \\
-    9 Devices & 6,17 & 7,63 & 12,80 & 19,98 & 28,65 & 36,62 & 40,37 & 32,96 \\
-    \end{tabular}
-\end{table*}
+The results from the different versions of the Raspberry Pi are displayed in Figures \ref{fig:datalossrPi3} and \ref{fig:datalossrPi4}. Between the two versions there is a big discrepancy in the percentage of samples lost, right from the closest distance. While Raspberry Pi 3B+ presents values between 5 and 10 percent, Raspberry Pi 4 has values between 0 and 1 percent. From there, every distance has a higher sample loss registered in Raspberry Pi 3B+ than in Raspberry Pi 4. This has to do with the introduction of the new version of Bluetooth 5.0 in the newer version of the Raspberry Pi.
+
+% \begin{table*}[ht]
+% %\vspace{-0.2cm}
+% \caption{Percentage of data loss (Raspberry Pi 3b+).}\label{tab:datalossrPi3} \centering
+%     \begin{tabular}{lllllllll}
+%               & 0,6m & 1,2m & 3m    & 6m    & 9m    & 12m   & 15m   & 18m   \\ \cline{2-9}
+%     1 Device  & 4,27 & 4,39 & 11,25 & 18,22 & 28,04 & 15,43 & 28,16 & 19,79 \\
+%     3 Devices & 5,65 & 7,68 & 12,50 & 18,79 & 21,76 & 16,60 & 39,50 & 26,78 \\
+%     6 Devices & 6,52 & 6,05 & 15,53 & 16,31 & 21,64 & 19,77 & 32,90 & 21,78 \\
+%     9 Devices & 6,17 & 7,63 & 12,80 & 19,98 & 28,65 & 36,62 & 40,37 & 32,96 \\
+%     \end{tabular}
+% \end{table*}
 
 \begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{PacketLoss(RaspberryPi3).pdf}
-    \caption{Percentage of data loss (Raspberry Pi 3b+)}
+    \includegraphics[width=.7\textwidth]{PacketLoss(RaspberryPi3).pdf}
+    \caption{Percentage of data loss (Raspberry Pi 3B+)}
     \label{fig:datalossrPi3}
 \end{figure}
 
+Increasing the number of devices doesn't seem to correlate with a bigger sample loss. Even though sometimes the highest number of devices has the higher percentage of lost samples, that doesn't always verifies.
+
+However, increasing the distance increases, in the vast majority of the cases, the percentage of samples lost. In both graphs we see an increasing trend, no matter the version of the Raspberry Pi used or the number of devices connected.
+
+There are some outliers, like the sudden decrease at 12 meters in Figure~\ref{fig:datalossrPi3}, or the peak of percentage of lost samples using 1 device, at 9 meters, in Figure~\ref{fig:datalossrPi4}. These could be caused by other bluetooth devices in the proximity, or other sources of noise, or the unreliable quality of the sensors.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{PacketLoss(RaspberryPi4).pdf}
+    \caption{Percentage of data loss (Raspberry Pi 4)}
+    \label{fig:datalossrPi4}
+\end{figure}
+
 \subsection{Data Quality}
-\lipsum[1-2]
+
+Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Tables \ref{tab:qualexample1} and \ref{tab:qualexample2} show two examples of the first 20 samples collected from two different sensors, both placed side by side, in a plane surface. The rest of the samples where omitted, since these are enough to illustrate the big picture.
+
+As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. This data should be discarded, as it doesn't correspond to reality.
+
+Ignoring the first row, the data we seem is very noisy. The sensors aren't moving, yet the gyroscope shows significant values in the x axis of Table~\ref{tab:qualexample1} and x and y axis of Table~\ref{tab:qualexample2}. With a still device, these values should be zero, or close to zero. The z axis of the gyroscope in Table~\ref{tab:qualexample1} is the one that is closest to being zero.
+
+In the accelerometer, the only axis that should have some value other than zero should be the z axis, and it should be the value of the force of gravity ($\approx 9,8 m/s^2$ ). In the examples, the values are lower than what they should be, and there is acceleration in the x and y axis, when there should be none, as the sensors are in a leveled surface. This may happen due to incorrect internal placement of the sensor inside its housing, leading to incorrect readings when the housing is leveled.
+
+%TODO falar correcao bias
+
+%EXAMPLE 1
+\begin{table}[]
+    \centering
+    \caption{Data Quality Example 1}
+    \label{tab:qualexample1}
+    \begin{tabular}{lllllll}
+        time & accX     & accY     & accZ    & gyrX    & gyrY     & gyrZ     \\
+        0,02    & -4,16082 & -1,82440 & 8,18885 & 0,19548 & -0,11718 & -0,08842 \\
+        0,04    & 0,68071  & -0,42111 & 9,64837 & 0,16725 & -0,07457 & -0,01704 \\
+        0,06    & 0,69985  & -0,43666 & 9,64238 & 0,16778 & -0,07404 & -0,01704 \\
+        0,08    & 0,70224  & -0,47135 & 9,64597 & 0,16832 & -0,07457 & -0,01651 \\
+        0,10    & 0,69028  & -0,43905 & 9,64597 & 0,16725 & -0,07564 & -0,01545 \\
+        0,12    & 0,68669  & -0,45101 & 9,63521 & 0,16991 & -0,07564 & -0,01545 \\
+        0,14    & 0,70224  & -0,44743 & 9,61965 & 0,16672 & -0,07457 & -0,01651 \\
+        0,16    & 0,68071  & -0,44743 & 9,64358 & 0,16778 & -0,07617 & -0,01545 \\
+        0,18    & 0,69148  & -0,47374 & 9,62205 & 0,16619 & -0,07457 & -0,01758 \\
+        0,20    & 0,69507  & -0,44025 & 9,62683 & 0,16725 & -0,07510 & -0,01598
+    \end{tabular}
+\end{table}
+
+\begin{table}[]
+    \centering
+    \caption{Data Quality Example 2}
+    \label{tab:qualexample2}
+    \begin{tabular}{lllllll}
+        time & accX     & accY     & accZ    & gyrX    & gyrY     & gyrZ     \\
+        0,02    & -5,80936 & -2,53741 & 8,16612 & 0,17844 & -0,25194 & -0,07617 \\
+        0,04    & -0,99295 & -0,16868 & 9,77996 & 0,14009 & -0,29882 & -0,03569 \\
+        0,06    & -0,98338 & -0,13758 & 9,75723 & 0,14328 & -0,30041 & -0,03622 \\
+        0,08    & -0,98936 & -0,16868 & 9,74288 & 0,14115 & -0,30041 & -0,03462 \\
+        0,10    & -0,98697 & -0,16509 & 9,73211 & 0,14168 & -0,29988 & -0,03569 \\
+        0,12    & -0,99175 & -0,14954 & 9,77159 & 0,14168 & -0,30095 & -0,03622 \\
+        0,14    & -0,99056 & -0,17107 & 9,76919 & 0,14115 & -0,29988 & -0,03569 \\
+        0,16    & -0,99534 & -0,15791 & 9,75125 & 0,14115 & -0,30148 & -0,03622 \\
+        0,18    & -0,98218 & -0,16390 & 9,77039 & 0,14328 & -0,30041 & -0,03729 \\
+        0,20    & -0,99534 & -0,16509 & 9,74288 & 0,14062 & -0,29882 & -0,03515
+    \end{tabular}
+\end{table}
+
 
 \section{Metrics Performance}
 \label{sec:resultsMetrics}
 \subsection{Trajectories}
-\lipsum[1-2]
 
 \subsection{Steps}
-\lipsum[1-2]
 
 \subsection{Dribbles}
-\lipsum[1-2]
 
 \subsection{Jumps}
-\lipsum[1-2]
+
 % \begin{enumerate}
 %     \item Disponibilidade dos dados
 %     \begin{enumerate}
