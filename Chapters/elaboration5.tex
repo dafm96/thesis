@@ -2,6 +2,8 @@
 \chapter{Results}
 \label{cha:results}
 
+\epigraph{This chapter will present the results of the implemented system, divided in two main sections. The first will analyse the quality and availability of the data collected by the \gls{IMU} Sensors, and the second will analyse the performance of the game metrics.}
+
 \section{Data Availability and Quality}
 \label{sec:resultsData}
 The evaluation of the data will be separated in two parts: the availability and the quality of the data.
@@ -53,13 +55,12 @@ Regarding data quality, the raw data from a still sensor in a leveled surface wi
 
 As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. This data should be discarded, as it doesn't correspond to reality.
 
-Ignoring the first row, the data we seem is very noisy. The sensors aren't moving, yet the gyroscope shows significant values in the x axis of Table~\ref{tab:qualexample1} and x and y axis of Table~\ref{tab:qualexample2}. With a still device, these values should be zero, or close to zero. The z axis of the gyroscope in Table~\ref{tab:qualexample1} is the one that is closest to being zero.
+Ignoring the first row, the data we see is very noisy. The sensors aren't moving, yet the gyroscope shows significant values in the $X$ axis of Table~\ref{tab:qualexample1} and $X$ and $Y$ axis of Table~\ref{tab:qualexample2}. With a still device, these values should be zero, or close to zero. The $Z$ axis of the gyroscope in Table~\ref{tab:qualexample1} is the one that is closest to being zero.
 
 In the accelerometer, the only axis that should have some value other than zero should be the z axis, and it should be the value of the force of gravity ($\approx 9,8 m/s^2$ ). In the examples, the values are lower than what they should be, and there is acceleration in the x and y axis, when there should be none, as the sensors are in a leveled surface. This may happen due to incorrect internal placement of the sensor inside its housing, leading to incorrect readings when the housing is leveled.
 
-%TODO falar correcao bias
+One way of correcting these errors is by removing the bias of the gyroscope values. This can be done by collecting data from each axis of the gyroscope, while the \gls{IMU} sensor is still, and to average the values of each axis. This gives the average bias. Then, for each sample, this calculated average bias should be subtracted from the gyroscope readings.
 
-%EXAMPLE 1
 \begin{table}[]
     \centering
     \caption{Data Quality Example 1}
