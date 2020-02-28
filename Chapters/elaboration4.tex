@@ -164,7 +164,7 @@ In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspbe
 %REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
 It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
 
-When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in %TODO cross-reference
+When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was also available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in %TODO cross-reference
 
 There where also available two type of \gls{IMU} Sensors, with different communication technologies: one with WiFi communication, and other with BLE communication. After testing, the WiFi sensor was disregarded, due to incompatibilities with the sensibility of the sensor being to high for the performance metrics algorithms, the need to set a dedicated local network in order to connect the WiFi IMU Sensors with the Raspberry Pi's and the bigger power consume they have in comparison with the Bluetooth devices.
 
@@ -295,7 +295,7 @@ The client application was developed in React, and is capable of controlling the
 
 The application communicates directly with the \gls{API}, through HTTP, and consumes the \gls{API} exposed by the server. This means that the Client application is divided into 3 parts: players, teams and games.
 
-Some of the API features described in \ref{susubsec:API} weren't implemented in the client application, like the ability to edit teams and players.
+The implementation of the client application was developed with a focus on the coach perspective. Some of the API features described in \ref{susubsec:API} weren't implemented in the client application, like the ability to edit teams and players.
 
 \subsubsection{Players}
 The main Players page shows a list of all players, and their current team, as shown in Figure~\ref{fig:playerList}. It also allows the user to add a player, by providing their name and the team they belong to, as shown in Figure~\ref{fig:playerAdd}.
