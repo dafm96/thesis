@@ -11,22 +11,25 @@ The International System of Units use metre per second squared ($m/s^2$) for acc
 
 To measure these properties of the movement, there are three types of sensors that are frequently used to quantify these components of the movement: accelerometer, gyroscope and magnetometer. The combination of the three sensors is called an \gls{IMU}. An example of data collected by an \gls{IMU} while walking is presented in Figure~\ref{fig:rawExamples}.
 
+%TODO talk about the graphs
+
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Accelerometer Raw Data\label{fig:accExample}}%
-    {\includegraphics[width=0.5\linewidth]{XYZ_Acceleration_example.pdf}}%
+    {\includegraphics[width=0.7\linewidth]{XYZ_Acceleration_example.pdf}}%
     \\
     \subcaptionbox{Gyroscope Raw Data\label{fig:gyrExample}}%
-    {\includegraphics[width=0.5\linewidth]{XYZ_Gyroscope_example}}%
-    \subcaptionbox{Gyroscope Raw Data\label{fig:magExample}}%
-    {\includegraphics[width=0.5\linewidth]{XYZ_Magnetometer_example}}%
+    {\includegraphics[width=0.7\linewidth]{XYZ_Gyroscope_example}}%
+    \\
+    \subcaptionbox{Magnetometer Raw Data\label{fig:magExample}}%
+    {\includegraphics[width=0.7\linewidth]{XYZ_Magnetometer_example}}%
     \caption{Raw Data Examples}
     \label{fig:rawExamples}
 \end{figure}
 
 \section{Performance Metrics in Basketball}
 \label{sec:metrics}
-To achieve the goal to collect insightful information of a basketball game, with the data described in \ref{sec:data}, a set of game metrics were chosen, focusing on three body locations: foot, lower back and hand.
+To achieve the goal to collect insightful information of a basketball game, with the data described in Section \ref{sec:data}, a set of game metrics were chosen, focusing on three body locations: foot, lower back and hand.
 
 Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory.
 
@@ -164,7 +167,7 @@ In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspbe
 %REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
 It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
 
-When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was also available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in %TODO cross-reference
+When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was also available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in Chapter~\ref{cha:results}.
 
 There where also available two type of \gls{IMU} Sensors, with different communication technologies: one with WiFi communication, and other with BLE communication. After testing, the WiFi sensor was disregarded, due to incompatibilities with the sensibility of the sensor being to high for the performance metrics algorithms, the need to set a dedicated local network in order to connect the WiFi IMU Sensors with the Raspberry Pi's and the bigger power consume they have in comparison with the Bluetooth devices.
 
