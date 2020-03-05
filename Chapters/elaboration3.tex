@@ -8,19 +8,25 @@
 
 \section{Requirements}
 \label{sec:requirements}
-With the goals set, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
+With the goals set in Section~\ref{sec:objectives}, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
 
 It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of preinstalled structures (like a video system).
 
-It also should provide real-time data of individual game metrics, calculated with the raw data from the \gls{IMU} Sensors.
+It also should provide real-time data of individual game metrics, calculated with the raw data from Wearable Sensors. This raw data should only serve to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
 
+A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
-Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the \gls{IMU} Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
+The user, whether he is a coach, a player or a fac, should be able to view the processed data and statistics from players, teams and games, in a mobile application.
+
+Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the Wearable Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
 
 \section{Architecture}
 \label{sec:architecture}
 The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storage and Application Server; \textbf{Client} - Frontend Application.
+
+The layering of the architecture allows that each segment is completely independent in its implementation.
+The architecture will be explained in more detail in the following subsections.
 
 \begin{figure}
     \centering
@@ -28,9 +34,6 @@ The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and
     \caption{Proposed Architecture}
     \label{fig:architectureProposal}
 \end{figure}
-
-The layering of the architecture allows that each segment is completely independent in its implementation.
-The architecture will be explained in more detail in the following subsections.
 
 \subsection{Edge}
 \label{subsec:edge}
