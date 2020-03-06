@@ -64,7 +64,7 @@ Fischer proposes a simple and effective way to implement an accurate pedestrian 
 \begin{figure}
     \centering
     \includegraphics[width=.6\textwidth]{tutorial_methodology.pdf}
-    \caption{Fischer Algorithm~\cite{Fischer2013}}
+    \caption{Fischer's Pedestrian Tracking Algorithm~\cite{Fischer2013}}
     \label{fig:methodology}
 \end{figure}
 
@@ -127,10 +127,10 @@ By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded th
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Accelerometer y-axis graph\label{fig:accDribble}}%
-    {\includegraphics[width=0.7\linewidth]{dribble_acc.pdf}}%
+    {\includegraphics[width=0.8\linewidth]{dribble_acc.pdf}}%
     \\
     \subcaptionbox{Gyroscope x-axis graph\label{fig:gyrDribble}}%
-    {\includegraphics[width=0.7\linewidth]{dribble_gyr.pdf}}%
+    {\includegraphics[width=0.8\linewidth]{dribble_gyr.pdf}}%
     \caption{Accelerometer and gyroscope during 20 dribbles}
     \label{fig:graphdribble}
 \end{figure}
@@ -145,13 +145,20 @@ To detect jumps, the approach relied on the recognition of a jumping pattern in 
 
 To start this analysis, it was firstly collected data from all the sensors of the \gls{IMU} while jumping, and a pattern that could be used to identify the jump movement was searched. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
 
-As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window.
+As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window. Figure~\ref{fig:jumpsteps} illustrates the jumping phases on a subject, using the same numbers to reference the same moments.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.4\textwidth]{jump.pdf}
+    \includegraphics[width=.5\textwidth]{jump.pdf}
     \caption{Jump X Acceleration}
     \label{fig:jumpacc}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{jumpSteps.pdf}
+    \caption{Jump Phases}%REFERENCE https://www.preprints.org/manuscript/201708.0070/v1/download
+    \label{fig:jumpsteps}
 \end{figure}
 
 After identifying this pattern, a Fourier analysis is applied on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, the conclusion was that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
@@ -170,7 +177,7 @@ The description of the System Implementation according to the proposed architect
 
 \begin{figure}
     \centering
-    \includegraphics[width=.6\textwidth]{BLESportsTrackerArchiteture.pdf}
+    \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
     \caption{Implemented Architecture}
     \label{fig:architectureImplementation}
 \end{figure}
