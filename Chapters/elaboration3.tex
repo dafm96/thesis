@@ -12,12 +12,12 @@ With the goals set in Section~\ref{sec:objectives}, and after analyzing the curr
 
 It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of preinstalled structures (like a video system).
 
-It also should provide real-time data of individual game metrics, calculated with the raw data from Wearable Sensors. This raw data should only serve to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
+It also should provide real-time data of individual game metrics, calculated with the raw data from Wearable Sensors. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
 
 A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
-The user, whether he is a coach, a player or a fac, should be able to view the processed data and statistics from players, teams and games, in a mobile application.
+The user, whether he is a coach, a player or a fan, should be able to view the processed data and statistics from players, teams and games, in a mobile application.
 
 Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the Wearable Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
 
