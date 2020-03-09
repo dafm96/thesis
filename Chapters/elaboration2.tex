@@ -4,24 +4,29 @@
 %TODO mais soluções comerciais: statsport, sportvu, nbn 23
 \chapter{State of the art analysis}
 \label{cha:relatedWork}
-Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
-The following will discuss the related works that served as a starting point to this dissertation and will present some current commercial solutions.
-
+\epigraph{Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
 As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
+The following will discuss the related works that served as a starting point to this dissertation and will present some current commercial solutions.}
 
-In basketball most of the games are played in an indoor court, where \gls{GPS} signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use \gls{GPS} won't be discussed.
+% In basketball most of the games are played in an indoor court, where \gls{GPS} signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use \gls{GPS} won't be discussed.
 
 \section{Related work}
 
-Several authors propose means of transforming data from \gls{IMU} Sensor into meaningful metrics.
+Several authors propose means of transforming data from \gls{IMU} Sensor into meaningful metrics. This section divides the related works in two: first, the related works regarding human activity recognition such as daily activities like walking, climbing stairs and pedestrian tracking will be analysed; then, related works that identify particular basketball activities such as dribbles, passes and shoots are discussed.
 
 \subsection{Human Activity Recognition}
-In the area of general human activity recognition, Kerem Altun and Billur Barshan~\cite{Altun2010} propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using machine learning techniques.
-%TODO terminar
+In the area of general human activity recognition, Kerem Altun and Billur Barshan~\cite{Altun2010} propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using data from 5 sensors placed in both legs, both arms and in the chest. 
+After extracting features and reducing the data, different classification techniques are employed to classify 19 activities. They conclude that Bayesian Decision Making is the best method to identify this type of activities, followed by k-Nearest Neighbor, both performing over 95\%.
 
-Regarding pedestrian tracking, Wonho Kang and Youngnam Han~\cite{Kang2015} propose an indoor location system using smartphone sensors, using step detection, step length estimation and heading direction estimation to trace the path.
+%REFERENCE https://doi.org/10.1016/j.eswa.2016.04.032
+Charissa Ann Ronao and Sung-Bae Cho approach the problem of the human activity recognition by proposing a deep convolutional neural network. With data collected from the accelerometer and gyroscope of a smartphone placed in the pocket, they can identify activities walking, sitting and standing, and walking upstairs and downstairs, with a precision of over 94\%.
 
-Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} propose a tutorial that implements a pedestrian tracker using a Kalman Filter and correcting the velocity using zero-velocity updates and correcting the gyroscope bias.
+%REFERENCE https://doi.org/10.1016/j.future.2017.11.029
+Hassan \textit{et al.} propose a similar method, also using data from the smartphone's accelerometer and gyroscope, but propose a different classifier. Using a Deep Belief Network, the authors compare their method with other commonly used classification methods, and present better results, with a 95.85\% accuracy.
+
+Regarding pedestrian tracking, Wonho Kang and Youngnam Han~\cite{Kang2015} propose an indoor pedestrian location system using off-the-shelf smartphones. With the embedded accelerometer, gyroscope and magnetometer sensors, they perform step detection, estimate the step length and heading direction to trace the path. The results show a satisfiable tracing of the trajectory of the subject with respect to the ground-truth reference. 
+
+Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} propose a tutorial to implement a pedestrian tracker, using a inertial sensor placed in the foot. By employing techniques like Kalman Filtering to estimate the system error from the measurements of the accelerometer and gyroscope sensors, and Zero-Velocity measurements, they can correct the velocity and position estimates, resulting in a close to ground-truth dead reckoning measurements.
 
 Sebastian Madgwick~\cite{Madgwick} presents a novel orientation algorithm, that claims to be more accurate than the Kalman based algorithm.
 Both approaches use a shoe-mounted sensor.
