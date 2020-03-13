@@ -1,7 +1,5 @@
 %!TEX root = ../elaboration.tex
 
-%TODO pesquisar Tipo de métricas a medir
-%TODO mais soluções comerciais: statsport, sportvu, nbn 23
 \chapter{State of the art analysis}
 \label{cha:relatedWork}
 \epigraph{Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
@@ -36,23 +34,26 @@ Both approaches use a shoe-mounted sensor.
 % From these three approaches, Madgwick~\cite{madgwick} shows the best results, with a result of walking distance and heading very close to the real distance and path covered. 
 
 \subsection{Basketball Activity Recognition}
-%TODO falar de outros desportos
 N. F. Ghazali \textit{et al.}~\cite{Ghazali2018} compare different machine learning techniques to identify common sport activities like being stationary, walking, running, sprinting and jumping, with data collected from an inertial sensor strapped to the chest. The raw data (accelerometer and gyroscope) was labeled, and features were extracted from this data, filtering the relevant information. Then, 5 different types of classification techniques were employed, and compared between each other. The best classifier achieved an accuracy of 91\%, successfully classifying common sport activities.
 
 Le Nguyen Ngu Nguyen \textit{et al.}~\cite{Nguyen2015} use a multi-sensor system composed by 5 sensors placed in both feet, both legs and in the back. With data collected from the accelerometers, they aim to identify general activities like walking, jogging and running, but also basketball-specific activities like jumpshot, layupshot and pivot. The raw data is firstly preprocessed and segmented, and features are extracted from this data. Then, based on the z-axis acceleration, they separate standing and moving activities. Using a Support-Vector-Machine-based classifier, the moving activities are classified. Although the classifications aren't very accurate, they conclude that more information from the sensors should be used, like the data from the gyroscopes, and that to correctly classify similar activities like dribbling (\textit{i.e.} running with the ball) and running, more sensors should be placed in different body parts (\textit{e.g} on the wrists), to differentiate these activities.
 
-Xiangyi Meng \textit{et al.}~\cite{Meng2018} use a wrist worn inertial sensor to identify shoots, passes and dribbles using an SVM classifier. Dribbles were well recognized, but shoots and passes were often confused.
+Xiangyi Meng \textit{et al.}~\cite{Meng2018} used the same classification technique, but collected Raw Data from accelerometer and gyroscope sensors, and the sensors were placed in the wrist. The authors only aimed to identify 3 basketball activities: shoots, passes and dribbles. Even though a result of 96\% is achieved for dribbling classification, shoots are easily confused with passes. 
 
-Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in order to identify the posture of basketball player, and recognize nine other basketball movements, such as stand, walk, run, jump, in-situ dribble, dribble while walking, dribble while running, set shot, and jump shot. Using a neural network algorithm to identify this movements, an accuracy of 98.9\% is achieved.
+Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in order to identify the posture of basketball player, and recognize nine other basketball movements, such as stand, walk, run, jump, in-situ dribble, dribble while walking, dribble while running, set shot, and jump shot. Using a neural network algorithm to identify this movements, an accuracy of 98.9\% is achieved, but only a subject provided the data for the test and validation phases.
 
 Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifiyng activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
 
 % Although there is some research in pedestrian dead reckoning and human activity recognition, especially on basketball activity recognition, these areas don’t seem to be related. This dissertation aims to bring those areas together, performing positional tracking and basketball activity recognition using the same inertial sensors.
+%TODO conclusões destes papers
 
 \section{Commercial Solutions}
 The most used way of track Basketball players is using video tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}.
 
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
+
+%REFERENCE https://www.statsperform.com/
+SportVU is an Optical Tracking system, used by Stats Perform, that with cameras placed around the court and the use of artificial intelligence techniques can gather innovative statistics based on player speed, distance traveled, separation, ball possession and more. They combine the tracking of the player and the ball with historical databases to provide in-depth insights for team and player performances. This optical system is available for basketball and football, and besides providing usefull information for team management, this data is also used for fan media, and for betting and fantasy content.
 
 Many other sports use video tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred~\cite{VanderKruk2018}.
 
@@ -63,4 +64,7 @@ Kinexon~\cite{Kinexon20} developed a player tracking system based on \gls{UWB}. 
 ShotTracker~\cite{ShotTracker} is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court.
 The Anchors are what locates the players and the ball. All the data that is collected is analysed and displayed in an application in real-time.
 
-Both systems claim to be very precise in the metrics they measure, but both systems also need a infrastructure to be placed around the field, which increases the cost and removes the ability to play in different fields, which are two important factors for amateur teams.%TODO REFERENCE
+%REFERENCE https://statsports.com/apex/
+STATSports is a system developed for football player tracking, by using a "pod" weared in the back, that is equipped with an accelerometer, a gyroscope, a magnetometer and that collects positional tracking using a GPS device. This device has the ability to calculate internally over 50 metrics in real-time (\textit{e.g.} total distance covered, number of accelerations or decelerations and heart rate), that are then transmitted over a \gls{UWB} network. A cloud-based platform aggregates all the data, and presents available advanced metrics dashboards and individual/group data for players and coaches to consult. It is used widely by several professional football teams.
+
+Both systems claim to be very precise in the metrics they measure, but both systems also need a infrastructure to be placed around the field, which increases the cost and removes the ability to play in different fields, which are two important factors for amateur teams.%REFERENCE
