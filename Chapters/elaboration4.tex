@@ -67,7 +67,6 @@ Fischer proposes a simple and effective way to implement an accurate pedestrian 
     \label{fig:methodology}
 \end{figure}
 
-%REFERENCE Kalman Filtoer
 The proposed algorithm, illustrated in Figure~\ref{fig:methodology}, uses \gls{IMU} Sensor's gyroscope data to estimate orientation, through the integration of the gyroscope values. Then, to estimate the position, acceleration values are doubly integrated. Using Kalman Filter Prediction, a covariance of the error is estimated. At this point, it is verified if the sensor is stationary, by checking if the norm of the values of the gyroscope is below a threshold. If it is, the velocity, position and orientation errors are estimated, and the previously calculated error covariance is corrected. This step is referred as Kalman Filter Update. Next, the velocity, position and orientation are corrected, with the previously estimated errors. This step is called Zero-velocity Update (ZUPT). The final step is to output the calculated position. If the sensor is not stationary, only the position is returned. The position comes in (x,y) coordinates, which can then be plotted in a graph to show the trajectories.
 
 
@@ -156,7 +155,7 @@ As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{jumpSteps.pdf}
-    \caption{Jump Phases}%REFERENCE https://www.preprints.org/manuscript/201708.0070/v1/download
+    \caption{Jump Phases~\cite{Cheraghi2017}}
     \label{fig:jumpsteps}
 \end{figure}
 
@@ -184,8 +183,7 @@ The description of the System Implementation according to the proposed architect
 \subsection{Edge}
 As described in section~\ref{subsec:edge}, the edge segment is composed by one or more \gls{IMU} Sensors and one or more \gls{EPU}.
 
-In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing.
-%REFERENCE https://www.raspberrypi.org/help/what-%20is-a-raspberry-pi/
+In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing~\cite{RaspberryPiFou}.
 It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and WiFi communications, and being a good platform for developing an application prototype.
 
 When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was also available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in Chapter~\ref{cha:results}.
@@ -196,8 +194,7 @@ The \gls{IMU} Sensors chosen to be used in the implementation phase are armed wi
 
 The number of \gls{IMU} sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
 
-As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
-%REFERENCE http://dev.ti.com/tirex/content/simplelink_academy_cc26x2sdk_1_15_03_10/modules/ble5stack/ble_connections/ble_connections.html
+As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver~\cite{TexasInstruments},
 the number of Raspberry Pi's may also grow, in order to establish connection with all the \gls{IMU} Sensors.
 This also helps to share the computation of the game metrics between the Raspberry Pi's.
 
@@ -240,15 +237,14 @@ The \gls{IMU} Sensors send time ($ms$), accelerometer ($m/s^2$) and gyroscope ($
 \end{table}
 
 With the data received from the \gls{IMU} Sensors, the metrics described in \ref{sec:metrics} are calculated. 
-After being calculated, they are sent to the server via \gls{MQTT}, to be stored there. \gls{MQTT} is a lightweight messaging protocol for small sensors and mobile devices, and was chosen as the communication technology because it is easily implemented, highly scalable, and allows bidirectional communication, that is needed to send commands to the sensors and to receive data.
-%REFERENCE citar mqtt http://mqtt.org/
+After being calculated, they are sent to the server via \gls{MQTT}, to be stored there. \gls{MQTT} is a lightweight messaging protocol for small sensors and mobile devices, and was chosen as the communication technology because it is easily implemented, highly scalable, and allows bidirectional communication, that is needed to send commands to the sensors and to receive data~\cite{MQTT}.
 The Raspberry Pi's don't store data; they serve to calculate the metrics and as a vehicle to send instructions and data between the server and the sensors.
 
 Summarizing, a single Raspberry Pi is then responsible by: maintaining the connection with several \gls{IMU} Sensors; communicate instructions; receive accelerometer and gyroscope data, and store it temporarily; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
 
 
 \subsection{Server}
-The server is built as a \gls{REST} \gls{API}, developed with Node.js, and taking advantage of the Express framework that enables a fast development of Web Applications and \gls{API}'s. %REFERENCE nodejs, rest, api, express
+The server is built as a \gls{REST} \gls{API}~\cite{RESTfulAPI}, developed with Node.js~\cite{Node.js}, and taking advantage of the Express Framework~\cite{ExpressJs} that enables a fast development of Web Applications and \gls{API}'s.
 \gls{REST} was chosen as the architectural style for the server because of its ease of development and prototyping, and the ability to separate concerns between the server and the client (\textit{e.g.} separating the business logic and data storage from the user interface).
 
 To manage peripherals (\gls{IMU} Sensors), Players, Teams, and Games, there are \gls{API} endpoints for each one of this resources, and all the data is saved in a MySQL Database. It also stores permanently the performance metrics, calculated in the Edge segment.
