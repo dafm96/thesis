@@ -6,8 +6,6 @@
 As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
 The following will discuss the related works that served as a starting point to this dissertation and will present some current commercial solutions.}
 
-% In basketball most of the games are played in an indoor court, where \gls{GPS} signal can't reach. It also can't track more granular movements, like jumps, dribbles and passes, that are important to understand a basketball game. For this reason, systems that use \gls{GPS} won't be discussed.
-
 \section{Related work}
 
 Several authors propose means of transforming data from \gls{IMU} Sensor into meaningful metrics. This section divides the related works in two: first, the related works regarding human activity recognition such as daily activities like walking, climbing stairs and pedestrian tracking will be analysed; then, related works that identify particular basketball activities such as dribbles, passes and shoots are discussed.
@@ -16,11 +14,9 @@ Several authors propose means of transforming data from \gls{IMU} Sensor into me
 In the area of general human activity recognition, Kerem Altun and Billur Barshan~\cite{Altun2010} propose a method to identify several human activities like sitting, standing, walking, climbing stairs and many other, using data from 5 sensors placed in both legs, both arms and in the chest. 
 After extracting features and reducing the data, different classification techniques are employed to classify 19 activities. They conclude that Bayesian Decision Making is the best method to identify this type of activities, followed by k-Nearest Neighbor, both performing over 95\%.
 
-%REFERENCE https://doi.org/10.1016/j.eswa.2016.04.032
-Charissa Ann Ronao and Sung-Bae Cho approach the problem of the human activity recognition by proposing a deep convolutional neural network. With data collected from the accelerometer and gyroscope of a smartphone placed in the pocket, they can identify activities walking, sitting and standing, and walking upstairs and downstairs, with a precision of over 94\%.
+Charissa Ann Ronao and Sung-Bae Cho~\cite{Ronao2016} approach the problem of the human activity recognition by proposing a deep convolutional neural network. With data collected from the accelerometer and gyroscope of a smartphone placed in the pocket, they can identify activities walking, sitting and standing, and walking upstairs and downstairs, with a precision of over 94\%.
 
-%REFERENCE https://doi.org/10.1016/j.future.2017.11.029
-Hassan \textit{et al.} propose a similar method, also using data from the smartphone's accelerometer and gyroscope, but propose a different classifier. Using a Deep Belief Network, the authors compare their method with other commonly used classification methods, and present better results, with a 95.85\% accuracy.
+Hassan \textit{et al.}~\cite{Hassan2018} propose a similar method, also using data from the smartphone's accelerometer and gyroscope, but propose a different classifier. Using a Deep Belief Network, the authors compare their method with other commonly used classification methods, and present better results, with a 95.85\% accuracy.
 
 Regarding pedestrian tracking, Wonho Kang and Youngnam Han~\cite{Kang2015} propose an indoor pedestrian location system using off-the-shelf smartphones. With the embedded accelerometer, gyroscope and magnetometer sensors, they perform step detection, estimate the step length and heading direction to trace the path. The results show a satisfiable tracing of the trajectory of the subject with respect to the ground-truth reference. 
 
@@ -28,10 +24,6 @@ Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} propose a tutoria
 
 Sebastian Madgwick~\cite{Madgwick} presents a novel orientation algorithm, that claims to be more accurate than the Kalman based algorithm.
 Both approaches use a shoe-mounted sensor.
-
-%TODO Bruno Figueira???
-
-% From these three approaches, Madgwick~\cite{madgwick} shows the best results, with a result of walking distance and heading very close to the real distance and path covered. 
 
 \subsection{Basketball Activity Recognition}
 N. F. Ghazali \textit{et al.}~\cite{Ghazali2018} compare different machine learning techniques to identify common sport activities like being stationary, walking, running, sprinting and jumping, with data collected from an inertial sensor strapped to the chest. The raw data (accelerometer and gyroscope) was labeled, and features were extracted from this data, filtering the relevant information. Then, 5 different types of classification techniques were employed, and compared between each other. The best classifier achieved an accuracy of 91\%, successfully classifying common sport activities.
@@ -44,7 +36,6 @@ Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in
 
 Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifiyng activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
 
-% Although there is some research in pedestrian dead reckoning and human activity recognition, especially on basketball activity recognition, these areas don’t seem to be related. This dissertation aims to bring those areas together, performing positional tracking and basketball activity recognition using the same inertial sensors.
 %TODO conclusões destes papers
 
 \section{Commercial Solutions}
@@ -52,19 +43,16 @@ The most used way of track Basketball players is using video tracking systems. C
 
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
 
-%REFERENCE https://www.statsperform.com/
-SportVU is an Optical Tracking system, used by Stats Perform, that with cameras placed around the court and the use of artificial intelligence techniques can gather innovative statistics based on player speed, distance traveled, separation, ball possession and more. They combine the tracking of the player and the ball with historical databases to provide in-depth insights for team and player performances. This optical system is available for basketball and football, and besides providing usefull information for team management, this data is also used for fan media, and for betting and fantasy content.
+SportVU is an Optical Tracking system, used by Stats Perform~\cite{StatsPerform}, that with cameras placed around the court and the use of artificial intelligence techniques can gather innovative statistics based on player speed, distance traveled, separation, ball possession and more. They combine the tracking of the player and the ball with historical databases to provide in-depth insights for team and player performances. This optical system is available for basketball and football, and besides providing useful information for team management, this data is also used for fan media, and for betting and fantasy content.
 
 Many other sports use video tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred~\cite{VanderKruk2018}.
 
 Other way to track players is using a sensor based approach. Multiple commercial products are used by both amateur and professional teams.
 
-Kinexon~\cite{Kinexon20} developed a player tracking system based on \gls{UWB}. It is comprised of wearable player sensors, and an array of base-sensors placed around the court. It can deliver precise 3D-position data, and detects metrics like jumps, sprints, impact, changes of direction, accelerations and deceleration, among many others. It also works both indoors and outdoors.~\cite{WearableTechnologies}.
+Kinexon~\cite{Kinexon20} developed a player tracking system based on \gls{UWB}. It is comprised of wearable player sensors, that are equipped with 9-axis accelerometer, gyroscope and magnetometer, and an array of base-sensors placed around the court. It can deliver precise 3D-position data, by tracking the players using \gls{RF} technology,  and detects metrics like jumps, sprints, impact, changes of direction, accelerations and deceleration, among many others. It also works both indoors and outdoors.~\cite{WearableTechnologies}.
 
-ShotTracker~\cite{ShotTracker} is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court.
-The Anchors are what locates the players and the ball. All the data that is collected is analysed and displayed in an application in real-time.
+ShotTracker~\cite{ShotTracker} is tracking system that is made of 3 components: ShotTracker-enabled ball, player sensors and anchors around the court. The Anchors are what locates the players and the ball, and can infer metrics like distances, number of passes, shots and shot types, and have a structured summary of the results of a game. All the data that is collected is analysed and displayed in an application in real-time. The data presented in this application has three targets: the coaches, to improve their team's performance; the players, to analyse and enhance their practice; and the fans, giving them access to advanced team stats and detailed box scores, and even Augmented Reality features to interact with the live game.
 
-%REFERENCE https://statsports.com/apex/
-STATSports is a system developed for football player tracking, by using a "pod" weared in the back, that is equipped with an accelerometer, a gyroscope, a magnetometer and that collects positional tracking using a GPS device. This device has the ability to calculate internally over 50 metrics in real-time (\textit{e.g.} total distance covered, number of accelerations or decelerations and heart rate), that are then transmitted over a \gls{UWB} network. A cloud-based platform aggregates all the data, and presents available advanced metrics dashboards and individual/group data for players and coaches to consult. It is used widely by several professional football teams.
+STATSports~\cite{STATSports} is a system developed for football player tracking. The players use a pod worn in the back, that is equipped with an accelerometer, a gyroscope, a magnetometer and that collects positional tracking using a GPS device. This device has the ability to calculate internally over 50 metrics in real-time (\textit{e.g.} total distance covered, number of accelerations or decelerations and heart rate), that are then transmitted over a \gls{UWB} network. A cloud-based platform aggregates all the data, and presents available advanced metrics dashboards and individual/group data for players and coaches to consult. It is used widely by several professional football teams.
 
-Both systems claim to be very precise in the metrics they measure, but both systems also need a infrastructure to be placed around the field, which increases the cost and removes the ability to play in different fields, which are two important factors for amateur teams.%REFERENCE
+All the sensor-based systems presented above claim  to be very precise in the metrics they measure, and many of them are used by professional teams in their competitions. However, they all rely on a infrastructure placed in the court, or on external tracking solutions (like \gls{GPS} in the case of STATSports). For Basketball, the use of \gls{GPS} is out of question, as most of the Basketball courts used by amateur teams are indoors. The need of a infrastructure is also not ideal for amateur teams, because it increases the costs and hinders the ability to play in different fields, which are two important factors for amateur teams.
