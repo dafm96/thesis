@@ -71,6 +71,7 @@ The proposed algorithm, illustrated in Figure~\ref{fig:methodology}, uses \gls{I
 
 
 \subsection{Steps}
+\label{subsec:steps}
 The detection of steps takes advantage of the algorithm explained in ~\ref{subsubsec:trajectories}, especially the Zero-Velocity Detection.
 Whenever a Zero-Velocity is detected, it is recorded in a binary array (zeros meaning no movement, ones meaning movement). Afterwards, when the Trajectory detection algorithm ends, the array is analysed.
 
@@ -107,6 +108,7 @@ The behavior of the algorithm is described in Listing~\ref{lst:stepAlgorithm}.
 This algorithm can be improved in the detection of the "sections"{} of ones, as it can sometimes fail. For example, if in one step sequence we had 3 occurrences of zeros inside a large sequence of ones, the algorithm would count 2 steps instead of 1 step. However, when testing the results were satisfactory, so no more work was done in the development of this algorithm.
 
 \subsection{Dribbles}
+\label{subsec:dribbles}
 For measuring the dribbling, an algorithm was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
 
 The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
@@ -138,6 +140,7 @@ To detect if it is a dribble, the algorithm finds a maximum value in both accele
 This algorithm was adapted and implemented in the system, to receive data in real-time from the \gls{IMU} sensor placed in the wrist.
 
 \subsection{Jumps}
+\label{subsec:jumps}
 The method of identifying jumps was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
 To detect jumps, the approach relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
 
