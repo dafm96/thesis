@@ -90,7 +90,7 @@ One way of correcting these errors is by removing the bias of the gyroscope valu
 
 \section{Metrics Performance}
 \label{sec:resultsMetrics}
-\subsection{Trajectories}
+\subsection{Position Tracking and Distance}
 %TODO falar que este algoritmo deu bons resultados quando apenas se andava, mas não é mmuito fiável a correr. 
 %TODO a distância era bastante mais alta que a trajetória real pecorrida
 %TODO algoritmo não é em tempo real, demora algum tempo a  calcular resultados
@@ -98,7 +98,7 @@ One way of correcting these errors is by removing the bias of the gyroscope valu
 \subsection{Steps}
 
 \subsection{Dribbles}
-To test the dribble detection algorithm algorithm described in Subsection~\ref{subsec:dribbles}, it was asked to 5 subjects to perform a set of 20 dribbles, at three different speeds: slow ($\approx$90 dribbles per minute), medium ($\approx$120 dribbles per minute) and fast ($\approx$160 dribbles per minute). The dribbles were all performed in-place.
+To test the dribble detection algorithm algorithm described in Subsection~\ref{subsec:dribbles}, it was asked to five subjects to perform a set of 20 dribbles, at three different speeds: slow ($\approx$90 dribbles per minute), medium ($\approx$120 dribbles per minute) and fast ($\approx$160 dribbles per minute). The dribbles were all performed in-place.
 
 Figure~\ref{fig:dribbledetection} shows the percentage of correct number of dribble detections achieved by this algorithm. The dribble detection algorithm can be wrong if it detects less or more dribbles than those that were really performed. The case of detecting more dribbles was only verified when dribbling fast.
 
@@ -111,8 +111,23 @@ Figure~\ref{fig:dribbledetection} shows the percentage of correct number of drib
 
 By analyzing the results, we can see that slow dribbling had the worst results of all three. The most likely cause of this bigger error might be the frequency threshold to confirm that the movement is a dribble. However, if this threshold is lowered, simple arm or wrist movements could be identified as a dribble movement. A compromise must be made, between detecting all the dribble movements, but also detect wrong random movements, or to discard slow dribbling movements, but ensure that other arm movements aren't identified as dribbles. The latter approach was selected.
 
-Identifying medium and fast dribbling achieved better results, with a percentage of correct dribble detections always between 90\% and 100\%.
+Identifying medium and fast dribbling achieved better results, with a percentage of correct dribble detections always between 95\% and 100\%.
 The biggest error in these two movements occurred in the fast dribbles, where the algorithm would sometimes detect more dribbles than those that were actually made, and in both movements, where the algorithm would detect one less dribble, maybe because of different hand movement when starting or stopping the movement.
 
 \subsection{Jumps}
 %Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
+To collect jump data for the results phase, it was asked to three subjects to perform sets of ten jumps, with a rest of 1 or 2 seconds between each jump. The jumps were either done vertically, or with a small displacement to the front. The sensor was placed in the lower back of each subject, held in place with the help of an abdominal binder.
+
+In Figure~\ref{fig:jumpdetection} we can see the results of the data collected. The blue bars show the number of jumps performed in each session, and the red line represents the number of jumps detected. The percentage values are the percentage of correct jump detections, performed by the algorithm. The average of the correct detections of this algorithm is 17\% percent. This is value is very low and unsatisfactory. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.9\textwidth]{jumpDetection.pdf}
+    \caption{Jump Detection}
+    \label{fig:jumpdetection}
+\end{figure}
+
+However, while collecting data, some particularities of the algorithm where detected, and could be improved in the future. For example, when two similar jumps were performed, with a rest time of about 2 seconds between them, sometimes the algorithm detected zero jumps, and sometimes it only detects one jump, but never the two jumps that were really performed.
+This may have to do with the reset parameters of the algorithm not being well adjusted. This means that the algorithm is not identifying correctly the moment when the subject is at rest, thus not detecting all the jumps.
+
+Another problem is the threshold from which the algorithm detects jumps. This threshold was set in development phase to separate running movements from jumps. As the jump is a slower movement than running, its frequency is also lower. While developing, the value set looked good, but when tested with other subjects, and after analyzing the results, we can conclude that the value can be increased, to detect more jumps. A drawback of this increase is the detection of unwanted movements, but it might be necessary, taking into account the poor performance of this algorithm. %silver lining
