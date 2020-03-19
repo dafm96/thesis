@@ -106,19 +106,70 @@ Firstly, the calculation of distance was put to the test. The distance is calcul
 \end{figure}
 
 The second thing to test was the actual measurements of distance, compared to the real walked distance. For this, two sensors were worn, one in each foot, to compare the measurements between the two. It was asked to the subject to walk in a straight line, with varying distances: 6 meters, 12 meters and 18 meters.
-Figures X and Y show the plot of the 3 distances, with data collected from the right and the left foot, respectively. %TODO FIGURES
+Figures \ref{fig:direitoStill} and \ref{fig:esquerdoStill} show the plot of the 3 distances, with data collected from the right and the left foot, respectively.
 As we can see by the plot, the further the subject walks, the greater the error of the calculated distance. This has to do with the accumulated error of the sensor values. These errors are originated in gyroscope noise, and are then propagated through the heading and speed estimations, affecting the position estimations. The error in position estimation affects directly the distance calculation.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Right Foot - 6m\label{fig:direito6}}%
+    {\includegraphics[width=0.33\linewidth]{peDireito6m.pdf}}%
+    \subcaptionbox{Right Foot - 12m\label{fig:direito12}}%
+    {\includegraphics[width=0.33\linewidth]{peDireito12m.pdf}}%
+    \subcaptionbox{Right Foot - 18m\label{fig:direito18}}%
+    {\includegraphics[width=0.33\linewidth]{peDireito18m.pdf}}%
+    \caption{Right foot - Still}
+    \label{fig:direitoStill}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Left Foot - 6m\label{fig:esquerdo6}}%
+    {\includegraphics[width=0.33\linewidth]{peEsquerdo6m.pdf}}%
+    \subcaptionbox{Left  Foot - 12m\label{fig:esquerdo12}}%
+    {\includegraphics[width=0.33\linewidth]{peEsquerdo12m.pdf}}%
+    \subcaptionbox{Left  Foot - 18m\label{fig:esquerdo18}}%
+    {\includegraphics[width=0.33\linewidth]{peEsquerdo18m.pdf}}%
+    \caption{Right foot - Still}
+    \label{fig:esquerdoStill}
+\end{figure}
 
 Secondly, the tracking of the subject position was tested. In this test, more complex routes were followed, and the subjects were asked not only to walk, but also to run, to test the response of the tracking algorithm.
 
-The first test was to walk in a straight line and doing 90$^{\circ}$ right turns, in the office corridors. The route is illustrated in Figure X. %TODO FIGURES
+The first test was to walk in a straight line and doing 90$^{\circ}$ right turns, in the office corridors. The route is illustrated in Figure~\ref{fig:caracol}.
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{Caracol.pdf}
+    \caption{Positional Tracking First Test}
+    \label{fig:caracol}
+\end{figure}
 As we can see, the distance, that should sum up to 65 meters, was calculated as being 90 meters. The positional tracking of the subject also presents some deviations, especially right at the beginning. The subject was asked to stand still for a moment before he started walking, so that the sensor could be at rest. However, instead of plotting the route to the front as a straight line (which would correspond to reality), it plotted an angled line. Consequently, all the route was tilted. On the other hand, even though this initial detour, all the following turns seem to match the reality, showing the 90$^{\circ}$ turns made by the subject. 
 
-The second test consisted in performing the route illustrated in figure x, while walking and then performing a mix of both: start the route walking, and after the turn, start running, to see how the algorithm performed.
+The second test consisted in performing the route illustrated in Figure~\ref{fig:uoriginal}, while walking and then performing a mix of both: start the route walking, and after the turn, start running, to see how the algorithm performed.
 
-In the first example, we can see the deviation of the algorithm, after about 10m, but the turns are well traced, and the second straight line is also well traced. If it wasn't for the detour, the plot would be near perfect.
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{uOriginal.pdf}
+    \caption{Positional Tracking Second Test Route}
+    \label{fig:uoriginal}
+\end{figure}
 
-In the second example, even though the first part of the route shows a well traced straight line and turn, when the run started (after the turn), the algorithm couldn't identify well the movement. The tracing is very imprecise, and the last turn wasn't identified. 
+In the first example, illustrated in Figure~\ref{fig:uoriginalAndar}, we can see the deviation of the algorithm, after about 10m, but the turns are well traced, and the second straight line is also well traced. If it wasn't for the detour, the plot would be near perfect.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{uOriginal+andar.pdf}
+    \caption{Positional Tracking Second Test - Walking}
+    \label{fig:uoriginalAndar}
+\end{figure}
+
+In the second example, illustrated in Figure~\ref{fig:uoriginalAndarCorrer}, even though the first part of the route shows a well traced straight line and turn, when the run started (after the turn), the algorithm couldn't identify well the movement. The tracing is very imprecise, and the last turn wasn't identified. 
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{uOriginal+andarCorrer.pdf}
+    \caption{Positional Tracking Second Test - Walking and Running}
+    \label{fig:uoriginalAndarCorrer}
+\end{figure}
 
 This might be due to two factors: the rate at which data is being collected (50Hz) might be insufficient to detect a fast movement such as running, or the movements produced by a running activity might be out of the range of the accelerometer, which was set for -8g to +8g.
 
