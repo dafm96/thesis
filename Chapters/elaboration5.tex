@@ -94,6 +94,35 @@ One way of correcting these errors is by removing the bias of the gyroscope valu
 %TODO falar que este algoritmo deu bons resultados quando apenas se andava, mas não é mmuito fiável a correr. 
 %TODO a distância era bastante mais alta que a trajetória real pecorrida
 %TODO algoritmo não é em tempo real, demora algum tempo a  calcular resultados
+Position tracking and distance were tested by using a sensor placed in the foot, above the shoe, as detailed in Subsection~\ref{subsubsec:trajectories}.
+
+Firstly, the calculation of distance was put to the test. The distance is calculated by measuring the distance between each coordinate, using the Euclidean distance. The first test performed was to find what was the distance calculated when the sensor was still. Figure~\ref{fig:stillDistance} shows the plot of data collected during 30 seconds, while the foot was still. As we can see, the displacement is very low, and the distance calculated is in the order of the millimeters.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{stillDistance.pdf}
+    \caption{Still Distance Plot}
+    \label{fig:stillDistance}
+\end{figure}
+
+The second thing to test was the actual measurements of distance, compared to the real walked distance. For this, two sensors were worn, one in each foot, to compare the measurements between the two. It was asked to the subject to walk in a straight line, with varying distances: 6 meters, 12 meters and 18 meters.
+Figures X and Y show the plot of the 3 distances, with data collected from the right and the left foot, respectively. %TODO FIGURES
+As we can see by the plot, the further the subject walks, the greater the error of the calculated distance. This has to do with the accumulated error of the sensor values. These errors are originated in gyroscope noise, and are then propagated through the heading and speed estimations, affecting the position estimations. The error in position estimation affects directly the distance calculation.
+
+Secondly, the tracking of the subject position was tested. In this test, more complex routes were followed, and the subjects were asked not only to walk, but also to run, to test the response of the tracking algorithm.
+
+The first test was to walk in a straight line and doing 90$^{\circ}$ right turns, in the office corridors. The route is illustrated in Figure X. %TODO FIGURES
+As we can see, the distance, that should sum up to 65 meters, was calculated as being 90 meters. The positional tracking of the subject also presents some deviations, especially right at the beginning. The subject was asked to stand still for a moment before he started walking, so that the sensor could be at rest. However, instead of plotting the route to the front as a straight line (which would correspond to reality), it plotted an angled line. Consequently, all the route was tilted. On the other hand, even though this initial detour, all the following turns seem to match the reality, showing the 90$^{\circ}$ turns made by the subject. 
+
+The second test consisted in performing the route illustrated in figure x, while walking and then performing a mix of both: start the route walking, and after the turn, start running, to see how the algorithm performed.
+
+In the first example, we can see the deviation of the algorithm, after about 10m, but the turns are well traced, and the second straight line is also well traced. If it wasn't for the detour, the plot would be near perfect.
+
+In the second example, even though the first part of the route shows a well traced straight line and turn, when the run started (after the turn), the algorithm couldn't identify well the movement. The tracing is very imprecise, and the last turn wasn't identified. 
+
+This might be due to two factors: the rate at which data is being collected (50Hz) might be insufficient to detect a fast movement such as running, or the movements produced by a running activity might be out of the range of the accelerometer, which was set for -8g to +8g.
+
+Basketball players spent most of their running, so the difficulty of this algorithm to recognize running movements is a drawback. However, this algorithm is promising and did provide good results when walking, and some tweaks in the algorithm could be applied in the future in order to improve the positional tracking of a subject when he is running. 
 
 \subsection{Steps}
 
@@ -112,7 +141,7 @@ Figure~\ref{fig:dribbledetection} shows the percentage of correct number of drib
 By analyzing the results, we can see that slow dribbling had the worst results of all three. The most likely cause of this bigger error might be the frequency threshold to confirm that the movement is a dribble. However, if this threshold is lowered, simple arm or wrist movements could be identified as a dribble movement. A compromise must be made, between detecting all the dribble movements, but also detect wrong random movements, or to discard slow dribbling movements, but ensure that other arm movements aren't identified as dribbles. The latter approach was selected.
 
 Identifying medium and fast dribbling achieved better results, with a percentage of correct dribble detections always between 95\% and 100\%.
-The biggest error in these two movements occurred in the fast dribbles, where the algorithm would sometimes detect more dribbles than those that were actually made, and in both movements, where the algorithm would detect one less dribble, maybe because of different hand movement when starting or stopping the movement.
+In the fast dribbles, the algorithm would sometimes detect more dribbles than those that were actually made, and in both movements, where the algorithm would detect one less dribble, maybe because of different hand movement when starting or stopping the movement.
 
 \subsection{Jumps}
 %Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
