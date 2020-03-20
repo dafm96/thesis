@@ -136,15 +136,22 @@ As we can see by the plot, the further the subject walks, the greater the error 
 
 Secondly, the tracking of the subject position was tested. In this test, more complex routes were followed, and the subjects were asked not only to walk, but also to run, to test the response of the tracking algorithm.
 
-The first test was to walk in a straight line and doing 90$^{\circ}$ right turns, in the office corridors. The route is illustrated in Figure~\ref{fig:caracol}.
+The first test was to walk in a straight line and doing 90$^{\circ}$ right turns, in the office corridors. The route is illustrated in Figure~\ref{fig:caracolRoute}.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{caracolOriginal.pdf}
+    \caption{Positional Tracking First Test Route}
+    \label{fig:caracolRoute}
+\end{figure}
+
+As we can see in Figure~\ref{fig:caracol}, the distance, that should sum up to 65 meters, was calculated as being 90 meters. The positional tracking of the subject also presents some deviations, especially right at the beginning. The subject was asked to stand still for a moment before he started walking, so that the sensor could be at rest. However, instead of plotting the route to the front as a straight line (which would correspond to reality), it plotted an angled line. Consequently, all the route was tilted. On the other hand, even though this initial detour, all the following turns seem to match the reality, showing the 90$^{\circ}$ turns made by the subject. 
 \begin{figure}
     \centering
     \includegraphics[width=.8\textwidth]{Caracol.pdf}
     \caption{Positional Tracking First Test}
     \label{fig:caracol}
 \end{figure}
-As we can see, the distance, that should sum up to 65 meters, was calculated as being 90 meters. The positional tracking of the subject also presents some deviations, especially right at the beginning. The subject was asked to stand still for a moment before he started walking, so that the sensor could be at rest. However, instead of plotting the route to the front as a straight line (which would correspond to reality), it plotted an angled line. Consequently, all the route was tilted. On the other hand, even though this initial detour, all the following turns seem to match the reality, showing the 90$^{\circ}$ turns made by the subject. 
-
 The second test consisted in performing the route illustrated in Figure~\ref{fig:uoriginal}, while walking and then performing a mix of both: start the route walking, and after the turn, start running, to see how the algorithm performed.
 
 \begin{figure}
