@@ -176,6 +176,18 @@ This might be due to two factors: the rate at which data is being collected (50H
 Basketball players spent most of their running, so the difficulty of this algorithm to recognize running movements is a drawback. However, this algorithm is promising and did provide good results when walking, and some tweaks in the algorithm could be applied in the future in order to improve the positional tracking of a subject when he is running. 
 
 \subsection{Steps}
+For testing the Step counting algorithm, it was asked to 3 subjects to walk and run in a straight line, taking varying numbers of steps. As the sensor is placed in the right foot, the algorithm only detects half of the steps (the steps taken with the right foot). Therefore, to obtain the total amount of steps, the result calculated by the algorithm should be multiplied by two, taking into account that the doubled value can be off by one step (\textit{i.e.} if the movement started with the right foot, and 5 steps were given in total, ending with the right foot, the sensor placed in the right foot would register 3 steps. Doubling this value, we would have a total of 6 steps, which is wrong by one step.)
+
+Figure \ref{fig:stepDetection} shows the results of the tests performed by the subjects. The blue bars show the number of steps taken while walking, and the green bars show the numbers of steps taken while running, in each session. The red area represents the number of steps detected. The percentage values are the percentage of correct step detections, performed by the algorithm.
+
+As we can see, the algorithm performs very well, detecting all the steps taken by the foot where the sensor was placed, even when running. As discussed in Subsection~\ref{subsec:steps}, there is still place for improving the algorithm, but the results with the current version are very satisfying.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.8\textwidth]{stepDetection.pdf}
+    \caption{Step Detection}
+    \label{fig:stepDetection}
+\end{figure}
 
 \subsection{Dribbles}
 To test the dribble detection algorithm algorithm described in Subsection~\ref{subsec:dribbles}, it was asked to five subjects to perform a set of 20 dribbles, at three different speeds: slow ($\approx$90 dribbles per minute), medium ($\approx$120 dribbles per minute) and fast ($\approx$160 dribbles per minute). The dribbles were all performed in-place.
@@ -198,11 +210,11 @@ In the fast dribbles, the algorithm would sometimes detect more dribbles than th
 %Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
 To collect jump data for the results phase, it was asked to three subjects to perform sets of ten jumps, with a rest of 1 or 2 seconds between each jump. The jumps were either done vertically, or with a small displacement to the front. The sensor was placed in the lower back of each subject, held in place with the help of an abdominal binder.
 
-In Figure~\ref{fig:jumpdetection} we can see the results of the data collected. The blue bars show the number of jumps performed in each session, and the red line represents the number of jumps detected. The percentage values are the percentage of correct jump detections, performed by the algorithm. The average of the correct detections of this algorithm is 17\% percent. This is value is very low and unsatisfactory. 
+In Figure~\ref{fig:jumpdetection} we can see the results of the data collected. The blue bars show the number of jumps performed in each session, and the red area represents the number of jumps detected. The percentage values are the percentage of correct jump detections, performed by the algorithm. The average of the correct detections of this algorithm is 17\% percent. This is value is very low and unsatisfactory. 
 
 \begin{figure}
     \centering
-    \includegraphics[width=.9\textwidth]{jumpDetection.pdf}
+    \includegraphics[width=.8\textwidth]{jumpDetection.pdf}
     \caption{Jump Detection}
     \label{fig:jumpdetection}
 \end{figure}
