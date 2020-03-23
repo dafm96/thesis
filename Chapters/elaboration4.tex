@@ -315,9 +315,11 @@ The control instructions are sent to the Edge Segment through the \gls{MQTT} pro
 
 
 \subsection{Client}
-The client application was developed in React, and is capable of controlling the \gls{IMU} Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
+The client application is developed as a web application, using React. React is a Javascript Framework for building user interfaces, that enables the composition of small components to build complex UI's. 
 
-The application communicates directly with the \gls{API}, through HTTP, and consumes the \gls{API} exposed by the server. This means that the Client application is divided into 3 parts: players, teams and games.
+The application works in any browser, no matter the device being used. This allows the Users to access the application from a computer, a tablet or a smartphone, and it will have the same behavior in all the devices.
+
+The application consumes the \gls{API} exposed by the server, through HTTP. This means that the Client application is divided into 3 parts: players, teams and games. It is capable of controlling the \gls{IMU} Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
 
 The implementation of the client application was developed with a focus on the coach perspective. Some of the API features described in \ref{susubsec:API} weren't implemented in the client application, like the ability to edit teams and players.
 
@@ -398,3 +400,17 @@ In this page the user can assign \gls{IMU} Sensors to each player, as shown in F
     \caption{Game Detail Operations}
     \label{fig:gamesOperations}
 \end{figure}
+
+
+\subsection{Example Use Case}
+To illustrate the usage of the developed prototype, let's set a practice game during a training session as the scenario. The Raspberry Pi's and the server should be running, and on the same network.
+
+After registering the two teams in the system, using the page shown in Figure~\ref{fig:teamsAdd}, he would have to register the players, using the page shown in Figure~\ref{fig:playerAdd}, and assign them to each team.
+
+The \gls{IMU} sensors should be attributed to each player, and as they put them in place (in the hand, the back or the foot), they should be registered in the application, as shown in Figure~\ref{fig:assignPeripheral}. For each player it should be added the identification of the sensor and its placement. This is the most intrusive aspect of the system.
+
+After all the sensors are placed and registered in the application, the coach should press the "Start" button, when the game begins. Then, the process of collecting data from all the sensors, processing it in the Raspberry Pi's and sending it to the server to be stored begins. 
+
+The coach can follow the performance of each player by clicking the "Metrics" button. A summary of the metrics will appear, as shown in Figure~\ref{fig:gameMetrics} For now, the only team metric that is being calculated is the total time of dribbling, which is an indicator of time of ball possession of each team. 
+
+When the game ends, the coach can stop the data collection of all the sensors, pressing "Stop". He can also shutdown all the sensors at once. The metrics calculated during this game remain stored, to be revisited in the future, or to be used for future analysis.
