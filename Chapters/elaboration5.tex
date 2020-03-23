@@ -1,4 +1,4 @@
-%!TEX root = ../elaboration.tex
+ %!TEX root = ../elaboration.tex
 \chapter{Results}
 \label{cha:results}
 
@@ -200,19 +200,21 @@ As we can see, the algorithm performs very well, detecting all the steps taken b
 \subsection{Dribbles}
 To test the dribble detection algorithm algorithm described in Subsection~\ref{subsec:dribbles}, it was asked to five subjects to perform a set of 20 dribbles, at three different speeds: slow ($\approx$90 dribbles per minute), medium ($\approx$120 dribbles per minute) and fast ($\approx$160 dribbles per minute). The dribbles were all performed in-place.
 
-Figure~\ref{fig:dribbledetection} shows the percentage of correct number of dribble detections achieved by this algorithm. The dribble detection algorithm can be wrong if it detects less or more dribbles than those that were really performed. The case of detecting more dribbles was only verified when dribbling fast.
+Figure~\ref{fig:dribbledetection} shows the percentage of correct number of dribble detections achieved by this algorithm. Each bar represents the number of dribbles performed by each subject, and the colors represent the speed of the dribbling: yellow for slow, green for medium and blue for fast. The red area represents the number of dribbles detected by the algorithm, and the percentage of correctly detected dribbles is shown in the bottom of each column, as a percentage.
+
+The dribble detection algorithm can be wrong if it detects less or more dribbles than those that were really performed. The case of detecting more dribbles was only verified when dribbling fast.
 
 \begin{figure}
     \centering
-    \includegraphics[width=.9\textwidth]{dribbledetection.pdf}
+    \includegraphics[width=\textwidth]{dribbleDetection.pdf}
     \caption{Dribble Detection}
     \label{fig:dribbledetection}
 \end{figure}
 
 By analyzing the results, we can see that slow dribbling had the worst results of all three. The most likely cause of this bigger error might be the frequency threshold to confirm that the movement is a dribble. However, if this threshold is lowered, simple arm or wrist movements could be identified as a dribble movement. A compromise must be made, between detecting all the dribble movements, but also detect wrong random movements, or to discard slow dribbling movements, but ensure that other arm movements aren't identified as dribbles. The latter approach was selected.
 
-Identifying medium and fast dribbling achieved better results, with a percentage of correct dribble detections always between 95\% and 100\%.
-In the fast dribbles, the algorithm would sometimes detect more dribbles than those that were actually made, and in both movements, where the algorithm would detect one less dribble, maybe because of different hand movement when starting or stopping the movement.
+Identifying medium and fast dribbling achieved better results, with a percentage of correct dribble detections always between 90\% and 100\%.
+In fast dribbling, the algorithm would sometimes detect more dribbles than those that were actually made, and in medium dribbling, the algorithm would detect one or two less dribbles than those that were actually made, maybe because of different hand movement when starting or stopping the movement.
 
 \subsection{Jumps}
 %Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
