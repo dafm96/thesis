@@ -67,9 +67,11 @@ In order to be able to receive data and calculate in-game metrics from all the \
 The Server is the main piece of the architecture, allowing the interaction between the User and the \gls{IMU} Sensors.
 
 The Server can send instructions to the \gls{EPU}, controlling the \gls{IMU} Sensors operations.
-When data is received from the \gls{EPU}, the Server stores it, so that it can be shown to the User, through the Client application.
+When data is received from the \gls{EPU}, the Server stores it in a Database, so that it can be shown to the User, through the Client application.
 
 The server should only store processed data. The raw data should only be used in the Edge to perform calculations. This relieves the need to process raw data in the Server, leaving room for a more complex analysis, over a bigger set of data.
+
+The processed data (\textit{e.g.} game metrics) should be stored in a database, alongside with important statistical information from the players, the teams and the games, such as player's age, height and weight, team's name, location and coach, and game's location and date, to show the fans and to be used in future analysis and statistics.
 
 The Server also hosts the Client Application, which communicates tightly with the Server.
 
