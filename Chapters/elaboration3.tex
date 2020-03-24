@@ -17,7 +17,9 @@ It also should provide real-time data of individual game metrics, calculated wit
 A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
-The user, whether he is a coach, a player or a fan, should be able to view the processed data and statistics from players, teams and games, in a mobile application.
+Besides storing information about the game metrics, other statistical data should also be stored. Information like box scores, players height, weight and playing position or the teams line-up and coach should be collected for statistical analysis.
+
+The user, whether he is a coach, a player or a fan, should be able to view the processed data and statistics from players, teams and games, in a mobile application. This information should be made available publicly, to be accessed by the developed mobile application, or by any other who wants to consume it.
 
 Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the Wearable Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
 
@@ -73,7 +75,7 @@ The server should only store processed data. The raw data should only be used in
 
 The processed data (\textit{e.g.} game metrics) should be stored in a database, alongside with important statistical information from the players, the teams and the games, such as player's age, height and weight, team's name, location and coach, and game's location and date, to show the fans and to be used in future analysis and statistics.
 
-The Server also hosts the Client Application, which communicates tightly with the Server.
+The Server also hosts the Client Application, which communicates tightly with the Server. For this communication, an \gls{API} should be available, to expose system functions to external applications, such as the Client application, or other applications that may use the data collected and stored in the Server.
 
 \subsection{Client}
 \label{subsec:client}
