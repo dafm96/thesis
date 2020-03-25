@@ -21,13 +21,24 @@ Besides storing information about the game metrics, other statistical data shoul
 
 The user, whether he is a coach, a player or a fan, should be able to view the processed data and statistics from players, teams and games, in a mobile application. This information should be made available publicly, to be accessed by the developed mobile application, or by any other who wants to consume it.
 
-Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the Wearable Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. This realization lead to the system architecture proposed in the next section.
+Initially, the system was being designed to be only one mobile device, which would be in charge of connecting to all the Wearable Sensors, collect and process the data, store it and present it to the end user. Early developments showed that this would require too much processing power for a single device, and that these tasks should be divided in layers: one layer for the data collection and data processing; one layer for data storage and one layer for data presentation. 
+
+Summing up, the main requirements of the system are:
+\begin{itemize}
+    \item To be able to work indoors
+    \item No need for pre-installed infrastructures
+    \item Provide real-time game metrics
+    \item To be able of scaling, in order to collect data from multiple sensors worn by the players
+    \item Store the data collected and processed data, for future statistical analysis
+    \item Provide this information to an application, available to coaches to improve their team, or to fans, for fan engagement
+\end{itemize}
 
 \section{Architecture}
 \label{sec:architecture}
+In order to support the collection and processing of raw data in real time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing. Edge computing enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the Edge processing units. The layering of the architecture allows that each segment is completely independent in its implementation.
+
 The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storage and Application Server; \textbf{Client} - Frontend Application.
 
-The layering of the architecture allows that each segment is completely independent in its implementation.
 The architecture will be explained in more detail in the following subsections.
 
 \begin{figure}
