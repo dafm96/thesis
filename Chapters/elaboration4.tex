@@ -75,7 +75,7 @@ The proposed algorithm, illustrated in Figure~\ref{fig:methodology}, uses \gls{I
 The detection of steps takes advantage of the algorithm explained in ~\ref{subsubsec:trajectories}, especially the Zero-Velocity Detection.
 Whenever a Zero-Velocity is detected, it is recorded in a binary array (zeros meaning no movement, ones meaning movement). Afterwards, when the Trajectory detection algorithm ends, the array is analysed.
 
-The analysis is made by counting the meaningful "sections"{} of ones. Listing~\ref{lst:stepArray} shows an example of a step detection array, where we can clearly see there are two main sections"{} of ones, meaning that using this example the algorithm should count two steps.
+The analysis is made by counting the meaningful "sections"{} of ones. Listing~\ref{lst:stepArray} shows an example of a step detection array, where we can clearly see there are two main "sections"{} of ones, meaning that using this example the algorithm should count two steps.
 \lstset{caption=Steps Array Example, label=lst:stepArray}
 \begin{lstlisting}
 [0000000000100001111111111111111000100000000000000010111111111111111111100110000000000]
@@ -410,8 +410,8 @@ After registering the two teams in the system, using the page shown in Figure~\r
 
 The \gls{IMU} sensors should be attributed to each player, and as they put them in place (in the hand, the back or the foot), they should be registered in the application, as shown in Figure~\ref{fig:assignPeripheral}. For each player it should be added the identification of the sensor and its placement. This is the most intrusive aspect of the system.
 
-After all the sensors are placed and registered in the application, the coach should press the "Start" button, when the game begins. Then, the process of collecting data from all the sensors, processing it in the Raspberry Pi's and sending it to the server to be stored begins. 
+After all the sensors are placed and registered in the application, the coach should press the "Start"{} button, when the game begins. Then, the process of collecting data from all the sensors, processing it in the Raspberry Pi's and sending it to the server to be stored begins. 
 
-The coach can follow the performance of each player by clicking the "Metrics" button. A summary of the metrics will appear, as shown in Figure~\ref{fig:gameMetrics} For now, the only team metric that is being calculated is the total time of dribbling, which is an indicator of time of ball possession of each team. 
+The coach can follow the performance of each player by clicking the "Metrics"{} button. A summary of the metrics will appear, as shown in Figure~\ref{fig:gameMetrics} For now, the only team metric that is being calculated is the total time of dribbling, which is an indicator of time of ball possession of each team. 
 
 When the game ends, the coach can stop the data collection of all the sensors, pressing "Stop". He can also shutdown all the sensors at once. The metrics calculated during this game remain stored, to be revisited in the future, or to be used for future analysis.
