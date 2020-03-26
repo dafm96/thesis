@@ -35,7 +35,9 @@ Summing up, the main requirements of the system are:
 
 \section{Architecture}
 \label{sec:architecture}
-In order to support the collection and processing of raw data in real time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing. Edge computing enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the Edge processing units. The layering of the architecture allows that each segment is completely independent in its implementation.
+In order to support the collection and processing of raw data in real time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing.
+
+Edge computing allows that the processing to be near the collection of the data, which takes load off the server, and problems like data transfer and latencies don't interfere. It also enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the Edge processing units. The layering of the architecture allows that each segment is completely independent in its implementation and operation.
 
 The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storage and Application Server; \textbf{Client} - Frontend Application.
 
@@ -95,3 +97,6 @@ The Client Application provides the end user an interface in which he can contro
 This interface should offer different operations and views for different types of users. Fans could consult more generic metrics and statistics, while a coach could manage their team and players, see detailed metrics and statistics of a player, a team or a match, and manage the sensors being used by the players.
 
 The interface should, indirectly, trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.
+
+
+%TODO summary
