@@ -10,11 +10,11 @@
 \label{sec:requirements}
 With the goals set in Section~\ref{sec:objectives}, and after analyzing the current state of the art, the systems already being used in real life situations and their shortcomings, a set of requirements for the proposed system has to be defined.
 
-It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of preinstalled structures (like a video system mounted in the court or a set of antennas placed around the court).
+It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of pre-installed structures (like a video system mounted in the court, or a set of antennas placed around the court).
 
 It also should provide real-time data of individual game metrics, calculated with the raw data from Wearable Sensors. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
 
-A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing.
+A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing. If every player uses 3 devices, this could mean data collection from up to 30 devices to track every player in court during a basketball game.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
 Besides storing information about the game metrics, other statistical data should also be stored. Information like box scores, players height, weight and playing position or the teams line-up and coach should be collected for statistical analysis.
@@ -37,7 +37,7 @@ Summing up, the main requirements of the system are:
 \label{sec:architecture}
 In order to support the collection and processing of raw data in real time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing.
 
-Edge computing allows that the processing to be near the collection of the data, which takes load off the server, and problems like data transfer and latencies don't interfere. It also enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the Edge processing units. The layering of the architecture allows that each segment is completely independent in its implementation and operation.
+Edge computing allows that the processing to be near the collection of the data, which takes load off the server, and problems like data transfer and latencies don't interfere. It also enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the \gls{EPU}. The layering of the architecture allows that each segment is completely independent in its implementation and operation.
 
 The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and it is comprised of three segments: \textbf{Edge} - Data Collection and Processing; \textbf{Server} - Data Storage and Application Server; \textbf{Client} - Frontend Application.
 
@@ -99,4 +99,14 @@ This interface should offer different operations and views for different types o
 The interface should, indirectly, trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.
 
 
-%TODO summary
+\section{System Proposal Summary}
+
+In this chapter a set of requirements were set, in order to build a system prototype that matches the objectives set in Section~\ref{sec:objectives}.
+These requirements define that the system must be able to work indoors, without the need of pre-installed infrastructures.
+It should provide real-time game metrics collected from all the players, and through an application coaches can manage their teams and fans can have access to statistics of the games.
+
+A system architecture was also defined, dividing the system in three layers, following an edge-computing system architecture.
+The edge layer should be composed of wearable sensors, that collect data from the players, and \gls{EPU}, that that receive this information and process it, calculating game metrics. These processed data is sent to the server, which stores it and can perform a more in-depth analysis.
+The data is then presented to the end-user (coaches or fans), providing insights and statistical analysis about the game.
+
+The next chapter will transform this set of requirements and system architecture description into a system prototype, explaining all the development processes.
