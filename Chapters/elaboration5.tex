@@ -39,7 +39,7 @@ There are some outliers, like the sudden decrease at 12 meters in Figure~\ref{fi
 
 \subsection{Data Quality}
 
-Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Tables \ref{tab:qualexample1} and \ref{tab:qualexample2} show two examples of the first 20 samples collected from two different sensors, both placed side by side, in a plane surface. The rest of the samples where omitted, since these are enough to illustrate the big picture.
+Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Tables \ref{tab:qualexample1} and \ref{tab:qualexample2} show two examples of the first 20 samples collected from two different sensors, both placed side by side, in a plane surface. The rest of the samples were omitted, since these are enough to illustrate the big picture.
 
 As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. This data should be discarded, as it doesn't correspond to reality.
 
@@ -90,11 +90,10 @@ One way of correcting these errors is by removing the bias of the gyroscope valu
 
 \section{Metrics Performance}
 \label{sec:resultsMetrics}
+This section will present the results obtained from testing the performance metric algorithms, presented in Section~\ref{sec:metrics}.
+
 \subsection{Position Tracking and Distance}
 \label{subsec:positionresults}
-%TODO falar que este algoritmo deu bons resultados quando apenas se andava, mas não é mmuito fiável a correr. 
-%TODO a distância era bastante mais alta que a trajetória real pecorrida
-%TODO algoritmo não é em tempo real, demora algum tempo a  calcular resultados
 Position tracking and distance were tested by using a sensor placed in the foot, above the shoe, as detailed in Subsection~\ref{subsubsec:trajectories}.
 
 Firstly, the calculation of distance was put to the test. The distance is calculated by measuring the distance between each coordinate, using the Euclidean distance. The first test performed was to find what was the distance calculated when the sensor was still. Figure~\ref{fig:stillDistance} shows the plot of data collected during 30 seconds, while the foot was still. As we can see, the displacement is very low, and the distance calculated is in the order of the millimeters.
@@ -108,7 +107,7 @@ Firstly, the calculation of distance was put to the test. The distance is calcul
 
 The second thing to test was the actual measurements of distance, compared to the real walked distance. For this, two sensors were worn, one in each foot, to compare the measurements between the two. It was asked to the subject to walk in a straight line, with varying distances: 6 meters, 12 meters and 18 meters.
 Figures \ref{fig:direitoStill} and \ref{fig:esquerdoStill} show the plot of the 3 distances, with data collected from the right and the left foot, respectively. The right foot presents calculated distances of 6.94m, 13.69m and 23.35m, and the left foot presents distances of 7.09m, 15.15m and 22.00m.
-As we can see by the plot, the further the subject walks, the greater the error of the calculated distance. This has to do with the accumulated error of the sensor values. These errors are originated in gyroscope noise, and are then propagated through the heading and speed estimations, affecting the position estimations. The error in position estimation affects directly the distance calculation.
+As we can see by the plot, the further the subject walks, the greater is the error of the calculated distance. This has to do with the accumulated error of the sensor values. These errors are originated in gyroscope noise, and are then propagated through the heading and speed estimations, affecting the position estimations. The error in position estimation affects directly the distance calculation.
 
 \begin{figure}[htbp]
     \centering
@@ -217,7 +216,6 @@ Identifying medium and fast dribbling achieved better results, with a percentage
 In fast dribbling, the algorithm would sometimes detect more dribbles than those that were actually made, and in medium dribbling, the algorithm would detect one or two less dribbles than those that were actually made, maybe because of different hand movement when starting or stopping the movement.
 
 \subsection{Jumps}
-%Os saltos têm de ter mais de 30cm, porque o algoritmo apenas deteta estes, se não confundia com corrida
 To collect jump data for the results phase, it was asked to three subjects to perform sets of ten jumps, with a rest of 1 or 2 seconds between each jump. The jumps were either done vertically, or with a small displacement to the front. The sensor was placed in the lower back of each subject, held in place with the help of an abdominal binder.
 
 In Figure~\ref{fig:jumpdetection} we can see the results of the data collected. The blue bars show the number of jumps performed in each session, and the red area represents the number of jumps detected. The percentage values are the percentage of correct jump detections, performed by the algorithm. The average of the correct detections of this algorithm is 17\% percent. This is value is very low and unsatisfactory. 
@@ -229,7 +227,7 @@ In Figure~\ref{fig:jumpdetection} we can see the results of the data collected. 
     \label{fig:jumpdetection}
 \end{figure}
 
-However, while collecting data, some particularities of the algorithm where detected, and could be improved in the future. For example, when two similar jumps were performed, with a rest time of about 2 seconds between them, sometimes the algorithm detected zero jumps, and sometimes it only detects one jump, but never the two jumps that were really performed.
+However, while collecting data, some particularities of the algorithm were detected, and could be improved in the future. For example, when two similar jumps were performed, with a rest time of about 2 seconds between them, sometimes the algorithm detected zero jumps, and sometimes it only detects one jump, but never the two jumps that were really performed.
 This may have to do with the reset parameters of the algorithm not being well adjusted. This means that the algorithm is not identifying correctly the moment when the subject is at rest, thus not detecting all the jumps.
 
 Another problem is the threshold from which the algorithm detects jumps. This threshold was set in development phase to separate running movements from jumps. As the jump is a slower movement than running, its frequency is also lower. While developing, the value set looked good, but when tested with other subjects, and after analyzing the results, we can conclude that the value can be increased, to detect more jumps. A drawback of this increase is the detection of unwanted movements, but it might be necessary, taking into account the poor performance of this algorithm.
@@ -237,14 +235,17 @@ Another problem is the threshold from which the algorithm detects jumps. This th
 \section{Overall System Analysis}
 The current system implementation is comprised of three elements: the \gls{IMU} Sensors, provided by \gls{KBZ}, one Raspberry Pi 4, and a computer, acting as a Server and hosting the application, accessed through the browser.
 
-As seen in the previous Sections, there where available two versions of the Raspberry: a Raspberry Pi 3, and a Raspberry Pi 4. It is advisable to use the Raspberry Pi 4, due to its improved capabilities in terms of communication, performing better in terms of data transmission and handling better the distance between the sensors and the Raspberry Pi.
+As seen in the previous Sections, there were available two versions of the Raspberry: a Raspberry Pi 3, and a Raspberry Pi 4. It is advisable to use the Raspberry Pi 4, due to its improved capabilities in terms of communication, performing better in terms of data transmission and handling better the distance between the sensors and the Raspberry Pi.
 
-In terms of the maximum numbers of devices supported by each Raspberry Pi, it's limits weren't tested, as there where no problems connecting all nine available \gls{IMU} Sensors.
+In terms of the maximum numbers of devices supported by each Raspberry Pi, it's limits weren't tested, as there were no problems connecting all nine available \gls{IMU} Sensors.
 
-However, to test the scalability of the developed prototype, and only as a proof of concept (even though there weren't available two Raspberry Pi's, neither enough number of \gls{IMU} Sensors to reach the maximum number of connections), the available Raspberry Pi 3 and Raspberry Pi 4 where both turned on and connected to the server, and the Sensors where forced to connect to one of them, with each Raspberry Pi handling a similar number of devices. The normal process of collecting data, processing the game metrics and sending them to the Server showed no problems, showing strong evidence that the developed system is capable of scaling.
+However, to test the scalability of the developed prototype, and only as a proof of concept (even though there weren't available two Raspberry Pi's, neither enough number of \gls{IMU} Sensors to reach the maximum number of connections), the available Raspberry Pi 3 and Raspberry Pi 4 were both turned on and connected to the server, and the Sensors were forced to connect to one of them, with each Raspberry Pi handling a similar number of devices. The normal process of collecting data, processing the game metrics and sending them to the Server presented no problems, showing strong evidence that the developed system is capable of scaling.
 
-Regarding the performance of the metrics algorithms, showed in the previous section, they weren't tested in parallel, with data from various players at the same time. Nonetheless, a simulation was made, collecting data from different \gls{IMU} Sensors, as if they were placed in different body parts of different players, although the sensors where still in the top of a desk. The collection of data, processing the data through the metrics algorithms and sending them to the Server went without problems. With this evidence we can believe that in a real life environment there would be no problems, but it can only be proven if tested.
+Regarding the performance of the metrics algorithms, showed in the previous section, they weren't tested in parallel, with data from various players at the same time. Nonetheless, a simulation was made, collecting data from different \gls{IMU} Sensors, as if they were placed in different body parts of different players, although the sensors were still in the top of a desk. The collection of data, processing the data through the metrics algorithms and sending them to the Server went without problems. With this evidence we can believe that in a real life environment there would be no problems, but it can only be proven if tested.
 
 Looking at the application, even though it's development isn't finished, it's possible to perform all the basic operations, such as add players and teams to the system, and manage the \gls{IMU} Sensors worn by the players, and the data collected and processed from the sensors can be visualized in real-time. As explained in Subsection~\ref{subsec:example}, the process of registering all the \gls{IMU} Sensors that each player is using is a bit intrusive to the practice or the game, and can be time-consuming. Other than that, the user experience of the application is  (in the case of the developed application, the coach) is very simple, and with a touch of a button the coach can "Start"{} and "Stop"{} the game (\textit{i.e.} start the collection and processing of data from the \gls{IMU} Sensors), and can track the player's performance in real time.
 
-The biggest flaw of the developed system prototype is in the game metrics that had the poorest performance: jumps and position tracking, especially when running. Unfortunately, there was no time to improve the algorithms that are capable of detecting this metrics from RAW data. It's improvement must be considered as future work, along with the introduction of new game metrics, like shoots and passes, or the implementation of more robust classification techniques, such as machine learning.
+The biggest flaw of the developed system prototype is in the game metrics that had the poorest performance: jumps and position tracking, especially when running.
+The jumping algorithm presented very bad results, detecting 17\% of the performed jumps on average. This algorithm used to detect this movement should be improved, and the use of more data (from different sensors) should be considered.
+The tracking algorithm had more satisfactory results, but only when the subjects walked. When running, the algorithm couldn't identify the path taken by the subject. The algorithm should be adapted to recognize faster foot movements, so that it can also be able to track the position when running.
+Unfortunately, there was no time to improve the algorithms these algorithms. It's improvement must be considered as future work, along with the introduction of new game metrics, like shoots and passes, or the implementation of more robust classification techniques, such as machine learning.

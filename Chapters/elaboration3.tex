@@ -12,9 +12,9 @@ With the goals set in Section~\ref{sec:objectives}, and after analyzing the curr
 
 It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of pre-installed structures (like a video system mounted in the court, or a set of antennas placed around the court).
 
-It also should provide real-time data of individual game metrics, calculated with the raw data from Wearable Sensors. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
+It also should provide real-time data of individual game metrics, calculated with the raw data from wearable sensors. These game metrics allow coaches to improve their player and team performance during training sessions and games, injury prevention and recovery. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
 
-A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones currently playing. If every player uses 3 devices, this could mean data collection from up to 30 devices to track every player in court during a basketball game.
+A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones in court. If every player uses 3 devices, this could mean data collection from up to 30 devices to track every player in court during a basketball game.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
 
 Besides storing information about the game metrics, other statistical data should also be stored. Information like box scores, players height, weight and playing position or the teams line-up and coach should be collected for statistical analysis.
@@ -27,7 +27,7 @@ Summing up, the main requirements of the system are:
 \begin{itemize}
     \item To be able to work indoors
     \item No need for pre-installed infrastructures
-    \item Provide real-time game metrics
+    \item Provide real-time game metrics of game performance
     \item To be able of scaling, in order to collect data from multiple sensors worn by the players
     \item Store the data collected and processed data, for future statistical analysis
     \item Provide this information to an application, available to coaches to improve their team, or to fans, for fan engagement
@@ -52,6 +52,7 @@ The architecture will be explained in more detail in the following subsections.
 
 \subsection{Edge}
 \label{subsec:edge}
+%TODO Edge segment - os sensores não são da camada abaixo?
 The Edge segment is composed of at least one \gls{IMU} Sensor and one \gls{EPU}, that controls and receives information directly from the \gls{IMU} Sensor. The \gls{EPU} should also be capable of calculating insightful metrics, calculated with the raw data acquired from the \gls{IMU} Sensors.
 
 Due to the variable number of players being tracked, and the number of \gls{IMU} sensors placed in each player, the system should be able to collect data from all the \gls{IMU} sensors. The scalability of the system relies on this segment. In order to accommodate the increase of \gls{IMU} sensors used, more \gls{EPU} may need to be used. These should work seamlessly, collecting data from the sensors, performing calculations and sending the data to the Server.
@@ -88,7 +89,7 @@ The server should only store processed data. The raw data should only be used in
 
 The processed data (\textit{e.g.} game metrics) should be stored in a database, alongside with important statistical information from the players, the teams and the games, such as player's age, height and weight, team's name, location and coach, and game's location and date, to show the fans and to be used in future analysis and statistics.
 
-The Server also hosts the Client Application, which communicates tightly with the Server. For this communication, an \gls{API} should be available, to expose system functions to external applications, such as the Client application, or other applications that may use the data collected and stored in the Server.
+The Server also hosts the Client Application, which communicates with the Server. For this communication, an \gls{API} should be available, to expose system functions to external applications, such as the Client application, or other applications that may use the data collected and stored in the Server.
 
 \subsection{Client}
 \label{subsec:client}
