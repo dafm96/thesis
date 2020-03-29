@@ -6,7 +6,6 @@
     As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
     The following sections will present some preliminary concepts fundamental to understand some terms and technologies used later in this work, discuss the related works that served as a starting point to this dissertation and will present some current commercial solutions, used by professional teams.}
 
-%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Preliminary Concepts}
 This section starts by presenting the available motion sensors, and explaining how they work. After, available communication protocols will be discussed and compared. To finish, different types of IoT computing architectures will be presented.
 
@@ -116,8 +115,6 @@ Hawk-eye technologies are used in over 80 Tennis Tournaments to track close line
 Videobserver is a match analysis service that joins the performance data inserted by the coach with recorded video, in order to provide a deferred statistical report of the matches. It is used mainly by football teams, but can be applied to handball, basket or hockey~\cite{videobserver}.
 
 Video tracking systems can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
-
-%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Communication Protocols}
 \label{sec:communication_protocols}
@@ -245,9 +242,11 @@ Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} propose a tutoria
 Sebastian Madgwick~\cite{Madgwick} presents an orientation algorithm, using a foot attached \gls{IMU} Sensor, that through dead recognition techniques and correcting the drift of integrating acceleration, when the foot touches the ground, is capable of generating a 3-Dimensional tracing of the foot motion.
 
 \subsection{Basketball Activity Recognition}
-%REFERENCE https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4501835/
-J.Sampaio~\textit{et al.} analyze the game performance of \gls{NBA} players, from open-access \gls{NBA} data, and grouped some variables, to obtain information about game actions, like pull-up shots, catch and shoots, close shots, drives, passing-variables (like scores from passes, or assists), touches-variables (like touches per game or time of possession), speed and distance, rebounds and free-throw percentage.
+
+J.Sampaio~\textit{et al.}~\cite{Sampaio2015} analyze the game performance of \gls{NBA} players, from open-access \gls{NBA} data collected with the SportsVU system, and grouped some variables, to obtain information about game actions, like pull-up shots, catch and shoots, close shots, drives, passing-variables (like scores from passes, or assists), touches-variables (like touches per game or time of possession), speed and distance, rebounds and free-throw percentage.
 With his work made an analysis of a \gls{NBA} season, using player tracking variables. These variables are collected in every \gls{NBA} game, and are important to understand and analyze the players performance.
+
+Marco Mangiarotti~\textit{et al.}~\cite{Mangiarotti2019} developed a system that is capable of identifying basketball activities, using two wrist-worn devices, with built-in accelerometers and gyroscopes. By using two machine learning algorithms in parallel (K-Nearest Neighbours and Support Vector Machine), they only recognize an activity if both algorithms identify it, reducing the probability of misclassification. They recognized three activities: shoots, passes and dribbles, but did not evaluate the performance of the dribble recognition. The recognition of the other two movements resulted in a very positive result, with a precision of 99\%.
 
 N. F. Ghazali \textit{et al.}~\cite{Ghazali2018} compare different machine learning techniques to identify common sport activities like being stationary, walking, running, sprinting and jumping, with data collected from an inertial sensor strapped to the chest. The raw data (accelerometer and gyroscope) was labeled, and features were extracted from this data, filtering the relevant information. Then, 5 different types of classification techniques were employed, and compared between each other. The best classifier achieved an accuracy of 91\%, successfully classifying common sport activities.
 
@@ -257,13 +256,13 @@ Xiangyi Meng \textit{et al.}~\cite{Meng2018} used the same classification techni
 
 Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in order to identify the posture of basketball player, and recognize nine other basketball movements, such as stand, walk, run, jump, in-situ dribble, dribble while walking, dribble while running, set shot, and jump shot. Using a neural network algorithm to identify this movements, an accuracy of 98.9\% is achieved, but only a subject provided the data for the test and validation phases.
 
-Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifiyng activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
+Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifying activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
 
 \section{Commercial Solutions}
 The most used way of track Basketball players is using optical tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}.
 
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
-%TODO falar dos sistemas de video tracking quando falo de sistemas de deteção de movimento
+
 SportVU is an optical tracking system, used by Stats Perform~\cite{StatsPerform}, that with cameras placed around the court and the use of artificial intelligence techniques can gather innovative statistics based on player speed, distance traveled, separation, ball possession and more. They combine the tracking of the player and the ball with historical databases to provide in-depth insights for team and player performances. This optical system is available for basketball and soccer, and besides providing useful information for team management, this data is also used for fan media, and for betting and fantasy content.
 
 Many other sports use optical tracking systems in their games, and they can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Optical systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some optical systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred~\cite{VanderKruk2018}.
@@ -279,7 +278,7 @@ STATSports~\cite{STATSports} is a system developed for soccer player tracking. T
 \section{Chapter summary}
 In this chapter we started by analyzing the commonly used motion sensors, the most suitable communication protocols to transmit information in this type of applications and what \gls{IoT} architectures exist, and the pros and cons of each one. With this analysis, it was concluded that 6LoWPAN, Wi-Fi and \gls{BLE} are the most suitable communication protocols to use, but only Wi-Fi and \gls{BLE} will be used in the implementation phase, as they are the only ones available.
 
-By analysing different \gls{IoT} computing architectures, it was also found that this kind of system could benefit from using an edge-processing style architecture, because it can improve the need to process data in real-time, allowing for low latency in the analysis of data.
+By analyzing different \gls{IoT} computing architectures, it was also found that this kind of system could benefit from using an edge-processing style architecture, because it can improve the need to process data in real-time, allowing for low latency in the analysis of data.
 
 Regarding the related works in this field, the search focused on works that studied human activity recognition in general, identifying activities like sitting, walking, running, jumps and tracking of position, and on works that aimed to classify basketball related activities, like shots, passes and dribbles, and what variables collected from a basketball game are used to evaluate the players performance.
 
