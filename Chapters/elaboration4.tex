@@ -109,7 +109,7 @@ This algorithm can be improved in the detection of the "sections"{} of ones, as 
 \subsection{Dribbles}
 \label{subsec:dribbles}
 For measuring the dribbling, an algorithm was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
-%TODO algorithm
+
 The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
 
 \begin{figure}[htbp]
@@ -134,27 +134,86 @@ By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded th
     \label{fig:graphdribble}
 \end{figure}
 
-To detect if it is a dribble, the algorithm finds a maximum value in both accelerometer and gyroscope data, that are above a certain threshold, and if they meet this criteria, a Fourier analysis is made to confirm that the frequency of the movement matches the frequency of a dribble, discarding other arm movements that could lead to erroneous detection of dribbles.
+To detect if it is a dribble, the algorithm finds a peak in the accelerometer values, and checks if both accelerometer and gyroscope values are above a certain threshold. If they meet this criteria, a Fourier analysis is made to confirm that the frequency of the movement matches the frequency of a dribble, discarding other arm movements that could lead to erroneous detection of dribbles.
 
-This algorithm was adapted and implemented in the system, to receive data in real-time from the \gls{IMU} sensor placed in the wrist.
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Dribble Detection Algorithm,
+    label=lst:dribbleAlgorithm}
+\begin{lstlisting}
+dataAccY = [];
+dataGyroX = [];
+ENDANALYSIS = 25;
+FOURIER_MAXTHRESHOLD = 0.1;
+FOURIER_MINTHRESHOLD = 0.035;
+analyzeData(accY, gyrX) {
+    dataAccY.push(accY);
+    dataGyroX.push(gyroX);
+    if (!dribbling) {
+        if (accY < ACC_THRESHOLD && gyrX < GYRO_THRESHOLD) {
+            dataAccY.shift(); //remove last
+            dataGyroX.shift(); //remove last
+        }
+        else if (accY >= ACC_THRESHOLD || gyroX >= GYRO_THRESHOLD) {
+            dribbling = true;
+            firstMax = accY;
+        }
+    }
+    else {
+        if (!firstMaxFound) {
+            if (accY > firstMax) {
+                firstMax = accY;
+            }
+            else {
+                firstMaxFound = true;
+            }
+        }
+        else{
+            if (accY >= ACC_THRESHOLD || gyroX >= GYRO_THRESHOLD)
+                noThreshold = 0;
+            else {
+                noThreshold++;
+                if (noThreshold === ENDANALYSIS) {
+                    fourierAccMax = fourierAnalysis(dataAccY);
+                    fourierGyroMax = fourierAnalysis(dataGyroX);
+                    if (fourierAccMax < FOURIER_MAXTHRESHOLD
+                        && fourierGyroMax < FOURIER_MAXTHRESHOLD
+                        && fourierAccMax > FOURIER_MINTHRESHOLD
+                        && fourierGyroMax > FOURIER_MINTHRESHOLD){
+                            nDribbles = countDribbles();
+                            sendDribbles(nDribbles);
+                        }
+                }
+            }
+        }
+    }
+};
+\end{lstlisting}
+
+Listing~\ref{lst:dribbleAlgorithm} shows the implemented algorithm, that receives data in real-time from the \gls{IMU} sensor placed in the wrist.
+
+The algorithm receives data from the Y axis of the accelerometer, and from the X axis of the gyroscope. It saves all the data in an array. While the movement isn't started (the acceleration and gyroscope values don't meet the thresholds), the values are discarded. If the values meet the thresholds, the dribbling movement is started.
+
+The algorithm identifies a peak in the accelerometer values. If the first max is found, it means the algorithm identified the first dribble. After this identification, it keeps checking if the values of the accelerometer and gyroscope are above the thresholds. If they aren't for a period of time (in this case defined by the constant $ENDANALYSIS$, which is equal to 25 samples, or one second), the dribble movement is considered as finished, and the fourier analysis is made in both accelerometer and gyroscope arrays, where all the samples were temporarily stored. If the values from the fourier analysis are between the minimum and maximum thresholds, the dribbles are counted, and this number is sent returned.
+
 
 \subsection{Jumps}
 \label{subsec:jumps}
 The method of identifying jumps was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
 To detect jumps, the approach relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
-%TODO algorithm
+
 To start this analysis, it was firstly collected data from all the sensors of the \gls{IMU} while jumping, and a pattern that could be used to identify the jump movement was searched. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
 
 As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window. Figure~\ref{fig:jumpsteps} illustrates the jumping phases on a subject, using the same numbers to reference the same moments.
 
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=.5\textwidth]{jump.pdf}
     \caption{Jump X Acceleration}
     \label{fig:jumpacc}
 \end{figure}
 
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=.7\textwidth]{jumpSteps.pdf}
     \caption{Jump Phases~\cite{Cheraghi2017}}
@@ -163,14 +222,75 @@ As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 
 
 After identifying this pattern, a Fourier analysis is applied on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, the conclusion was that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
 
-\begin{figure}
+\begin{figure}[htbp]
     \centering
     \includegraphics[width=.7\textwidth]{jump_fourier.pdf}
     \caption{Jump Fourier Analysis}
     \label{fig:jumpfourier}
 \end{figure}
 
-The developed algorithm is used in the system implementation, and it received the real time data from the X-axis of the \gls{IMU} Sensor placed in the lower back.
+\pagebreak
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Jump Detection Algorithm,
+    label=lst:jumpAlgorithm}
+\begin{lstlisting}
+MAX1THRESHOLD = 2;
+MAX2THRESHOLD = 1.5;
+MINTHRESHOLD = -1.1;
+FOURIERVALUE = 1.25;
+jumpTracker(accX) {
+    if (findingMax1) {
+        if (accX > max1) {
+            max1 = accX;
+        }
+        else {
+            if (max1 < MAX1THRESHOLD) {
+                discardJump()
+            } else {
+                findingMax1 = false;
+                findingMin = true;
+                min = max1;
+            }
+        }
+    }
+    else if (findingMin) {
+        if (accX < min)
+            min = accX;
+        else {
+            if (max1 < MAX1THRESHOLD) {
+                discardJump()
+            } else {
+                findingMin = false;
+                findingMax2 = true;
+                max2 = min;
+            }
+        }
+    }
+    else if (findingMax2) {
+        if (accX > max2) {
+            max2 = accX;
+        }
+        else {
+            if (max2 < MAX2THRESHOLD) {
+                discardJump()
+            } else {
+                fourierMax = fourierAnalysis();
+                if (fourierMax === FOURIERVALUE){
+                    sendJump();
+                }
+                else{
+                    discardJump();
+                }
+            }
+        }
+    }
+};
+\end{lstlisting}
+
+The developed algorithm is shown in Listing~\ref{lst:jumpAlgorithm}. It receives data in real time from the X-axis of the \gls{IMU} Sensor placed in the lower back. The algorithm detects the first maximum value, the minimum, and the second maximum. If any of these values doesn't match the values defined for the thresholds, the jump is discarded.
+
+If the values are within the criteria defined, a fourier analysis is performed on the data. If the value of the highest frequency, calculated in the fourierAnalysis method is equal to the defined value in $FOURIERVALUE$ constant (in this case it was set to 1.25, from observing the graph plotted in Figure~\ref{fig:jumpfourier}), then a jump is detected. If not, the jump is discarded.
 
 \section{System Implementation}
 The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
