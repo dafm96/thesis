@@ -1,0 +1,39 @@
+%!TEX root = ../elaboration.tex
+\chapter{Conclusions and Future Work}
+\label{cha:conclusions}
+\section{Conclusions}
+This work aimed to cover a gap in the area of basketball player tracking systems, with a special focus on amateur and college teams, which usually don't have the financial means to acquire current commercial technologies, that can range from tens to hundreds of thousands of euros.
+
+As stated in Section~\ref{sec:objectives}, this dissertation proposes a system that can collect data from multiple sensors placed in the body of the players of a team, and calculate game metrics from this data. This processed data should be stored for future analysis and statistics, and it should also be presented to coaches, in an application. In this application, the coaches are able to view detailed information about their players and team performance, in real time. 
+
+Addressing the question of collecting data being transmitted at high rate from multiple sensors at the same time, processing and storing it, with varying devices and distances, the architecture developed showed good results, showing low losses in the data transmitted. The architecture developed  is also easily scalable, allowing coaches to choose how many sensors they want in each player, without great expenses. 
+
+Regarding individual player metrics, four game metrics identification algorithms were developed. These four were chosen because all except the dribble identification had a common ground with other sports, and could be used in other similar systems, applied to different sports. 
+Two of the developed metrics, step detection and dribble detection, performed very  well, with results over 90\%. The other two (jumps and position tracking while running) showed poor results, due to algorithmic problems and data quality issues, and should be improved in the future, to have better insights about this movements.
+
+In Section~\ref{sec:objectives}, it is stated that the system should also be capable to provide an aggregated view of the team performance, like attacking and defending strategies, and to show the position of the players during the game in the form of heatmaps. However, these team metrics relied heavily on the positional tracking. Due to the poor results showed in Subsection~\ref{subsec:positionresults}, these metrics were not developed.
+
+The frontend application developed served as a support to test the performance of the developed game metrics identification, and was developed according to the coach's perspective, providing operations to control and analyse their players performance. There are missing features in the application, that are available in the \gls{API}, like the ability to edit and delete games, players and teams.
+
+Looking at the big picture, most goals were achieved, even though some were only partially completed, and the ability to track team sports players and collect game metrics can be achieved using low cost \gls{IMU} sensors and processing devices, providing amateur and college teams with analytic tools that were usually out of budget and only available for professional teams.
+
+The developed system seems a viable response to the problems raised in Chapter~\ref{cha:introduction}, offering amateur teams a tool that is capable to track and measure real-time game metrics with data collected from basketball players, to improve their teams performance, in similarity to what professional teams already do. 
+There are some trade-offs that were made due to the factor of keeping the costs low, such as the use of low quality \gls{IMU} sensors, which deteriorates the quality of the data. However, the results obtained with this study showed that some insightful metrics can be extracted, even with poor data.
+The solution may need to be adapted, and there may be the need to use more sensing methods than only the \gls{IMU} sensors, like the use of antennas around the field, always having in consideration the factor of keeping the costs low.
+
+
+\section{Future Work}
+This work left some loose ends, due to time constraints, and further improvements can be developed in future work.
+
+First of all, the metrics algorithms were all tested in isolation, and were tested by me and by co-workers in a controlled environment, performing scripted movements. A real-world test should be made with more subjects, ideally using a team practice or a game between two teams to collect data from the players, and evaluate if the performance of the algorithms keeps up with the rapid movements of a basketball game.
+Regarding the metrics identification algorithms, the algorithms with the worst results, like the jumps, or the position tracking while running, should be improved. While the position tracking worked well when walking, the identification when running should be improved. Fot the jumping detection algorithm, besides the improvement of the algorithm, more sensors could be used, to gather more data about the movements of the player, and to help the algorithm detecting what movements are jumps.
+
+More advanced classification techniques could be used, like machine learning methods, as seen in the related works, in Section~\ref{sec:relatedWork}. However, this would mean that a large amount of data should be collected to provide to the machine learning classification methods.
+
+For coaches it's not only important to perceive the performance of their team during the game, but to be able to gather information to improve the training sessions, prevent injuries by collecting data about the physical condition of the athletes and to help with their recovery. All these functionalities could be developed and implemented in the future developments.
+
+The system could store more statistical information about the players, the teams and the games. For example, data about the player's age, height, weight and former teams, data about the team ranking in the league, the city it belongs to and the team's current, and info about the game's location, lineups and box score.
+
+The further development of this system could introduce more sensors, to gather more information about the players, or even gather information about their surroundings. For injury prevention, and to better monitor the players conditions, sensors that measure physiological signals like body temperature, hearth rate or insole pressure sensors could be introduced. Motion sensors could also be placed in the hoops, that could detect if a player scored a point when he shoots.
+
+This additional info would serve to provide to the fans a version of the frontend application with detailed stats about the players, the teams and the games, allowing fans to have a different interaction with the game, improving fan engagement.

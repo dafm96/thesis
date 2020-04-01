@@ -1,0 +1,83 @@
+%!TEX root = ../elaboration.tex
+\newcommand{\novathesis}{\emph{novathesis}}
+\newcommand{\novathesisclass}{\texttt{novathesis.cls}}
+
+\chapter{Introduction}
+\label{cha:introduction}
+
+\epigraph{
+    In this chapter, the problem that motivates this study is presented, and the challenges it poses and the objectives to be achieved are explained. After, the expected contribuitions are defined. It finishes by describing the organizational structure of the remainder of the document.
+}
+
+\section{Motivation and Context} % (fold)
+\label{sec:motivation_context}
+In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, sports industries like basketball, soccer and baseball are using more and more data in their behalf. Huge volumes of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis~\cite{nbabigdata}. New discoveries on data can also help the business side of sports, like the \gls{NBA} Drafts or the soccer transfer market.
+
+The importance of game analysis and the tracking of player metrics (the study of the game by analyzing the behavior of players and teams), has been more and more crucial over the years for evaluating the performance of team in practices and competitions.
+Initially, the game analysis was performed using direct observational methods, and only certain metrics like shoots and rebounds were observed and registered by someone watching the game. The coaches would then, after the game, proceed to the analysis of the data by hand.
+
+With the arising of video recording systems, the registering methods were simplified, but no advance on the data processing was made. The coaches still had to analyse all the data manually.
+With the technological revolution of the computers, and its increasing availability, the data analysis could now be made using computational power, and the coaches could now focus on training their teams~\cite{Sampaio}.
+
+However, the data collection had to be computerized as well, as graphic images recorded by video recorders are hard to analyse.
+
+Innovations like wearable \gls{GPS} tracking devices have added big insights in team sports. Initially, practitioners of sports were interested in answering the first obvious question of the chaotic set of player movements during a game: how far did an athlete traveled over the course of a match? \gls{GPS} could easily answer this question, but soon more questions were raised. For example:
+\begin{itemize}
+    \item How many high velocity efforts were achieved?
+    \item How much time was spent at high speed?
+    \item What high accelerations and decelerations were performed? What impact does this have on the recovery strategies for each individual athlete?
+\end{itemize}
+
+This granular movements can be measured in a laboratory, using biomechanical tools like force plates that measure ground reaction forces, but this measurement tools can’t be deployed in real life cases like games or training sessions, and a “gross” positioning system like \gls{GPS} can never measure this type of forces.
+
+For a complete tracking solution, we need not only to analyze the “big picture” (the movement across the field), that can be provided by \gls{GPS}, but to consider the micro or local movements, which can provide enormously relevant information for performance enhancing, fatigue analysis and recovery strategy planning.
+
+Countless tracking systems exist for different sports, and even for different activities in each sport, but many of them are either very expensive, resource-intensive or attached to the field. Currently, there are two widely used systems to track the position and collect metrics from the players: sensors attached to each player, which have included a \gls{GPS} unit and an \gls{IMU} (accelerometer, gyroscope and magnetometer), and an array of cameras placed around the field of the game (e.g. SportVU and recently Second Spectrum used in \gls{NBA})~\cite{secondspectrumnba}.
+
+However, these systems have particular drawbacks: The \gls{GPS} signal can accurately measure the position, the speed and the displacement of a player. But it can’t measure metrics like jumps, shoots and passes or falls; When in a closed court (like most of basketball courts), there is no \gls{GPS} signal. The tracking is made using cameras around the court; Visual systems  can accurately track the position of the players and gather advanced metrics. The downside of these systems is the need of high processing power, and that the cameras are attached to the court. In this way, every court needs to have this expensive system installed to be able to track the players performance, something that is often out of reach for low ranked and amateur teams; Most times an operator is needed to tag the events recorded by the video systems, or the video is recorded and then the processed data is provided to the coaches and players.
+
+In order to tackle the drawbacks of video and \gls{GPS} solutions, some commercial solutions have emerged. Kinexon~\cite{Kinexon20} and ShotTracker~\cite{ShotTracker} aim to solve this problem, by using sensors attached to the players and the ball, and having an array of sensors around the court, to collect player positions and some other metrics like distance traveled, top speed, accelerations and decelerations, and shots and passes analysis. Yet, these systems need fixed frameworks (instead of cameras, there need to be sensors attached to the field) in order to function, and are out of budget for amateur teams.
+
+With this motivation, this study aims to develop a system prototype capable of tracking the position and to collect insights on performance metrics of a single player and of the entire team, using real-time data collected from the players. Apart from the technical challenges, this system should also be available for every team, in any performance level, by being low-cost and easy to include in a training or match environment. This dissertation was developed within a corporate context, at \gls{KBZ}, which provided the necessary resources and the laboratory conditions.
+
+\section{Objectives} % (fold)
+\label{sec:objectives}
+The proposed objective of this dissertation is to develop a system that is capable of tracking basketball players, by collecting data from them and calculating game metrics, like shoots and passes, in order to provide insights about player and team performance in real-time.
+
+Several sports are often practiced indoors, which prevents the use of \gls{GPS} positioning. In this cases, a tracking system using \gls{IMU} sensors like accelerometers or gyroscopes can be used. In order to test this tracking system, basketball was the sport chosen.
+
+Basketball is a good sport to track player movements because: it has a high number of events occurring in small time frames when comparing to other team sports like soccer; the number of players per team is 5 (a small number when compared to 7 players in a handball team or 11 players in a soccer team); it’s one of the sports that invests more in new technologies \gls{IoT} to track players and teams\cite{TechCrunch}.
+
+The first step of this study will be an analysis on the current methods of data collection from basketball players, and how are game metrics calculated from that data.
+
+Afterwards, a system architecture that covers the data collection from multiple players, calculates game metrics from it, stores it for further use (history or statistical analysis) and presents it to the users should be designed.
+
+Then, a prototype should be implemented. This prototype should collect data from multiple basketball players, from multiple parts of their body, to calculate different game metrics.
+These game metrics should be communicated to a central server (local or in the cloud), which should store all the information.
+A frontend application will be developed, displaying individual metrics for each player, but also providing an aggregated view regarding the whole team performance, like attacking and defending strategies in the form of heatmaps. Finally, this system (body sensor network and application) will be tested and validated, preferably in a real-life situation, like a game between two amateur teams.
+
+Summarizing, the main goal of this dissertation is to study and analyse ways to track player positions and to measure basketball game metrics, collected from \gls{IMU} sensors, and to illustrate those insights to the users (e.g.\ coaches, players) through an application, providing a central location to monitor and analyze the players and the team.
+
+\section{Expected Contributions} % (fold)
+\label{sec:contribuitions}
+
+The expected contributions of this dissertation are:
+\begin{enumerate}
+    \item Exploratory analysis of relevant basketball metrics, obtained from \gls{IMU} sensor data
+    \item Implementation of a body sensor using a wireless communication protocol to transmit data
+    \item Development of a system prototype that collects data from \gls{IMU} sensors, analyses it and displays the insights for the players and the team
+    \item Publication of a paper in international conference proceedings
+\end{enumerate}
+
+
+\section{Document Structure} % (fold)
+\label{sec:structure}
+The rest of the document is organized as follows: Chapter~\ref{cha:relatedWork} presents the related work, divided into General Human Activity Recognition and Basketball Activity Recognition, and discusses the Commercial Solutions currently available in the market. 
+
+Chapter~\ref{cha:systemProposal} defines the requirements for the implementation of the system prototype, and proposes a system architecture that covers and solves the problems set in this section.
+
+Chapter~\ref{cha:implementation} describes the implementation details of the prototype developed during the elaboration of this dissertation. It starts by explaining what kind of data is to be collected from the players, what metrics will be used to track the player's performance, using the collected data, and how they were implemented, and lastly presents the different components of the prototype, justifying the choices made and explaining in detail the implementation details.
+
+Chapter~\ref{cha:results} evaluates the results obtained with the developed prototype, focusing on two main points: the availability and quality of the data collected from the \gls{IMU} Sensors, and the performance of the game metrics.
+
+Finishing this dissertation, Chapter~\ref{cha:conclusions} compares the developed work with the objectives set in the start of the dissertation, and analyses the final result of the whole system. A suggestion of future work ends this chapter.

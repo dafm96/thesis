@@ -1,0 +1,622 @@
+%!TEX root = ../elaboration.tex
+\chapter{System Implementation}
+\label{cha:implementation}
+\epigraph{This chapter presents the implementation of the system proposed in Chapter~\ref{cha:systemProposal}. It starts by describing the data collected from the players. Afterwards, the performance metrics are explained, and finally the details of the implementation are illustrated.}
+
+\section{Movement and Player Data}
+\label{sec:data}
+To measure movements of a body, it's necessary to measure different components of the movement: the rate of change of the velocity with respect to time (acceleration), to measure its rotational speed (angular velocity), and its orientation, usually measured according to the Earth magnetic field~\cite{Wong2007}.
+
+The International System of Units use metre per second squared ($m/s^2$) for acceleration, radian per second ($rad/s$) for the rotational speed and Tesla ($T$) for magnetic induction.
+
+To measure these properties of the movement, there are three types of sensors that are frequently used to quantify these components of the movement: accelerometer, gyroscope and magnetometer. The combination of the three sensors is called an \gls{IMU}.
+
+Figure~\ref{fig:rawExamples} presents an example of data collected by an \gls{IMU} placed in the foot. During the collection of this example data, the subject took 5 steps, in a straight line. In the accelerometer graph, we can see 5 zones of greater movement, intercalated with rest periods (the first might be a small foot movement). Each one of this periods represents a step. In the gyroscope graph, we see 5 analogous peaks, especially in the Y Axis, that tell us where the steps were taken. The measurements of the  magnetometer are easily disturbed by any magnetic field (like a cellphone or a wi-fi router), so they will be discarded.
+
+Information about the player's individual characteristics should also be collected. Data like the age, the height, the weight and their playing position can be useful for future analysis and statistics.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Accelerometer Raw Data\label{fig:accExample}}%
+    {\includegraphics[width=0.64\linewidth]{XYZ_Acceleration_example.pdf}}%
+    \\
+    \subcaptionbox{Gyroscope Raw Data\label{fig:gyrExample}}%
+    {\includegraphics[width=0.64\linewidth]{XYZ_Gyroscope_example}}%
+    \\
+    \subcaptionbox{Magnetometer Raw Data\label{fig:magExample}}%
+    {\includegraphics[width=0.64\linewidth]{XYZ_Magnetometer_example}}%
+    \caption{Raw Data Examples}
+    \label{fig:rawExamples}
+\end{figure}
+
+\section{Performance Metrics in Basketball}
+\label{sec:metrics}
+To achieve the goal to collect insightful information of a basketball game, with the data described in Section \ref{sec:data}, a set of game metrics were chosen, focusing on three body locations: foot, lower back and hand.
+
+Using the sensor in the foot we can infer the number of steps, traveled distance and player trajectory.
+
+In the hand, it is possible to detect the number of dribbles, and time dribbling. With this, it is also possible to calculate the time of ball possession of the whole team.
+
+In the lower back, the sensor was used to collect data and analyze it to detect the number of jumps and time in air.
+
+The following sections will explain in detail how the metrics are calculated, using raw data.
+
+\subsection{Position Tracking}
+\label{subsubsec:trajectories}
+To track the player's positions, the tutorial Implementing a Pedestrian Tracker Using Inertial Sensors~\cite{Fischer2013} was followed, as it produces good results in their implementation.
+
+The data for this algorithm was collected from a sensor placed on the foot. To prevent deviations, the sensor was put inside a fabric pocket, and this pocket was placed in the right place with a sock around the foot, as shown in Figure~\ref{fig:sock}.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Fabric pocket\label{fig:sensor_5}}%
+    {\includegraphics[width=0.5\linewidth]{sensorlo5}}%
+    \subcaptionbox{Sock\label{fig:sensor_6}}%
+    {\includegraphics[width=0.5\linewidth]{sensorlo6}}%
+    \caption{Fixation with fabric pocket and sock around the foot}
+    \label{fig:sock}
+\end{figure}
+
+Fischer proposes a simple and effective way to implement an accurate pedestrian tracker, using Kalman Filtering to estimate velocity, position and orientation errors, and Zero Velocity Detection, to correct these errors.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.6\textwidth]{tutorial_methodology.pdf}
+    \caption{Fischer's Pedestrian Tracking Algorithm~\cite{Fischer2013}}
+    \label{fig:methodology}
+\end{figure}
+
+The proposed algorithm, illustrated in Figure~\ref{fig:methodology}, uses \gls{IMU} Sensor's gyroscope data to estimate orientation, through the integration of the gyroscope values. Then, to estimate the position, acceleration values are doubly integrated. Using Kalman Filter Prediction, a covariance of the error is estimated. At this point, it is verified if the sensor is stationary, by checking if the norm of the values of the gyroscope is below a threshold. If it is, the velocity, position and orientation errors are estimated, and the previously calculated error covariance is corrected. This step is referred as Kalman Filter Update. Next, the velocity, position and orientation are corrected, with the previously estimated errors. This step is called Zero-velocity Update (ZUPT). The final step is to output the calculated position. If the sensor is not stationary, only the position is returned. The position comes in (x,y) coordinates, which can then be plotted in a graph to show the trajectories.
+
+
+\subsection{Steps}
+\label{subsec:steps}
+The detection of steps takes advantage of the algorithm explained in ~\ref{subsubsec:trajectories}, especially the Zero-Velocity Detection.
+Whenever a Zero-Velocity is detected, it is recorded in a binary array (zeros meaning no movement, ones meaning movement). Afterwards, when the Trajectory detection algorithm ends, the array is analysed.
+
+The analysis is made by counting the meaningful "sections"{} of ones. Listing~\ref{lst:stepArray} shows an example of a step detection array, where we can clearly see there are two main "sections"{} of ones, meaning that using this example the algorithm should count two steps.
+\lstset{caption=Steps Array Example, label=lst:stepArray}
+\begin{lstlisting}
+[0000000000100001111111111111111000100000000000000010111111111111111111100110000000000]
+\end{lstlisting}
+
+However the algorithm must take into account the outliers, and shouldn't identify it as steps. This can be ensured by only counting a step after a number of consecutive ones is observed. If two consecutive zeros appears in the middle, the possible step is discarded.
+The behavior of the algorithm is described in Listing~\ref{lst:stepAlgorithm}.
+
+\lstset{language=Matlab, caption=Steps Counting Algorithm, label=lst:stepAlgorithm}
+\begin{lstlisting}
+    steps = 0;
+    no_ones = 0;
+    last = 0;
+    for idx = 1:data_size
+        current = walking(idx);
+        if (last == 0 && current == 1)
+            no_ones++;
+        elseif (last == 1 && current == 1)
+            no_ones++;
+            if (no_ones == 12)
+                steps++;
+            endif
+        elseif (last == 0 && current == 0)
+            no_ones = 0;
+        endif
+        last = current;
+    endfor
+\end{lstlisting}
+
+This algorithm can be improved in the detection of the "sections"{} of ones, as it can sometimes fail. For example, if in one step sequence we had 3 occurrences of zeros inside a large sequence of ones, the algorithm would count 2 steps instead of 1 step. However, when testing the results were satisfactory, so no more work was done in the development of this algorithm.
+
+\subsection{Dribbles}
+\label{subsec:dribbles}
+For measuring the dribbling, an algorithm was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
+
+The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist of the dominant hand, as shown in Figure~\ref{fig:sensorDribble}, and uses the data from the Y-axis accelerometer and X-axis gyroscope.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Sensor outside the glove\label{fig:outside}}%
+    {\includegraphics[width=0.5\linewidth]{sensor_dribble1.pdf}}%
+    \subcaptionbox{Sensor inside the glove\label{fig:inside}}%
+    {\includegraphics[width=0.5\linewidth]{sensor_dribble2.pdf}}%
+    \caption{Position of the sensor in the hand}
+    \label{fig:sensorDribble}
+\end{figure}
+By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded that the Y-Axis from the accelerometer (the movement to the front or to the back of the arm) and the X-Axis of the gyroscope (rotating the hand up or down) were the most important axis to analyse the dribbling movement. The graphs shown in Figure~\ref{fig:graphdribble} present the plot of a sequence of 20 dribbles, with data from the Y-Axis of the accelerometer and the X-Axis of the gyroscope.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Accelerometer y-axis graph\label{fig:accDribble}}%
+    {\includegraphics[width=0.8\linewidth]{dribble_acc.pdf}}%
+    \\
+    \subcaptionbox{Gyroscope x-axis graph\label{fig:gyrDribble}}%
+    {\includegraphics[width=0.8\linewidth]{dribble_gyr.pdf}}%
+    \caption{Accelerometer and gyroscope during 20 dribbles}
+    \label{fig:graphdribble}
+\end{figure}
+
+To detect if it is a dribble, the algorithm finds a peak in the accelerometer values, and checks if both accelerometer and gyroscope values are above a certain threshold. If they meet this criteria, a Fourier analysis is made to confirm that the frequency of the movement matches the frequency of a dribble, discarding other arm movements that could lead to erroneous detection of dribbles.
+
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Dribble Detection Algorithm,
+    label=lst:dribbleAlgorithm}
+\begin{lstlisting}
+dataAccY = [];
+dataGyroX = [];
+ENDANALYSIS = 25;
+FOURIER_MAXTHRESHOLD = 0.1;
+FOURIER_MINTHRESHOLD = 0.035;
+analyzeData(accY, gyrX) {
+    dataAccY.push(accY);
+    dataGyroX.push(gyroX);
+    if (!dribbling) {
+        if (accY < ACC_THRESHOLD && gyrX < GYRO_THRESHOLD) {
+            dataAccY.shift(); //remove last
+            dataGyroX.shift(); //remove last
+        }
+        else if (accY >= ACC_THRESHOLD || gyroX >= GYRO_THRESHOLD) {
+            dribbling = true;
+            firstMax = accY;
+        }
+    }
+    else {
+        if (!firstMaxFound) {
+            if (accY > firstMax) {
+                firstMax = accY;
+            }
+            else {
+                firstMaxFound = true;
+            }
+        }
+        else{
+            if (accY >= ACC_THRESHOLD || gyroX >= GYRO_THRESHOLD)
+                noThreshold = 0;
+            else {
+                noThreshold++;
+                if (noThreshold === ENDANALYSIS) {
+                    fourierAccMax = fourierAnalysis(dataAccY);
+                    fourierGyroMax = fourierAnalysis(dataGyroX);
+                    if (fourierAccMax < FOURIER_MAXTHRESHOLD
+                        && fourierGyroMax < FOURIER_MAXTHRESHOLD
+                        && fourierAccMax > FOURIER_MINTHRESHOLD
+                        && fourierGyroMax > FOURIER_MINTHRESHOLD){
+                            nDribbles = countDribbles();
+                            sendDribbles(nDribbles);
+                        }
+                }
+            }
+        }
+    }
+};
+\end{lstlisting}
+
+Listing~\ref{lst:dribbleAlgorithm} shows the implemented algorithm, that receives data in real-time from the \gls{IMU} sensor placed in the wrist.
+
+The algorithm receives data from the Y axis of the accelerometer, and from the X axis of the gyroscope. It saves all the data in an array. While the movement isn't started (the acceleration and gyroscope values don't meet the thresholds), the values are discarded. If the values meet the thresholds, the dribbling movement is started.
+
+The algorithm identifies a peak in the accelerometer values. If the first max is found, it means the algorithm identified the first dribble. After this identification, it keeps checking if the values of the accelerometer and gyroscope are above the thresholds. If they aren't for a period of time (in this case defined by the constant $ENDANALYSIS$, which is equal to 25 samples, or one second), the dribble movement is considered as finished, and the fourier analysis is made in both accelerometer and gyroscope arrays, where all the samples were temporarily stored. If the values from the fourier analysis are between the minimum and maximum thresholds, the dribbles are counted, and this number is sent returned.
+
+
+\subsection{Jumps}
+\label{subsec:jumps}
+The method of identifying jumps was developed together with Alexandre Martins, a Computer Science student, during his internship in \gls{KBZ}.
+To detect jumps, the approach relied on the recognition of a jumping pattern in the data collected from a \gls{IMU} Sensor placed in the lower back.
+
+To start this analysis, it was firstly collected data from all the sensors of the \gls{IMU} while jumping, and a pattern that could be used to identify the jump movement was searched. That pattern was found in the X axis of the accelerometer sensor (the vertical axis), and it is represented in figure~\ref{fig:jumpacc}.
+
+As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 3 moments: the feet leave the ground (1); maximum jump height reached (2); the feet touch the ground (3). These moments are easily identified by being a maximum value, followed by a minimum, followed by a maximum, inside a time window. Figure~\ref{fig:jumpsteps} illustrates the jumping phases on a subject, using the same numbers to reference the same moments.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.5\textwidth]{jump.pdf}
+    \caption{Jump X Acceleration}
+    \label{fig:jumpacc}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.7\textwidth]{jumpSteps.pdf}
+    \caption{Jump Phases~\cite{Cheraghi2017}}
+    \label{fig:jumpsteps}
+\end{figure}
+
+After identifying this pattern, a Fourier analysis is applied on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, the conclusion was that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=.7\textwidth]{jump_fourier.pdf}
+    \caption{Jump Fourier Analysis}
+    \label{fig:jumpfourier}
+\end{figure}
+
+\pagebreak
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Jump Detection Algorithm,
+    label=lst:jumpAlgorithm}
+\begin{lstlisting}
+MAX1THRESHOLD = 2;
+MAX2THRESHOLD = 1.5;
+MINTHRESHOLD = -1.1;
+FOURIERVALUE = 1.25;
+jumpTracker(accX) {
+    if (findingMax1) {
+        if (accX > max1) {
+            max1 = accX;
+        }
+        else {
+            if (max1 < MAX1THRESHOLD) {
+                discardJump()
+            } else {
+                findingMax1 = false;
+                findingMin = true;
+                min = max1;
+            }
+        }
+    }
+    else if (findingMin) {
+        if (accX < min)
+            min = accX;
+        else {
+            if (max1 < MAX1THRESHOLD) {
+                discardJump()
+            } else {
+                findingMin = false;
+                findingMax2 = true;
+                max2 = min;
+            }
+        }
+    }
+    else if (findingMax2) {
+        if (accX > max2) {
+            max2 = accX;
+        }
+        else {
+            if (max2 < MAX2THRESHOLD) {
+                discardJump()
+            } else {
+                fourierMax = fourierAnalysis();
+                if (fourierMax === FOURIERVALUE){
+                    sendJump();
+                }
+                else{
+                    discardJump();
+                }
+            }
+        }
+    }
+};
+\end{lstlisting}
+
+The developed algorithm is shown in Listing~\ref{lst:jumpAlgorithm}. It receives data in real time from the X-axis of the \gls{IMU} Sensor placed in the lower back. The algorithm detects the first maximum value, the minimum, and the second maximum. If any of these values doesn't match the values defined for the thresholds, the jump is discarded.
+
+If the values are within the criteria defined, a fourier analysis is performed on the data. If the value of the highest frequency, calculated in the fourierAnalysis method is equal to the defined value in $FOURIERVALUE$ constant (in this case it was set to 1.25, from observing the graph plotted in Figure~\ref{fig:jumpfourier}), then a jump is detected. If not, the jump is discarded.
+
+\section{System Implementation}
+The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
+    \caption{Implemented Architecture}
+    \label{fig:architectureImplementation}
+\end{figure}
+
+\subsection{Edge}
+As described in section~\ref{subsec:edge}, the edge segment is composed by one or more \gls{IMU} Sensors and one or more \gls{EPU}.
+
+In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing~\cite{RaspberryPiFou}.
+It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and Wi-Fi communications, and being a good platform for developing an application prototype.
+
+When the developments for this thesis started, a Raspberry Pi 3 Model B+ was available, and was used. However, a Raspberry Pi 4 was also available, and the performance of the two was compared, in terms of algorithm processing and reliability of the communication. The results are available in Chapter~\ref{cha:results}.
+
+There were also available two type of \gls{IMU} Sensors, with different communication technologies: one with Wi-Fi communication, and other with BLE communication. After testing, the Wi-Fi sensor was disregarded, due to incompatibilities with the sensibility of the sensor being to high for the performance metrics algorithms, and the inability to change it, the need to set a dedicated local network in order to connect the Wi-Fi IMU Sensors with the Raspberry Pi's and the bigger power consume they have in comparison with the Bluetooth devices.
+
+The \gls{IMU} Sensors chosen to be used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
+
+The number of \gls{IMU} sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
+
+The Bluetooth protocol doesn't limit the number of connections, only the memory available in the device imposes a physical limitation to the number of devices connected~\cite{TexasInstruments}. However, manufacturers tend to set a limit to the maximum number of devices that can be connected. For example, Android devices set this limit to 9 devices, and some Bluetooth dongle manufacturers usually set it to 7 or lower, even though these numbers aren't officially confirmed. For the Raspberry Pi, there is no information about the maximum number of Bluetooth connections. For this work, we'll set a safety net of a maximum of 9 connections, for each Raspberry Pi.
+
+As the number of sensors can grow, and due to the limitation of the number of connections to a Bluetooth receiver,
+the number of Raspberry Pi's may also grow, in order to establish connection with all the \gls{IMU} Sensors.
+This also helps to share the computation of the game metrics between the Raspberry Pi's.
+
+\subsubsection{IMU Sensor Control and Communication}
+\label{subsec:imuControl}
+The role of the \gls{IMU} Sensors is to receive instructions issued by the user, like starting and stopping data collection, and send accelerometer and gyroscope raw data to the Raspberry Pi they are connected to, over Bluetooth.
+
+The following operations are supported by \gls{IMU} Sensors:
+\begin{itemize}
+    \item State control
+          \begin{itemize}
+              \item Start Raw Data Collection
+              \item Stop Raw Data Collection
+              \item Shutdown
+          \end{itemize}
+    \item Sample Rate
+    \item MPU Configuration
+\end{itemize}
+
+The \gls{IMU} Sensors must pair with a Raspberry Pi, which is searching for the known sensors. After being paired, the operations can be communicated to the \gls{IMU} Sensors through Bluetooth Notifications.
+
+Before starting the data collection, it is necessary to set the sample rate to 50 Hz (necessary for the metrics algorithms), and to activate the gyroscope and the magnetometer sensor by changing the MPU Configuration. By default only the accelerometer sensor is active.
+
+To start collecting data from an \gls{IMU} Sensor, it is needed to provide information like the MAC Address of the sensor, an identification of the game being played and the player wearing the sensor (because the sensors can be changed from game to game between the players). It is also needed to send the position of the sensor in the player's body, to calculate the metrics, as each algorithm uses data collected from a different part of the body.
+
+The \gls{IMU} Sensors send time ($ms$), accelerometer ($m/s^2$) and gyroscope ($^\circ/s$) data in a byte array, which is then converted to human-readable values. The magnetometer data isn't used, so it is discarded. An example of raw data sent by the \gls{IMU} Sensors can be seen in Table~\ref{tab:raw}.
+
+\begin{table}
+    \centering
+    \caption{Raw Data Example}
+    \label{tab:raw}
+    \begin{tabular}{lllllll}
+        \textbf{time} & \textbf{accX} & \textbf{accY} & \textbf{accZ} & \textbf{gyrX} & \textbf{gyrY} & \textbf{gyrZ} \\\cline{1-7}
+        0.02          & 0,46178       & -0,83982      & 9,46772       & 0,07084       & 0,05007       & -0,03089      \\
+        0.04          & 0,44264       & -0,80991      & 9,42465       & 0,07031       & 0,04954       & -0,03196      \\
+        0.06          & 0,42948       & -0,83384      & 9,42106       & 0,07031       & 0,04900       & -0,03196      \\
+        0.08          & 0,41991       & -0,82786      & 9,44858       & 0,07031       & 0,04954       & -0,03196      \\
+        0.10          & 0,43666       & -0,82666      & 9,41030       & 0,06978       & 0,04794       & -0,03196
+    \end{tabular}
+\end{table}
+
+With the data received from the \gls{IMU} Sensors, the metrics described in \ref{sec:metrics} are calculated.
+After being calculated, they are sent to the server via \gls{MQTT}, to be stored there. \gls{MQTT} is a lightweight messaging protocol for small sensors and mobile devices, and was chosen as the communication technology because it is easily implemented, highly scalable, and allows bidirectional communication, that is needed to send commands to the sensors and to receive data~\cite{MQTT}.
+The Raspberry Pi's don't store data; they serve to calculate the metrics and as a vehicle to send instructions and data between the server and the sensors.
+
+Summarizing, a single Raspberry Pi is then responsible by: maintaining the connection with several \gls{IMU} Sensors; communicate instructions; receive accelerometer and gyroscope data, and store it temporarily; depending on the position of the sensor, calculate the according metrics algorithms with the received data; send the calculated metrics to the Server.
+
+
+\subsection{Server}
+The server is built as a \gls{REST} \gls{API}~\cite{RESTfulAPI}, developed with Node.js~\cite{Node.js}, and taking advantage of the Express Framework~\cite{ExpressJs} that enables a fast development of Web Applications and \gls{API}'s.
+\gls{REST} was chosen as the architectural style for the server because of its ease of development and prototyping, and the ability to separate concerns between the server and the client (\textit{e.g.} separating the business logic and data storage from the user interface).
+
+To manage peripherals (\gls{IMU} Sensors), Players, Teams, and Games, there are \gls{API} endpoints for each one of this resources, and all the data is saved in a MySQL Database. It also stores permanently the performance metrics, calculated in the Edge segment.
+
+\subsubsection{Database Model}
+The database, developed in MySQL, was designed in order to store all the data from the main resources, its relations and meaningful data in those relations. Figure~\ref{fig:database} shows the database model, which will be explained in detail.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{SQL2.pdf}
+    \caption{Database Model}
+    \label{fig:database}
+\end{figure}
+
+The main resources are represented in the following tables: \textbf{Peripherals}; \textbf{Players}; \textbf{Teams}; \textbf{Games}; \textbf{Metrics}.
+
+Each entry in the \textbf{Peripheral} table represents an \gls{IMU} Sensor. It's stored the peripheral MAC Address, and its attributed number for easier identification.
+
+In the \textbf{Players} table, each player has stored its identifier,  name, and an identifier of the team they belong to. %could store age, height, weight, position
+
+The \textbf{Team} table only stores the name of the team and its identifier. %could store city, year of foundation, score in the league, coach....
+
+To store information about a game, the \textbf{Game} table has its identifier, the date of the game, and a reference for both teams attending the game. %could store where it is, the score of the game, the referee....
+
+For the \textbf{Metrics}, each player has a set of metrics per game, with the data gathered from all the \gls{IMU} Sensors he's using. The metrics being currently stored are: number of steps and distance traveled; number of jumps; number of dribbles and dribbling time; time spent being still, walking and running.
+
+One of the features of the system is to be able to handle multiple peripherals per player, in different body positions, that can be changed between games. To store this information, two tables are needed: one that stores the relation between the player and the game (\textbf{Player\_Game Table}), and another that relates that with a peripheral (\textbf{PG\_Peripheral Table}), storing where the peripheral is placed in the player's body.
+
+\subsubsection{API Description}
+\label{susubsec:API}
+This subsection will describe the main resources of the \gls{API}, what functions are available, and show some examples of hot it was implemented.
+
+The Developed \gls{API} exposes endpoints to control the different resources available in the system. Those resources are:
+\begin{itemize}
+    \item Peripherals (\gls{IMU} Sensors)
+    \item Players
+    \item Teams
+    \item Games
+\end{itemize}
+
+The \textbf{Teams} endpoint enables the \gls{CRUD} actions over the teams of the system.
+
+It lets the user create a new team, given their name, the ability to consult all the teams registered in the system, to consult a specific team and their respective information or the players that belong to that team. This endpoint also serves to update information about a team or to delete the team from the system.
+
+Listing \ref{lst:getTeam} shows an example of the API endpoint to get a specific team. When a GET request is made to the url \textit{/teams/}, followed by the id of the team, the information of the team is fetched from the database, and returned to the user.
+
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Get one Team,
+    label=lst:getTeam}
+\begin{lstlisting}
+router.get('/teams/:teamId', (req, res) => {
+    let q = 'SELECT * FROM Team WHERE Team.idTeam = ?';
+    connection.query(q, [req.params.teamId], function (err, result) {
+        if (err) {
+            return res.status(400).send('DB error')
+        }
+        res.send(result);
+    })
+})
+\end{lstlisting}
+
+The \textbf{Players} endpoint provides the user the \gls{CRUD} actions over the players of the system.
+
+It enables the creation of a new player, given their name and the team they belong to, the ability to consult all the players registered in the system, or to consult a specific player and their respective information; for a given player, this endpoint also serves to update information or to delete the player from the system.
+
+Listing \ref{lst:postPlayer} shows the endpoint to add a new player to the system. When a POST request is sent to the url \textit{/players/}, with the name of the player and the identification of the team they belong to, it is inserted into the database, and a success or error message is shown to the user.
+
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Insert new Player,
+    label=lst:postPlayer}
+\begin{lstlisting}
+router.post('/players', (req, res) => {
+    let q = 'INSERT INTO Player (playerName, teamId) VALUES (?, ?)'
+    connection.query(q, [req.body.playerName, req.body.teamId], function (err, result) {
+        if (err) {
+            return res.status(400).send('DB error:' + err)
+        }
+        res.send(result);
+    })
+})
+\end{lstlisting}
+
+The \textbf{Games} endpoint, besides providing Create, Read and Delete operations for the games, also manages the attribution of peripherals to each player, in multiple parts of their body, and also to fetch the metrics for each player.
+
+For the Create operation, it is possible to create a game providing the date of the game and the two teams that are playing the game.
+
+For the Read operation, it is possible to get a list of the games (that already occurred or that will occur), get the main info about a specific game (the date and the teams) or to get specific info about a specific game (like the players of each team, and the assigned peripherals for each player).
+
+For the Delete operation, it is possible to delete a game.
+
+To manage the peripherals for each player, it is possible to assign a peripheral to a player in a given game, providing the player identifier, the peripheral address and the location of the body where the \gls{IMU} Sensor is located, and it is possible to remove this assignment.
+
+Listing~\ref{lst:assignPeripheral} shows the endpoint to assign a peripheral to a player. A player in a game is identified by an identifier, named \textit{ppg\_id}. When a PUT request is sent to the url \textit{/games/ppg/}, with the identifier of the player in that game, the identifier of the peripheral and the position of the peripheral, it is saved in the \textbf{PG\_Peripheral} table the information that relates the peripheral and it's position to the player wearing it.
+
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Assign Peripheral to Player,
+    label=lst:assignPeripheral}
+\begin{lstlisting}
+router.put('/games/ppg/:ppgid', (req, res) => {
+    let q = 'INSERT INTO PG_Peripheral (peripheral_id, peripheral_position, ppg_id) '
+        + 'VALUES (?, ?, ?)';
+
+    connection.query(q, 
+        [req.body.peripheralId, req.body.peripheralPosition, req.params.ppgid], 
+        function (err, result) {
+        if (err) {
+            return res.status(400).send('DB error')
+        }
+        res.send(result);
+    })
+})
+\end{lstlisting}
+
+It is also possible to read the metrics for each player, and to get a sum of the dribbling time for each team, which gives an insight for the total ball possession during a game.
+
+The \textbf{peripherals} endpoint enables the control of the \gls{IMU} Sensors from the Client app, and stores temporary state on the peripherals, like what are the currently connected peripherals, and which ones are collecting data.
+
+As specified in Subsection~\ref{subsec:imuControl}, there are 3 main controls that can be sent to the \gls{IMU} Sensors: start, stop or shutdown. The Peripherals endpoint allows 3 ways of sending this command to the Edge segment: control only one given peripheral, control all the peripherals in a game or control all connected devices.
+
+The control instructions are sent to the Edge Segment through the \gls{MQTT} protocol, and are activated notifications to receive updates from the Edge. For example, if the instructions to start all the peripherals in a game, the server will be awaiting for notifications from each of the peripherals, with the calculated game metrics, depending on the position of the \gls{IMU} Sensor in the body of the player.
+
+Listing~\ref{lst:startRAW} shows an endpoint that given the peripheral address, a message is published, issuing the operation \textit{startRaw} and the address of the peripheral. The \gls{EPU} will be listening to this messages, and will start the data collection on this device.
+
+\lstset{language=JAVA,
+    showstringspaces=false,
+    caption=Start RAW collection from Peripheral,
+    label=lst:startRAW}
+\begin{lstlisting}
+router.post('/peripherals/:peripheralAddress/startRaw', 
+    function (req, res) {
+        client.publish('operation', 
+            JSON.stringify({ 
+                operation: 'startRaw', 
+                address: req.params.peripheralAddress
+            }))
+    res.send()
+})
+\end{lstlisting}
+
+\subsection{Client}
+The client application is developed as a web application, using React. React is a Javascript Framework for building user interfaces, that enables the composition of small components to build complex UI's.
+
+The application works in any browser, no matter the device being used. This allows the Users to access the application from a computer, a tablet or a smartphone, and it will have the same behavior in all the devices.
+
+The application consumes the \gls{API} exposed by the server, through HTTP. This means that the Client application is divided into 3 parts: players, teams and games. It is capable of controlling the \gls{IMU} Sensors, and manage teams, players and games. It also displays to the user information about Player and Team game-related metrics.
+
+The application allows the user to easily perform the actions previously described in the API Description (Subsection~\ref{susubsec:API}).
+
+For the \textbf{Teams}, it allows the creation of new teams, and the ability to consult all the teams available in the system, or to view one team in particular, showing all the players that belong to it.
+
+For the \textbf{Players}, it is possible to create new players, specifying their teams, view all the players that are in the system or to view one player particularly, with all their details.
+
+For the \textbf{Games}, it allows the creation of new games, by specifying which teams are going to dispute the game, and when the game will be disputed. It is also possible to view past or future games that were registered in the system. It's possible to have a single game view, where the coach can assign sensors to each player, start or stop the game (starting or stopping the \gls{IMU} Sensors data collection), and view all the performance game metrics, calculated to each player.
+
+The implementation of the client application was developed with a focus on the coach perspective. Some of the API features described in \ref{susubsec:API} weren't implemented in the client application, like the ability to edit and delete teams and players.
+
+\subsubsection{Players}
+The main Players page shows a list of all players, and their current team, as shown in Figure~\ref{fig:playerList}. It also allows the user to add a player, by providing their name and the team they belong to, as shown in Figure~\ref{fig:playerAdd}.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Players List\label{fig:playerList}}%
+    {\includegraphics[width=0.5\linewidth]{client/players_list.png}}%
+    \subcaptionbox{Add Player\label{fig:playerAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/players_add.png}}%
+    \caption{Players List Page}
+    \label{fig:players}
+\end{figure}
+
+The player detail page shows the information about a single player, and supports the operations of editing the details of the player and deleting the player. In the current system implementation, shown in Figure~\ref{fig:playerDetail}, only the information of the player is displayed, the other operations are currently unimplemented on the client application.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/players_detail.png}
+    \caption{Players Detail Page}
+    \label{fig:playerDetail}
+\end{figure}
+
+\subsubsection{Teams}
+The Teams page shows a list of all the teams registered in the system, and allows the creation of new teams, given the team name. This pages are illustrated in Figure~\ref{fig:teamList} and Figure~\ref{fig:teamsAdd}.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Teams List\label{fig:teamList}}%
+    {\includegraphics[width=0.5\linewidth]{client/teams_list.png}}%
+    \subcaptionbox{Add Team\label{fig:teamsAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/teams_add.png}}%
+    \caption{Teams List Page}
+    \label{fig:teams}
+\end{figure}
+
+The Team detail page shows the information about a team, and the team players. As explained in \ref{susubsec:API}, the \gls{API} supports the operations of editing and deleting teams. However, as shown in Figure~\ref{fig:teamsDetail}, it was not implemented in this system.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/teams_detail.png}
+    \caption{Teams Detail Page}
+    \label{fig:teamsDetail}
+\end{figure}
+
+\subsubsection{Games}
+The Games page shows a list of past and future games, with the date of the game, and the two teams that are playing that game. In this pages, it is also possible to create a new game, providing the date and the opponent teams. This page is shown in Figure~\ref{fig:games}. Similar to the previous pages, even though it is supported by the \gls{API}, it isn't possible to edit game details and delete a game.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Games List\label{fig:gameList}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_list.png}}%
+    \subcaptionbox{Add Game\label{fig:gameAdd}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_add.png}}%
+    \caption{Games List Page}
+    \label{fig:games}
+\end{figure}
+
+In a game detail page (Figure~\ref{fig:gamesDetail}), it is displayed more information about the game, like the players of each team, what \gls{IMU} Sensors are they wearing and were they are located.
+
+\begin{figure}
+    \centering
+    \includegraphics[width=.7\textwidth]{client/games_detail.png}
+    \caption{Games Detail Page}
+    \label{fig:gamesDetail}
+\end{figure}
+
+In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game.
+
+\begin{figure}[htbp]
+    \centering
+    \subcaptionbox{Assign Peripheral to Player\label{fig:assignPeripheral}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_detail_peripheral.png}}%
+    \subcaptionbox{Player's in-game metrics\label{fig:gameMetrics}}%
+    {\includegraphics[width=0.5\linewidth]{client/games_detail_metrics.png}}%
+    \caption{Game Detail Operations}
+    \label{fig:gamesOperations}
+\end{figure}
+
+
+\subsection{Example Use Case}
+\label{subsec:example}
+To illustrate the usage of the developed prototype, let's set a practice game during a training session as the scenario. The Raspberry Pi's and the server should be running, and on the same network.
+
+After registering the two teams in the system, using the page shown in Figure~\ref{fig:teamsAdd}, he would have to register the players, using the page shown in Figure~\ref{fig:playerAdd}, and assign them to each team.
+
+The \gls{IMU} sensors should be attributed to each player, and as they put them in place (in the hand, the back or the foot), they should be registered in the application, as shown in Figure~\ref{fig:assignPeripheral}. For each player it should be added the identification of the sensor and its placement. This is the most intrusive aspect of the system.
+
+After all the sensors are placed and registered in the application, the coach should press the "Start"{} button, when the game begins. Then, the process of collecting data from all the sensors, processing it in the Raspberry Pi's and sending it to the server to be stored begins.
+
+The coach can follow the performance of each player by clicking the "Metrics"{} button. A summary of the metrics will appear, as shown in Figure~\ref{fig:gameMetrics}. For now, the only team metric that is being calculated is the total time of dribbling, which is an indicator of time of ball possession of each team.
+
+When the game ends, the coach can stop the data collection of all the sensors, pressing "Stop". He can also shutdown all the sensors at once. The metrics calculated during this game remain stored, to be revisited in the future, or to be used for future analysis.
