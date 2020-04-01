@@ -1,5 +1,5 @@
-# David Moura's Thesis Plan
-[PDF](./template.pdf)
+# David Moura's Thesis Elaboration
+[PDF](./elaboration.pdf)
 <!--
 --------
 
