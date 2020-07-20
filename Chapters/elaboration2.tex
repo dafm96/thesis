@@ -20,7 +20,8 @@ Accelerometers measure acceleration forces, which is the rate of change of the v
 
 Accelerometers are useful to measure vibrations, movements and orientation, and can measure static forces, like gravity, or dynamic forces, like moving the sensor.
 
-There are two main ways to measure these forces. Usually accelerometers use capacitive plates, either fixed or attached to springs, and the change of position between these plates changes de capacitance between them. This change is measured and converted into acceleration, as shown in Figure~\ref{fig:acc_cap}. Other way is to use the piezo-electric effect. These accelerometers have microscopic crystal structures can output electrical charge when put under stress, like an acceleration force, as shown in Figure~\ref{fig:acc_piezo}~\cite{accelerometerspark}~\cite{accelerometerde}~\cite{accelerometerglobal}.
+%TODO There are two main ways: Qual é que se deve escolher
+There are two main ways to measure these forces. Usually accelerometers use capacitive plates, either fixed or attached to springs, and the change of position between these plates changes de capacitance between them. This change is measured and converted into acceleration, as shown in Figure~\ref{fig:acc_cap}. Other way is to use the piezo-electric effect. These accelerometers have microscopic crystal structures that can output electrical charge when put under stress, like an acceleration force, as shown in Figure~\ref{fig:acc_piezo}~\cite{accelerometerspark}~\cite{accelerometerde}~\cite{accelerometerglobal}.
 
 \begin{figure}[htbp]
     \centering
@@ -45,6 +46,7 @@ There are two main ways to measure these forces. Usually accelerometers use capa
 Gyroscopes are devices used to measure and maintain orientation and angular velocity.
 There are various classes of gyroscopes, used for different needs of performance, cost and volume: mechanical gyroscopes, optical gyroscopes and \gls{MEMS} gyroscopes~\cite{gyro1}.
 
+%TODO Low perfomance: mas mesmo assim podem ser utilizados?
 The most adopted class of gyroscopes for consumer use is the \gls{MEMS} gyroscopes, due to their low cost and low performance. The unit used to measure angular velocity is degrees per second (º/s). \gls{MEMS} gyroscopes usually use a vibrating mechanical element to determine the rate of rotation, in 1, 2 or 3 axes~\cite{gyrospark}.
 
 
@@ -62,6 +64,7 @@ Most \gls{MEMS} gyroscope take advantage from the Coriolis effect to measure ang
 A magnetometer is a device used to measure the strength and the direction of magnetic fields. The most common method for measuring magnetic fields is using the Hall Effect.  If we have a conductive plate, the electrons would flow from one end to the other. Bringing this plate near to a magnetic field, the electrons would deflect to one side or the other of the plate. Putting a meter between the two sides, the voltage would change accordingly to the direction and strength of the magnetic field, as shown in Figure~\ref{fig:magnetometer}.
 
 This effect can be used to measure the Magnetic North of the Earth, providing handheld devices a sense of orientation in relation to Earth. However, these small magnetometer measurements are easily disturbed by nearby objects, like a computer or a Wi-Fi router, which makes this device unreliable~\cite{magnetometer1}~\cite{magnetometer2}.
+%TODO unreliable: há algum que seja fiável?
 
 \begin{figure}[htbp]
     \centering
@@ -95,7 +98,7 @@ Triangulation is used to accurately position the user, using at least 4 satellit
 \subsubsection{Video Tracking Systems}
 \label{subsec:video_approach}
 
-Camera systems are widely used in sports and can accurately track the players of both teams and the ball. One example of this system is Stats SportVU, which is used in various sports, like soccer~\cite{stats_football} and basketball~\cite{stats_basketball}. By analyzing the video using machine learning techniques, this system can provide statistics like distance traveled, average and maximum speeds, number of speeds, field coverage, team formation and many others. A representation of this system is shown in Figure~\ref{fig:cameras}
+Camera systems are widely used in sports and can accurately track the players of both teams and the ball. One example of this system is Stats SportVU, which is used in various sports, like soccer~\cite{stats_football} and basketball~\cite{stats_basketball}. By analyzing the video using machine learning techniques, this system can provide statistics like distance traveled, average and maximum speeds, number of speeds, field coverage, team formation and many others. A representation of this system is shown in Figure~\ref{fig:cameras}.
 
 \begin{figure}[htbp]
   \centering
@@ -114,6 +117,9 @@ Hawk-eye technologies are used in over 80 Tennis Tournaments to track close line
 
 Videobserver is a match analysis service that joins the performance data inserted by the coach with recorded video, in order to provide a deferred statistical report of the matches. It is used mainly by football teams, but can be applied to handball, basket or hockey~\cite{videobserver}.
 
+%TODO high processing power: 
+%Em termos de computação?
+%E em termos de qualidade das câmaras de vídeo? existem requisitos?
 Video tracking systems can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
 
 \subsection{Communication Protocols}
@@ -126,7 +132,7 @@ However, all these technologies are compared in the end of this subsection, to r
 \label{subsubsec:wifi}
 Wi-Fi is a wireless technology that takes advantage of electromagnetic radiation (radio waves), operating in the 2.4GHz and 5 GHz frequencies, to connect mobile computers and network enabled devices like smartphones and IoT devices to local networks and the Internet. The name Wi-Fi is the brand name adopted by the Wi-Fi Alliance~\cite{wifi1}, which holds the Wi-Fi trademark, and certifies products to use this technology.
 
-Wi-Fi technology is based on the Institute of Electrical and Electronics Engineers (IEEE) wireless communication standard 802.11, which has been around for over 20 years, with various different versions of the protocol.
+Wi-Fi technology is based on the \gls{IEEE} wireless communication standard 802.11, which has been around for over 20 years, with various different versions of the protocol.
 The currently used version is IEEE 802.11ac (Wi-Fi 5), presenting faster and more scalable capabilities than the previous version (802.11n), allowing more bandwidth, faster speeds and lower power usage for each user~\cite{wifi2}.
 
 Regarding IoT, IEEE 802.11 Working Group defined the 802.11ah specification that operates in the sub-1-GHz frequency and supports a greater number of devices per access point, longer transmission range and lower data rate, and is targeted to sensors and IoT applications, competing with Bluetooth technology~\cite{wifi3}~\cite{wifi4}.
@@ -135,7 +141,7 @@ Regarding IoT, IEEE 802.11 Working Group defined the 802.11ah specification that
 \label{subsubsec:bluetooth}
 Bluetooth is a low power wireless technology for exchanging data between mobile devices over short distances.
 
-Bluetooth is managed by Bluetooth Special Interest Group, which develops, licenses and holds the trademark. To be able to use Bluetooth, a device manufacturer must meet the Bluetooth SIG standards~\cite{blesig}.
+Bluetooth is managed by Bluetooth \gls{SIG}, which develops, licenses and holds the trademark. To be able to use Bluetooth, a device manufacturer must meet the Bluetooth \gls{SIG} standards~\cite{blesig}.
 
 There are two types of Bluetooth technologies:
 \begin{itemize}
@@ -183,6 +189,10 @@ These topologies are illustrated in Figure~\ref{fig:bletopologies}.
 Table~\ref{tab:hla:communication_comparison} shows a comparison of the communication protocols mentioned above, regarding the frequency used, the maximum data rate, the range, the power usage and the cost of the technologies~\cite{comparison}.
 
 In order to meet the objective, a low power and low-cost device is needed, with a medium range (enough to cover a basketball court), and a data throughput capable of handling rates of 20-50 Hz.
+%TODO Como se chega a este valor? (HZ)
+% Como se medem estes custos?
+% No fim quais foram os sensores utilizados?
+% Como é que se consegue replicar este trabalho? (GIT)
 
 In terms of cost, Cellular, SigFox, ZigBee and Z-wave are discarded, because they have medium or high costs to be implemented. NFC is also discarded, as it only works in the range of centimeters. 
 
@@ -216,6 +226,9 @@ In order to build the system prototype, a system architecture must be defined fi
 With the appearance of \gls{IoT}, the computing infrastructure shifted from on-premises servers and software to \textbf{Cloud Computing}. This means that data storage and computation shifted geographically from organization's server rooms to be performed via internet services, in servers owned by the provider of those services~\cite{DZone}.
 
 The advantage of this architectural change frees organization to keep server infrastructures on site, and allows them to have more resources than they could have on premises. It also allows the collection of data from multiple locations and devices, using the internet as a mean of transmitting all the data. The cloud is also capable of performing high performance computing, such as predictive analysis, and have access to a huge amount of data, as the data is also centralized in the cloud~\cite{Inc}.
+%TODO the cloud is also capable:
+%Implicações da latência da rede no tipo de aplicações que esta tese esta a tratar?
+%Influência das interferências eletromagnéticas nas comunicações?
 
 However, some computing and processing can be brought near to the place where data is produced. \textbf{Fog Computing} and \textbf{Edge Computing} are an extension of cloud computing, only varying in where the location of the computing power is placed.
 
@@ -243,7 +256,7 @@ Sebastian Madgwick~\cite{Madgwick} presents an orientation algorithm, using a fo
 
 \subsection{Basketball Activity Recognition}
 
-J.Sampaio~\textit{et al.}~\cite{Sampaio2015} analyze the game performance of \gls{NBA} players, from open-access \gls{NBA} data collected with the SportsVU system, and grouped some variables, to obtain information about game actions, like pull-up shots, catch and shoots, close shots, drives, passing-variables (like scores from passes, or assists), touches-variables (like touches per game or time of possession), speed and distance, rebounds and free-throw percentage.
+~J.Sampaio~\textit{et al.}~\cite{Sampaio2015} analyze the game performance of \gls{NBA} players, from open-access \gls{NBA} data collected with the SportsVU system, and grouped some variables, to obtain information about game actions, like pull-up shots, catch and shoots, close shots, drives, passing-variables (like scores from passes, or assists), touches-variables (like touches per game or time of possession), speed and distance, rebounds and free-throw percentage.
 With his work made an analysis of a \gls{NBA} season, using player tracking variables. These variables are collected in every \gls{NBA} game, and are important to understand and analyze the players performance.
 
 Marco Mangiarotti~\textit{et al.}~\cite{Mangiarotti2019} developed a system that is capable of identifying basketball activities, using two wrist-worn devices, with built-in accelerometers and gyroscopes. By using two machine learning algorithms in parallel (K-Nearest Neighbours and Support Vector Machine), they only recognize an activity if both algorithms identify it, reducing the probability of misclassification. They recognized three activities: shoots, passes and dribbles, but did not evaluate the performance of the dribble recognition. The recognition of the other two movements resulted in a very positive result, with a precision of 99\%.
@@ -257,9 +270,11 @@ Xiangyi Meng \textit{et al.}~\cite{Meng2018} used the same classification techni
 Ruijie Ma \textit{et al.}~\cite{Ma2018} uses a wrist mounted \gls{IMU} Sensor in order to identify the posture of basketball player, and recognize nine other basketball movements, such as stand, walk, run, jump, in-situ dribble, dribble while walking, dribble while running, set shot, and jump shot. Using a neural network algorithm to identify this movements, an accuracy of 98.9\% is achieved, but only a subject provided the data for the test and validation phases.
 
 Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach, with wrist-worn \gls{IMU} Sensors, identifying activities such as dribbling, shooting, blocking, or passing. Using classifiers, a performance of 84\% is achieved with k-Nearest Neighbor classifier and 88\% with Random Forest classifier, with actions like jump shots performing better than dribbles.
+%TODO Qual o melhor método de apresentar estas comparações?
+%Pensou em fazer uma tabela comparativa com todos os sistemas?
 
 \section{Commercial Solutions}
-The most used way of track Basketball players is using optical tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}.
+The most used way of track Basketball players is using optical tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}. %TODO more tais como?
 
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
 
@@ -285,6 +300,10 @@ Regarding the related works in this field, the search focused on works that stud
 Most metrics are not only interested in isolated movements, like how many shoots or passes were made, but are interested in where those actions were made, and the context of the action. For example, was the shoot made inside or outside the three point line? Did pass resulted in a point? How long has the player been dribbling? And how far did he dribbled? To match these metrics, activities like dribbling, shoots and passes should be identified, but also the position and the path of the players should be tracked, to understand and contextualize the actions they are performing.
 
 Of the researched works, all of the works found that aimed to classify activity (both human and basketball activities), used machine learning techniques to do so. These techniques, while powerful when trained with large amounts of data, are often used to perform the classification offline, after collecting the data. They are also very resource-intensive. These factors are against the objectives defined for this study. While they are useful to understand what activities and metrics can be classified, other techniques (such as signal analysis and statistics) should be used in the implementation of this system.
+%TODO these factors
+% Em conclusão pode-se dizer que obter estas métricas em tempo real não é uma boa opção?
+% Será que se justifica a utilização de abordagens mistas?
+% Qual/quais seriam as implicações neste trabalho?
 
 In the area of positional tracking, three promising works were found. All revolve around the same concepts: use \gls{IMU} to detect steps, displacement and orientation. The work of Wonho Kang and Youngnam Han~\cite{Kang2015} uses the data collected from a smartphone, with data collected when the smartphone is in the hand, in front of the subject. For basketball players, this is an impossible scenario. The other two works, both used a sensor placed in the foot, which seems like a non intrusive method for collecting data from basketball players. Comparing the two, the work of Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} seems to produce better overall results, and their work is more detailed. This work will be used later in the implementation of the system prototype.
 
