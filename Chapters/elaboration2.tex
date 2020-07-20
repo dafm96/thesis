@@ -1,6 +1,6 @@
 %!TEX root = ../elaboration.tex
 
-\chapter{State of the art and related work}
+\chapter{State of the Art and Related Work}
 \label{cha:relatedWork}
 \epigraph{Many studies carried in the past have focused on subjects related with this work, such as collecting human movement data, human activity recognition and the measuring of game metrics in sports.
     As defined in Section~\ref{sec:objectives}, this work will be about collecting data from basketball players, to analyse it and calculate game metrics, that can be useful to the coaches and to the fans.
@@ -25,7 +25,7 @@ There are two main ways to measure these forces. Usually accelerometers use capa
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=1\linewidth]{accelerometer_cap}
-    \caption{Capacitative accelerometer sensor~\cite{accelerometerglobal}}
+    \caption[Capacitative accelerometer sensor]{Capacitative accelerometer sensor~\cite{accelerometerglobal}}
     \label{fig:acc_cap}
 \end{figure}
 
@@ -35,7 +35,7 @@ There are two main ways to measure these forces. Usually accelerometers use capa
     {\includegraphics[width=0.5\linewidth]{accelerometer_piezo_1}}%
     \subcaptionbox{With applied force\label{fig:acc_piezzo2}}%
     {\includegraphics[width=0.5\linewidth]{accelerometer_piezo_2}}%
-    \caption{Piezo accelerometer sensor~\cite{accelerometerspark}}
+    \caption[Piezo accelerometer sensor]{Piezo accelerometer sensor~\cite{accelerometerspark}}
     \label{fig:acc_piezo}
 \end{figure}
 
@@ -53,7 +53,7 @@ Most \gls{MEMS} gyroscope take advantage from the Coriolis effect to measure ang
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\linewidth]{gyroscope}
-    \caption{Gyroscope sensor~\cite{gyromems}}
+    \caption[Gyroscope sensor]{Gyroscope sensor~\cite{gyromems}}
     \label{fig:gyro}
 \end{figure}
 
@@ -66,7 +66,7 @@ This effect can be used to measure the Magnetic North of the Earth, providing ha
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\linewidth]{magnetometer}
-    \caption{Magnetometer sensor~\cite{magnetometer1}}
+    \caption[Magnetometer sensor]{Magnetometer sensor~\cite{magnetometer1}}
     \label{fig:magnetometer}
 \end{figure}
 
@@ -88,7 +88,7 @@ Triangulation is used to accurately position the user, using at least 4 satellit
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.5\linewidth]{gps}
-    \caption{GNSS System~\cite{gnssimg}}
+    \caption[GNSS System]{GNSS System~\cite{gnssimg}}
     \label{fig:gnss}
 \end{figure}
 
@@ -100,7 +100,7 @@ Camera systems are widely used in sports and can accurately track the players of
 \begin{figure}[htbp]
   \centering
   \includegraphics[width=0.5\linewidth]{cameras}
-  \caption{SportVU cameras in a basketball court~\cite{stats_basketball}}
+  \caption[SportVU cameras in a basketball court]{SportVU cameras in a basketball court~\cite{stats_basketball}}
   \label{fig:cameras}
 \end{figure}
 
@@ -172,7 +172,7 @@ These topologies are illustrated in Figure~\ref{fig:bletopologies}.
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\linewidth]{ble_topologies}
-    \caption{BLE Topologies~\cite{ble_mesh_topologies}}
+    \caption[BLE Topologies]{BLE Topologies~\cite{ble_mesh_topologies}}
     \label{fig:bletopologies}
 \end{figure}
 
@@ -223,7 +223,7 @@ Fog computing reduces the involvement of the cloud and brings the computation cl
 
 Edge computing moves computing resources even further close to the end user, and can be described as a more localized version of fog and cloud computing. This paradigm reduces the time it takes to transfer the data from the \gls{IoT} devices to the cloud, and the edge devices can also remove load from the cloud servers and act as \gls{IoT} device managers~\cite{Al-Qamash2018}.
 
-\section{Related work}
+\section{Related Work}
 \label{sec:relatedWork}
 Several authors propose means of transforming data from \gls{IMU} Sensor into meaningful metrics. This section divides the related works in two: first, the related works regarding human activity recognition such as daily activities like walking, climbing stairs and pedestrian tracking will be analysed; then, related works that identify particular basketball activities such as dribbles, passes and shoots are discussed.
 
@@ -275,7 +275,7 @@ ShotTracker~\cite{ShotTracker} is tracking system that is made of 3 components: 
 
 STATSports~\cite{STATSports} is a system developed for soccer player tracking. The players use a pod worn in the back, that is equipped with an accelerometer, a gyroscope, a magnetometer and that collects positional tracking using a GPS device. This device has the ability to calculate internally over 50 metrics in real-time (\textit{e.g.} total distance covered, number of accelerations or decelerations and heart rate), that are then transmitted over a \gls{UWB} network. A cloud-based platform aggregates all the data, and presents available advanced metrics dashboards and individual/group data for players and coaches to consult. It is used widely by several professional soccer teams.
 
-\section{Chapter summary}
+\section{Chapter Summary}
 In this chapter we started by analyzing the commonly used motion sensors, the most suitable communication protocols to transmit information in this type of applications and what \gls{IoT} architectures exist, and the pros and cons of each one. With this analysis, it was concluded that 6LoWPAN, Wi-Fi and \gls{BLE} are the most suitable communication protocols to use, but only Wi-Fi and \gls{BLE} will be used in the implementation phase, as they are the only ones available.
 
 By analyzing different \gls{IoT} computing architectures, it was also found that this kind of system could benefit from using an edge-processing style architecture, because it can improve the need to process data in real-time, allowing for low latency in the analysis of data.
