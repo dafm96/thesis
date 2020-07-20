@@ -24,7 +24,7 @@
   \gdef\appendixnamepl{Apêndices}
 }
 \addto\captionsenglish{%
-  \def\lstlistlistingname{Listings}%
+  \def\lstlistlistingname{List of Listings}%
   \def\lstlistingname{Listing}%
   \gdef\annexname{Annex}
   \gdef\annexnamepl{Annexes}
