@@ -43,9 +43,6 @@ The proposed architecture is shown in Figure~\ref{fig:architectureProposal}, and
 
 The architecture will be explained in more detail in the following subsections.
 
-%TODO Qual o custo da solução?
-%E em termos de manutenção? Qualquer pessoa duma área de desporto tem as competências necessárias?
-
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{BLESportsTrackerArchitetureProposal.pdf}
@@ -58,7 +55,6 @@ The architecture will be explained in more detail in the following subsections.
 The Edge segment is composed of at least one \gls{IMU} Sensor and one \gls{EPU}, that controls and receives information directly from the \gls{IMU} Sensor. The \gls{EPU} should also be capable of calculating insightful metrics, calculated with the raw data acquired from the \gls{IMU} Sensors.
 
 Due to the variable number of players being tracked, and the number of \gls{IMU} sensors placed in each player, the system should be able to collect data from all the \gls{IMU} sensors. The scalability of the system relies on this segment. In order to accommodate the increase of \gls{IMU} sensors used, more \gls{EPU} may need to be used. These should work seamlessly, collecting data from the sensors, performing calculations and sending the data to the Server.
-%TODO Muitos sensores não vão implicar muitas ligações Wi-Fi (ou semelhantes)? a largura de banda não vai ficar saturada?
 
 \subsubsection{IMU Sensors}
 \label{subsubsec:imu}

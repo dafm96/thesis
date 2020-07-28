@@ -296,7 +296,8 @@ If the values are within the criteria defined, a fourier analysis is performed o
 
 \section{System Implementation}
 The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
-
+%TODO Qual o custo da solução?
+%E em termos de manutenção? Qualquer pessoa duma área de desporto tem as competências necessárias?
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
@@ -411,7 +412,8 @@ The Developed \gls{API} exposes endpoints to control the different resources ava
     \item Peripherals (\gls{IMU} Sensors)
 \end{itemize}
 
-The \textbf{Teams} endpoint enables the \gls{CRUD} actions over the teams of the system.
+\paragraph{\textbf{Teams}}~\\
+\indent The Teams endpoint enables the \gls{CRUD} actions over the teams of the system.
 
 It lets the user create a new team, given their name, the ability to consult all the teams registered in the system, to consult a specific team and their respective information or the players that belong to that team. This endpoint also serves to update information about a team or to delete the team from the system.
 
@@ -433,7 +435,8 @@ router.get('/teams/:teamId', (req, res) => {
 })
 \end{lstlisting}
 
-The \textbf{Players} endpoint provides the user the \gls{CRUD} actions over the players of the system.
+\paragraph{\textbf{Players}}~\\
+\indent The Players endpoint provides the user the \gls{CRUD} actions over the players of the system.
 
 It enables the creation of a new player, given their name and the team they belong to, the ability to consult all the players registered in the system, or to consult a specific player and their respective information; for a given player, this endpoint also serves to update information or to delete the player from the system.
 
@@ -455,7 +458,8 @@ router.post('/players', (req, res) => {
 })
 \end{lstlisting}
 
-The \textbf{Games} endpoint, besides providing Create, Read and Delete operations for the games, also manages the attribution of peripherals to each player, in multiple parts of their body, and also to fetch the metrics for each player.
+\paragraph{\textbf{Games}}~\\
+\indent The Games endpoint, besides providing Create, Read and Delete operations for the games, also manages the attribution of peripherals to each player, in multiple parts of their body, and also to fetch the metrics for each player.
 
 For the Create operation, it is possible to create a game providing the date of the game and the two teams that are playing the game.
 
@@ -463,9 +467,6 @@ For the Read operation, it is possible to get a list of the games (that already 
 
 For the Delete operation, it is possible to delete a game.
 
-%TODO Falta aqui qq coisa para o leitor perceber que se "mudou" de entidade!
-%Ou continua-se na mesma entidade?
-%A associação do texto às entidades está um pouco confuso!
 To manage the peripherals for each player, it is possible to assign a peripheral to a player in a given game, providing the player identifier, the peripheral address and the location of the body where the \gls{IMU} Sensor is located, and it is possible to remove this assignment.
 
 Listing~\ref{lst:assignPeripheral} shows the endpoint to assign a peripheral to a player. A player in a game is identified by an identifier, named \textit{ppg\_id}. When a PUT request is sent to the url \textit{/games/ppg/}, with the identifier of the player in that game, the identifier of the peripheral and the position of the peripheral, it is saved in the \textbf{PG\_Peripheral} table the information that relates the peripheral and it's position to the player wearing it.
@@ -492,7 +493,8 @@ router.put('/games/ppg/:ppgid', (req, res) => {
 
 It is also possible to read the metrics for each player, and to get a sum of the dribbling time for each team, which gives an insight for the total ball possession during a game.
 
-The \textbf{peripherals} endpoint enables the control of the \gls{IMU} Sensors from the Client app, and stores temporary state on the peripherals, like what are the currently connected peripherals, and which ones are collecting data.
+\paragraph{\textbf{Peripherals}}~\\
+\indent The Peripherals endpoint enables the control of the \gls{IMU} Sensors from the Client app, and stores temporary state on the peripherals, like what are the currently connected peripherals, and which ones are collecting data.
 
 As specified in Subsection~\ref{subsec:imuControl}, there are 3 main controls that can be sent to the \gls{IMU} Sensors: start, stop or shutdown. The Peripherals endpoint allows 3 ways of sending this command to the Edge segment: control only one given peripheral, control all the peripherals in a game or control all connected devices.
 
@@ -530,10 +532,8 @@ For the \textbf{Teams}, it allows the creation of new teams, and the ability to 
 For the \textbf{Players}, it is possible to create new players, specifying their teams, view all the players that are in the system or to view one player particularly, with all their details.
 
 For the \textbf{Games}, it allows the creation of new games, by specifying which teams are going to dispute the game, and when the game will be disputed. It is also possible to view past or future games that were registered in the system. It's possible to have a single game view, where the coach can assign sensors to each player, start or stop the game (starting or stopping the \gls{IMU} Sensors data collection), and view all the performance game metrics, calculated to each player.
-%TODO é viável um treinador ter as capacidades para associar os vários sensores aos diferentes atletas?
 
 The implementation of the client application was developed with a focus on the coach perspective. Some of the API features described in Subsection \ref{susubsec:API} weren't implemented in the client application, like the ability to edit and delete teams and players.
-%TODO que provavelmente é o que faz mais sentido para o treinador
 
 \subsubsection{Players}
 The main Players page shows a list of all players, and their current team, as shown in Figure~\ref{fig:playerList}. It also allows the user to add a player, by providing their name and the team they belong to, as shown in Figure~\ref{fig:playerAdd}.
@@ -604,8 +604,8 @@ In a game detail page (Figure~\ref{fig:gamesDetail}), it is displayed more infor
     \label{fig:gamesDetail}
 \end{figure}
 
-In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game. However, if the game stops, the data collection and metrics
-%TODO Até que ponto as paragens do cronómetro influenciam estas contas?
+In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game. However, if the game stops, the data collection and metrics should also be stopped, so that the movements to the bench or to the locker room aren't taken into account. However, in this implementation, it wasn't developed a function to pause the game.
+
 \begin{figure}[htbp]
     \centering
     \subcaptionbox{Assign Peripheral to Player\label{fig:assignPeripheral}}%
@@ -619,7 +619,7 @@ In this page the user can assign \gls{IMU} Sensors to each player, as shown in F
 
 \subsection{Example Use Case}
 \label{subsec:example}
-To illustrate the usage of the developed prototype, let's set a practice game during a training session as the scenario. The Raspberry Pi's and the server should be running, and on the same network. %TODO qual a razão?
+To illustrate the usage of the developed prototype, let's set a practice game during a training session as the scenario. The Raspberry Pi's and the server should be running.
 
 After registering the two teams in the system, using the page shown in Figure~\ref{fig:teamsAdd}, he would have to register the players, using the page shown in Figure~\ref{fig:playerAdd}, and assign them to each team.
 
