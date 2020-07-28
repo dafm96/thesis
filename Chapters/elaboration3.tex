@@ -12,7 +12,7 @@ With the goals set in Section~\ref{sec:objectives}, and after analyzing the curr
 
 It should be able to work indoors, thus avoiding the use of systems like \gls{GPS}, and it should work in any field, without the need of pre-installed structures (like a video system mounted in the court, or a set of antennas placed around the court).
 
-It also should provide real-time data of individual game metrics, calculated with the raw data from wearable sensors, like the identification of jumps, passes, dribbles, shoots and the player position. These game metrics allow coaches to improve their player and team performance during training sessions and games, injury prevention and recovery. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
+It also should provide real-time data (no more than a few seconds, from when the movement was performed) of individual game metrics, calculated with the raw data from wearable sensors, like the identification of jumps, passes, dribbles, shoots and the player position. These game metrics allow coaches to improve their player and team performance during training sessions and games, injury prevention and recovery. The purpose of the raw data is to calculate more advanced performance metrics, and should be discarded after being used, so it doesn't waste storage space.
 
 A game of basketball is played by two teams of 5 players, and 8 players at the most can be on the bench, to substitute the ones in court. If every player uses 3 devices, this could mean data collection from up to 30 devices to track every player in court during a basketball game.
 In order to collect data from all the players of the game, the system should be scalable. The metrics should be calculated and sent to the user, wether collecting data from 1 player, 1 team or 2 teams (with additional substitute players).
@@ -27,7 +27,7 @@ Summing up, the main requirements of the system are:
 \begin{itemize}
     \item To be able to work indoors
     \item No need for pre-installed infrastructures
-    \item Provide real-time game metrics of game performance %TODO definir real-time
+    \item Provide real-time game metrics of game performance
     \item To be able of scaling, in order to collect data from multiple sensors worn by the players
     \item Store the data collected and processed data, for future statistical analysis
     \item Provide this information to an application, available to coaches to improve their team, or to fans, for fan engagement
@@ -35,7 +35,7 @@ Summing up, the main requirements of the system are:
 
 \section{Architecture}
 \label{sec:architecture}
-In order to support the collection and processing of raw data in real time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing.
+In order to support the collection and processing of raw data in real-time, handling the connection to all the devices worn by the players (which could raise up to 30 devices), store all the processed data, handle the frontend application and ensure the communication from the user to the devices, the system should be layered, and built using a 3-tier architecture, with Edge computing.
 
 Edge computing allows that the processing to be near the collection of the data, which takes load off the server, and problems like data transfer and latencies don't interfere. It also enables the parallelization of the computation, distributing the connection to the devices and the processing of the raw data between all the \gls{EPU}. The layering of the architecture allows that each segment is completely independent in its implementation and operation.
 
@@ -96,13 +96,11 @@ The Server also hosts the Client Application, which communicates with the Server
 
 \subsection{Client}
 \label{subsec:client}
-The Client Application provides the end user an interface in which he can control and consult information about players, teams and games. This interface should work seamlessly in multiple platforms, providing a similar user experience no matter the device being used. The preferred method to use the application should be mobile. %TODO De que tipo? mobile para telemóvel ou pode ser para ser executada no contexto de um browser?
+The Client Application provides the end user an interface in which he can control and consult information about players, teams and games. This interface should work seamlessly in multiple platforms, providing a similar user experience no matter the device being used. The preferred method to use the application should be a native mobile app, even though a multi-device browser application could also be suitable.
 
 The application interface should offer different operations and views for different types of users. Fans could consult more generic metrics and statistics, while a coach could manage their team and players, see detailed metrics and statistics of a player, a team or a match, and manage the sensors being used by the players.
 
-The application should, indirectly, trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface.
-%TODO Todos os utilizadores podem realizar estas operações?
-%Que níveis de segurança?
+The application should, indirectly, trigger the start and stop of the data collection in the \gls{IMU} Sensors, which will then send the raw data to the \gls{EPU}. After the game metrics are calculated in the Edge, they are shown to the user, in the Client Interface. Only the coaches should be allowed the management of the data collection. Fans using the application should only be allowed to view the processed game metrics.
 
 \section{System Proposal Summary}
 

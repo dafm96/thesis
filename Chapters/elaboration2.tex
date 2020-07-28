@@ -20,8 +20,7 @@ Accelerometers measure acceleration forces, which is the rate of change of the v
 
 Accelerometers are useful to measure vibrations, movements and orientation, and can measure static forces, like gravity, or dynamic forces, like moving the sensor.
 
-%TODO There are two main ways: Qual é que se deve escolher
-There are two main ways to measure these forces. Usually accelerometers use capacitive plates, either fixed or attached to springs, and the change of position between these plates changes de capacitance between them. This change is measured and converted into acceleration, as shown in Figure~\ref{fig:acc_cap}. Other way is to use the piezo-electric effect. These accelerometers have microscopic crystal structures that can output electrical charge when put under stress, like an acceleration force, as shown in Figure~\ref{fig:acc_piezo}~\cite{accelerometerspark}~\cite{accelerometerde}~\cite{accelerometerglobal}.
+There are two main ways to measure these forces. Usually accelerometers use capacitive plates, either fixed or attached to springs, and the change of position between these plates changes de capacitance between them. This change is measured and converted into acceleration, as shown in Figure~\ref{fig:acc_cap}. Most comercial acceleromethers use this method, and it will be the type of sensors used in this work. The other way is to use the piezo-electric effect. These accelerometers have microscopic crystal structures that can output electrical charge when put under stress, like an acceleration force, as shown in Figure~\ref{fig:acc_piezo}~\cite{accelerometerspark}~\cite{accelerometerde}~\cite{accelerometerglobal}.
 
 \begin{figure}[htbp]
     \centering
@@ -46,8 +45,7 @@ There are two main ways to measure these forces. Usually accelerometers use capa
 Gyroscopes are devices used to measure and maintain orientation and angular velocity.
 There are various classes of gyroscopes, used for different needs of performance, cost and volume: mechanical gyroscopes, optical gyroscopes and \gls{MEMS} gyroscopes~\cite{gyro1}.
 
-%TODO Low perfomance: mas mesmo assim podem ser utilizados?
-The most adopted class of gyroscopes for consumer use is the \gls{MEMS} gyroscopes, due to their low cost and low performance. The unit used to measure angular velocity is degrees per second (º/s). \gls{MEMS} gyroscopes usually use a vibrating mechanical element to determine the rate of rotation, in 1, 2 or 3 axes~\cite{gyrospark}.
+The most adopted class of gyroscopes for consumer use is the \gls{MEMS} gyroscopes, due to their low cost and low performance (but with satisfactory results for the common use casess). The unit used to measure angular velocity is degrees per second (º/s). \gls{MEMS} gyroscopes usually use a vibrating mechanical element to determine the rate of rotation, in 1, 2 or 3 axes~\cite{gyrospark}.
 
 
 Most \gls{MEMS} gyroscope take advantage from the Coriolis effect to measure angular velocity. Using a tuning fork configuration, where two masses vibrate constantly in opposite directions, when these masses experience an angular velocity (rotation), the Coriolis force acts on each mass in opposite directions, resulting on a change of capacitance, which is measured to calculate the rate of rotation~\cite{gyromems}. This effect is shown in Figure~\ref{fig:gyro}.
@@ -63,8 +61,7 @@ Most \gls{MEMS} gyroscope take advantage from the Coriolis effect to measure ang
 \label{subsubsec:magnetometer}
 A magnetometer is a device used to measure the strength and the direction of magnetic fields. The most common method for measuring magnetic fields is using the Hall Effect.  If we have a conductive plate, the electrons would flow from one end to the other. Bringing this plate near to a magnetic field, the electrons would deflect to one side or the other of the plate. Putting a meter between the two sides, the voltage would change accordingly to the direction and strength of the magnetic field, as shown in Figure~\ref{fig:magnetometer}.
 
-This effect can be used to measure the Magnetic North of the Earth, providing handheld devices a sense of orientation in relation to Earth. However, these small magnetometer measurements are easily disturbed by nearby objects, like a computer or a Wi-Fi router, which makes this device unreliable~\cite{magnetometer1}~\cite{magnetometer2}.
-%TODO unreliable: há algum que seja fiável?
+This effect can be used to measure the Magnetic North of the Earth, providing handheld devices a sense of orientation in relation to Earth. However, these magnetometer measurements are easily disturbed by nearby objects, like a computer or a Wi-Fi router, which makes these handheld devices unreliable~\cite{magnetometer1}~\cite{magnetometer2}. For better results (not affected by other electromagnetic fields), industry or militar grade magnetometers should be used.
 
 \begin{figure}[htbp]
     \centering
@@ -117,10 +114,7 @@ Hawk-eye technologies are used in over 80 Tennis Tournaments to track close line
 
 Videobserver is a match analysis service that joins the performance data inserted by the coach with recorded video, in order to provide a deferred statistical report of the matches. It is used mainly by football teams, but can be applied to handball, basket or hockey~\cite{videobserver}.
 
-%TODO high processing power: 
-%Em termos de computação?
-%E em termos de qualidade das câmaras de vídeo? existem requisitos?
-Video tracking systems can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high processing power, and are very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
+Video tracking systems can give very accurate measurements about the players location and team tactics, and even track small movements like shoots and passes in Basketball. However, these systems require high computation processing power, and cameras that are capable to collect high quality images from a long distance, and this makes these systems very expensive, being out of reach for minor and amateur teams. Video systems are also attached to the field, and in order to track a team in a different location, the system needs to be installed there. Another drawback is that some video systems don’t work in real-time. They need an operator to tag events, and the processed data is deferred.
 
 \subsection{Communication Protocols}
 \label{sec:communication_protocols}
@@ -188,11 +182,8 @@ These topologies are illustrated in Figure~\ref{fig:bletopologies}.
 
 Table~\ref{tab:hla:communication_comparison} shows a comparison of the communication protocols mentioned above, regarding the frequency used, the maximum data rate, the range, the power usage and the cost of the technologies~\cite{comparison}.
 
-In order to meet the objective, a low power and low-cost device is needed, with a medium range (enough to cover a basketball court), and a data throughput capable of handling rates of 20-50 Hz.
-%TODO Como se chega a este valor? (HZ)
-% Como se medem estes custos?
-% No fim quais foram os sensores utilizados?
-% Como é que se consegue replicar este trabalho? (GIT)
+In order to meet the objective, a low power and low-cost device is needed, with a medium range (enough to cover a basketball court), and a data throughput capable of handling rates of 20-50 Hz (this interval is enough to ensure that every step has about 10 to 20 samples of data, considering that the pedestrian walking stride frequency is about 1 Hz, and a the running stride frequency between 2 and 3 Hz).
+%TODO Como é que se consegue replicar este trabalho? (GIT) não aqui?
 
 In terms of cost, Cellular, SigFox, ZigBee and Z-wave are discarded, because they have medium or high costs to be implemented. NFC is also discarded, as it only works in the range of centimeters. 
 
@@ -225,10 +216,7 @@ In order to build the system prototype, a system architecture must be defined fi
 
 With the appearance of \gls{IoT}, the computing infrastructure shifted from on-premises servers and software to \textbf{Cloud Computing}. This means that data storage and computation shifted geographically from organization's server rooms to be performed via internet services, in servers owned by the provider of those services~\cite{DZone}.
 
-The advantage of this architectural change frees organization to keep server infrastructures on site, and allows them to have more resources than they could have on premises. It also allows the collection of data from multiple locations and devices, using the internet as a mean of transmitting all the data. The cloud is also capable of performing high performance computing, such as predictive analysis, and have access to a huge amount of data, as the data is also centralized in the cloud~\cite{Inc}.
-%TODO the cloud is also capable:
-%Implicações da latência da rede no tipo de aplicações que esta tese esta a tratar?
-%Influência das interferências eletromagnéticas nas comunicações?
+The advantage of this architectural change frees organizations to keep server infrastructures on site, and allows them to have more resources than they could have on premises. It also allows the collection of data from multiple locations and devices, using the internet as a mean of transmitting all the data. The cloud is also capable of performing high performance computing, such as predictive analysis, and have access to a huge amount of data, as the data is also centralized in the cloud~\cite{Inc}. This could imply a higher latency in computation time, due to network and data transfer delays, but this approach brings the benefit of having more computational power, and the detachment of a fixed server infrastructure.
 
 However, some computing and processing can be brought near to the place where data is produced. \textbf{Fog Computing} and \textbf{Edge Computing} are an extension of cloud computing, only varying in where the location of the computing power is placed.
 
@@ -274,7 +262,7 @@ Alexander Holzemann \textit{et al.}~\cite{Holzemann2018} has a similar approach,
 %Pensou em fazer uma tabela comparativa com todos os sistemas?
 
 \section{Commercial Solutions}
-The most used way of track Basketball players is using optical tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and more~\cite{AWSMe}. %TODO more tais como?
+The most used way of track Basketball players is using optical tracking systems. Currently, Second Spectrum is the official optical tracking provider for the \gls{NBA}~\cite{NBAstuffer}. This system uses cameras located around the court to collect 3d spatial data of player and ball location and movements, and play-tracking data like speed, distance, shoots, passes, drives and team metrics like atack or defense tactics~\cite{AWSMe}.
 
 Then, using machine learning algorithms, players and coaches can get detailed reports and insights about player performance. This approach can also be profitable for leagues and media, providing data to interactive applications or using augmented reality video to improve the fan experience.
 
@@ -299,11 +287,7 @@ Regarding the related works in this field, the search focused on works that stud
 
 Most metrics are not only interested in isolated movements, like how many shoots or passes were made, but are interested in where those actions were made, and the context of the action. For example, was the shoot made inside or outside the three point line? Did pass resulted in a point? How long has the player been dribbling? And how far did he dribbled? To match these metrics, activities like dribbling, shoots and passes should be identified, but also the position and the path of the players should be tracked, to understand and contextualize the actions they are performing.
 
-Of the researched works, all of the works found that aimed to classify activity (both human and basketball activities), used machine learning techniques to do so. These techniques, while powerful when trained with large amounts of data, are often used to perform the classification offline, after collecting the data. They are also very resource-intensive. These factors are against the objectives defined for this study. While they are useful to understand what activities and metrics can be classified, other techniques (such as signal analysis and statistics) should be used in the implementation of this system.
-%TODO these factors
-% Em conclusão pode-se dizer que obter estas métricas em tempo real não é uma boa opção?
-% Será que se justifica a utilização de abordagens mistas?
-% Qual/quais seriam as implicações neste trabalho?
+Of the researched works, all of the works found that aimed to classify activity (both human and basketball activities), used machine learning techniques to do so. These techniques, while powerful when trained with large amounts of data, are often used to perform the classification offline, after collecting the data. They are also very resource-intensive. These factors are against the objectives defined for this study. While they are useful to understand what activities and metrics can be classified, other techniques (such as signal analysis and statistics) should be used in the implementation of this system. These methods could be incorporated in the developed system in the future, to provide more complex analysis, with more data, processed after the games and practices.
 
 In the area of positional tracking, three promising works were found. All revolve around the same concepts: use \gls{IMU} to detect steps, displacement and orientation. The work of Wonho Kang and Youngnam Han~\cite{Kang2015} uses the data collected from a smartphone, with data collected when the smartphone is in the hand, in front of the subject. For basketball players, this is an impossible scenario. The other two works, both used a sensor placed in the foot, which seems like a non intrusive method for collecting data from basketball players. Comparing the two, the work of Carl Fischer, Poorna Sukumar and Mike Hazas~\cite{Fischer2013} seems to produce better overall results, and their work is more detailed. This work will be used later in the implementation of the system prototype.
 

@@ -48,7 +48,7 @@ There are some outliers, like the sudden decrease at 12 meters in Figure~\ref{fi
 %TODO mudar para gráfico da defesa?
 Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Tables \ref{tab:qualexample1} and \ref{tab:qualexample2} show two examples of the first 20 samples collected from two different sensors, both placed side by side, in a plane surface. The rest of the samples were omitted, since these are enough to illustrate the big picture.
 
-As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. This data should be discarded, as it doesn't correspond to reality. %TODO this data 1ª linha?
+As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. The data from the first row should be discarded, as it doesn't correspond to reality.
 
 %TODO Explicar melhor!
 Ignoring the first row, the data we see is very noisy. The sensors aren't moving, yet the gyroscope shows significant values in the $X$ axis of Table~\ref{tab:qualexample1} and $X$ and $Y$ axis of Table~\ref{tab:qualexample2}. With a still device, these values should be zero, or close to zero. The $Z$ axis of the gyroscope in Table~\ref{tab:qualexample1} is the one that is closest to being zero.
@@ -189,8 +189,7 @@ In the second example, illustrated in Figure~\ref{fig:uoriginalAndarCorrer}, eve
 
 This might be due to two factors: the rate at which data is being collected (50Hz) might be insufficient to detect a fast movement such as running, or the movements produced by a running activity might be out of the range of the accelerometer, which was set for -8g to +8g.
 
-%TODO Como se pode resolver este problema?
-Basketball players spent most of their running, so the difficulty of this algorithm to recognize running movements is a drawback. However, this algorithm is promising and did provide good results when walking, and some tweaks in the algorithm could be applied in the future in order to improve the positional tracking of a subject when he is running. 
+Basketball players spent most of their running, so the difficulty of this algorithm to recognize running movements is a drawback. However, this algorithm is promising and did provide good results when walking. Collecting data at a higher rate, increasing the sensibility of the sensor and improving the detection algorithm could be some steps that could be taken in order to achieve better results in the positional tracking of a subject when he is running.
 
 \subsection{Steps}
 For testing the Step counting algorithm, it was asked to 3 subjects to walk and run in a straight line, taking varying numbers of steps. As the sensor is placed in the right foot, the algorithm only detects half of the steps (the steps taken with the right foot). Therefore, to obtain the total amount of steps, the result calculated by the algorithm should be multiplied by two, taking into account that the doubled value can be off by one step (\textit{i.e.} if the movement started with the right foot, and 5 steps were given in total, ending with the right foot, the sensor placed in the right foot would register 3 steps. Doubling this value, we would have a total of 6 steps, which is wrong by one step.)

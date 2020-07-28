@@ -5,8 +5,7 @@
 
 \section{Movement and Player Data}
 \label{sec:data}
-%TODO Detalhes do IMU
-%Relação com o estado da arte
+%TODO Relação com o estado da arte
 To measure movements of a body, it's necessary to measure different components of the movement: the rate of change of the velocity with respect to time (acceleration), to measure its rotational speed (angular velocity), and its orientation, usually measured according to the Earth magnetic field~\cite{Wong2007}.
 
 The International System of Units use metre per second squared ($m/s^2$) for acceleration, radian per second ($rad/s$) for the rotational speed and Tesla ($T$) for magnetic induction.
@@ -15,9 +14,7 @@ To measure these properties of the movement, there are three types of sensors th
 
 Figure~\ref{fig:rawExamples} presents an example of data collected by an \gls{IMU} placed in the foot. During the collection of this example data, the subject took 5 steps, in a straight line. In the accelerometer graph (Figure~\ref{fig:accExample}), we can see 5 zones of greater movement, intercalated with rest periods (the first might be a small foot movement). Each one of this periods represents a step. In the gyroscope graph (Figure~\ref{fig:gyrExample}), we see 5 analogous peaks, especially in the Y Axis, that tell us where the steps were taken. The measurements of the magnetometer (Figure~\ref{fig:magExample}) are easily disturbed by any magnetic field (like a cellphone or a wi-fi router), so they will be discarded.
 
-Information about the player's individual characteristics should also be collected. Data like the age, the height, the weight and their playing position can be useful for future analysis and statistics.
-%TODO Este tipo de dados são mais ou menos estáticos e quase não mudam.
-%Onde se faz a gestão deste tipo de dados? No servidor?
+Information about the player's individual characteristics should also be collected. Data like the age, the height, the weight and their playing position can be useful for future analysis and statistics, and should be stored in the server.
 
 \begin{figure}[htbp]
     \centering
@@ -227,15 +224,16 @@ As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 
 
 After identifying this pattern, a Fourier analysis is applied on the data to verify it is a jump, and not a running movement, which are easily confusable. Compared to running, jumps are a slower movement, and will show a lower frequency in the Fourier analysis. After testing, the conclusion was that the usual frequency of jumping is 1.25Hz, as shown in figure~\ref{fig:jumpfourier}.
 
-%TODO unidades nos eixos
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.7\textwidth]{jump_fourier.pdf}
+    \includegraphics[width=.7\textwidth]{/presentation/jump_fourier.png}
     \caption{Jump Fourier Analysis}
     \label{fig:jumpfourier}
 \end{figure}
 
 \pagebreak
+The developed algorithm is shown in Listing~\ref{lst:jumpAlgorithm}. It receives data in real time from the X-axis of the \gls{IMU} Sensor placed in the lower back. The algorithm detects the first maximum value, the minimum, and the second maximum. If any of these values doesn't match the values defined for the thresholds, the jump is discarded.
+
 \lstset{language=JAVA,
     showstringspaces=false,
     caption=Jump Detection Algorithm,
@@ -294,16 +292,11 @@ jumpTracker(accX) {
 };
 \end{lstlisting}
 
-%TODO antes da listagem
-The developed algorithm is shown in Listing~\ref{lst:jumpAlgorithm}. It receives data in real time from the X-axis of the \gls{IMU} Sensor placed in the lower back. The algorithm detects the first maximum value, the minimum, and the second maximum. If any of these values doesn't match the values defined for the thresholds, the jump is discarded.
-
 If the values are within the criteria defined, a fourier analysis is performed on the data. If the value of the highest frequency, calculated in the fourierAnalysis method is equal to the defined value in $FOURIERVALUE$ constant (in this case it was set to 1.25, from observing the graph plotted in Figure~\ref{fig:jumpfourier}), then a jump is detected. If not, the jump is discarded.
 
 \section{System Implementation}
 The description of the System Implementation according to the proposed architecture will be separated in the three segments: Edge, Server and Client. Figure~\ref{fig:architectureImplementation} represents the implemented architecture.
 
-%TODO IMU de que tipo? relação com estado da arte?
-%TODO EPU Distribuição por utilizador ou por tipo de sensor?
 \begin{figure}
     \centering
     \includegraphics[width=.7\textwidth]{BLESportsTrackerArchiteture.pdf}
@@ -312,7 +305,7 @@ The description of the System Implementation according to the proposed architect
 \end{figure}
 
 \subsection{Edge}
-As described in section~\ref{subsec:edge}, the edge segment is composed by one or more \gls{IMU} Sensors and one or more \gls{EPU}.
+As described in section~\ref{subsec:edge}, the edge segment is composed by one or more \gls{IMU} Sensors and one or more \gls{EPU}. 
 
 In this phase, a Raspberry Pi was chosen to have the role of \gls{EPU}. A Raspberry Pi is a single-boarded, small and low-cost computer developed by the Raspberry Pi Foundation, with the goal of enabling people of all ages to explore computing~\cite{RaspberryPiFou}.
 It was chosen for this system for its easy accessability in the market, reduced size, high portability and low price, its wide range of features, like Bluetooth and Wi-Fi communications, and being a good platform for developing an application prototype.
@@ -322,7 +315,7 @@ When the developments for this thesis started, a Raspberry Pi 3 Model B+ was ava
 There were also available two type of \gls{IMU} Sensors, with different communication technologies: one with Wi-Fi communication, and other with BLE communication. After testing, the Wi-Fi sensor was disregarded, due to incompatibilities with the sensibility of the sensor being to high for the performance metrics algorithms, and the inability to change it, the need to set a dedicated local network in order to connect the Wi-Fi IMU Sensors with the Raspberry Pi's and the bigger power consume they have in comparison with the Bluetooth devices.
 
 The \gls{IMU} Sensors chosen to be used in the implementation phase are armed with 3-axis accelerometer, which measures the specific force in $m/s^2$, 3-axis gyroscope, which measures the angular rate in $^\circ/s$, and 3-axis magnetometer, which measures the strength of magnetic fields, in $\mu T$. The \gls{IMU} sensors used also have a battery, internal storage, and communicate through Bluetooth Low Energy.
-
+%TODO FALAR MAIS DO IMU (IMAGEm)
 The number of \gls{IMU} sensors used can vary in each player by the number of metrics being measured (different metrics may require the use of more sensors) and the number of players being tracked.
 
 The Bluetooth protocol doesn't limit the number of connections, only the memory available in the device imposes a physical limitation to the number of devices connected~\cite{TexasInstruments}. However, manufacturers tend to set a limit to the maximum number of devices that can be connected. For example, Android devices set this limit to 9 devices, and some Bluetooth dongle manufacturers usually set it to 7 or lower, even though these numbers aren't officially confirmed. For the Raspberry Pi, there is no information about the maximum number of Bluetooth connections. For this work, we'll set a safety net of a maximum of 9 connections, for each Raspberry Pi.
@@ -337,7 +330,7 @@ The role of the \gls{IMU} Sensors is to receive instructions issued by the user,
 
 The following operations are supported by \gls{IMU} Sensors:
 \begin{itemize}
-    \item State control %TODO estas operações são realizadas em modo manual?
+    \item State control
           \begin{itemize}
               \item Start Raw Data Collection
               \item Stop Raw Data Collection
@@ -503,11 +496,7 @@ The \textbf{peripherals} endpoint enables the control of the \gls{IMU} Sensors f
 
 As specified in Subsection~\ref{subsec:imuControl}, there are 3 main controls that can be sent to the \gls{IMU} Sensors: start, stop or shutdown. The Peripherals endpoint allows 3 ways of sending this command to the Edge segment: control only one given peripheral, control all the peripherals in a game or control all connected devices.
 
-The control instructions are sent to the Edge Segment through the \gls{MQTT} protocol, and are activated notifications to receive updates from the Edge. For example, if the instructions to start all the peripherals in a game, the server will be awaiting for notifications from each of the peripherals, with the calculated game metrics, depending on the position of the \gls{IMU} Sensor in the body of the player.
-%TODO for example para a frente
-%Não falta nada nesta frase?
-%A propagação das mensagens do servidor para os vários EPU não está clara.
-%Consegue explicar melhor? Exitem vários EPU e vários IMU mas não se percebe como está feita a distribuição dos IMU pelos EPU
+The control instructions are broadcasted to all the \gls{EPU} through the \gls{MQTT} protocol, which will then communicate with every \gls{IMU} connected to them and send the instruction; in the server, notifications are activated in order to receive updates from the Edge. For example, if the instruction to start all the peripherals in a game is sent to the Edge, that message will be broadcasted to the \gls{IMU} through the \gls{EPU}, and the server will be awaiting for notifications from each of the peripherals, with the calculated game metrics, depending on the position of the \gls{IMU} Sensor in the body of the player.
 
 Listing~\ref{lst:startRAW} shows an endpoint that given the peripheral address, a message is published, issuing the operation \textit{startRaw} and the address of the peripheral. The \gls{EPU} will be listening to this messages, and will start the data collection on this device.
 
@@ -615,7 +604,7 @@ In a game detail page (Figure~\ref{fig:gamesDetail}), it is displayed more infor
     \label{fig:gamesDetail}
 \end{figure}
 
-In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game.
+In this page the user can assign \gls{IMU} Sensors to each player, as shown in Figure~\ref{fig:assignPeripheral}, and can unassign them as well. They can also control all the sensors assigned to players of this game (start, stop and shutdown them), and can view the game metrics for each player, as shown in Figure~\ref{fig:gameMetrics}, and for the team. In this system implementation, the only team metric being calculated is the total time of dribbling of one team, from which we can infer what was the ball possession of each team during the game. However, if the game stops, the data collection and metrics
 %TODO Até que ponto as paragens do cronómetro influenciam estas contas?
 \begin{figure}[htbp]
     \centering
@@ -634,7 +623,7 @@ To illustrate the usage of the developed prototype, let's set a practice game du
 
 After registering the two teams in the system, using the page shown in Figure~\ref{fig:teamsAdd}, he would have to register the players, using the page shown in Figure~\ref{fig:playerAdd}, and assign them to each team.
 
-The \gls{IMU} sensors should be attributed to each player, and as they put them in place (in the hand, the back or the foot), they should be registered in the application, as shown in Figure~\ref{fig:assignPeripheral}. For each player it should be added the identification of the sensor and its placement. This is the most intrusive aspect of the system. %TODO como se pode melhorar? como se faz no futebol com os coletes?
+The \gls{IMU} sensors should be attributed to each player, and as they put them in place (in the hand, the back or the foot), they should be registered in the application, as shown in Figure~\ref{fig:assignPeripheral}. For each player it should be added the identification of the sensor and its placement. This is the most intrusive aspect of the system. This step could be configured before the game, so that every sensor was already assigned to a player, and there would be only the need to put the sensor in the right place.
 
 After all the sensors are placed and registered in the application, the coach should press the "Start"{} button, when the game begins. Then, the process of collecting data from all the sensors, processing it in the Raspberry Pi's and sending it to the server to be stored begins.
 

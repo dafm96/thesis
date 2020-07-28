@@ -11,11 +11,7 @@
 
 \section{Motivation and Context} % (fold)
 \label{sec:motivation_context}
-In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, sports industries like basketball, soccer and baseball are using more and more data in their behalf. Huge volumes of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis~\cite{nbabigdata}. New discoveries on data can also help the business side of sports, like the \gls{NBA} Drafts or the soccer transfer market.
-%TODO Drafts: O termo NBA Draft apenas faz sentido para um leitor da área. Penso que faz falta uma pequena explicação sobre o que é este termo.
-% Este trabalho assume que toda a informação deve ser pública.
-% Será que esta aproximação é a melhor?
-% Será que faz sentido ter uma aproximação semelhante que tenha distinção entre informação pública e privada? Nesse sentido que alterações seria necessário efetuar na solução proposta?
+In an era where information drives our world and big data analytics are a common interest in every academic and industrial field, sports industries like basketball, soccer and baseball are using more and more data in their behalf. Huge volumes of data are produced per game and per training session, and techniques like data mining and machine learning can provide coaches and players with more insightful and accurate information and analysis~\cite{nbabigdata}. New discoveries on data can also help the business side of sports, like the \gls{NBA} Drafts (where teams pick players to join the league) or the soccer transfer market. However, not all data should be public, as it could undermine new tactics rehearsed during practice. A separation can be made between public data (player information and game data) and private team data (data collected from practices, or player recovery data).
 
 The importance of game analysis and the tracking of player metrics (the study of the game by analyzing the behavior of players and teams), has been more and more crucial over the years for evaluating the performance of team in practices and competitions.
 Initially, the game analysis was performed using direct observational methods, and only certain metrics like shoots and rebounds were observed and registered by someone watching the game. The coaches would then, after the game, proceed to the analysis of the data by hand.
@@ -46,11 +42,7 @@ With this motivation, this study aims to develop a system prototype capable of t
 
 \section{Objectives} % (fold)
 \label{sec:objectives}
-The proposed objective of this dissertation is to develop a system that is capable of tracking basketball players, by collecting data from them and calculating game metrics, like shoots and passes, in order to provide insights about player and team performance in real-time.
-%TODO Este trabalho está focado apenas num único desporto (neste caso o basketball) e que no contexto de um trabalho de investigação é uma abordagem válida.
-% No entanto, seria interessante poder extender este conceito/ideias a outros desportos.
-% A arquitetura desenvolvida pode ser facilmente extensivel a outros desportos? Que alterações seriam necessárias?
-% E como se pode juntar uma componente de vídeo a um sistema deste tipo? Por exemplo para obter um vídeo de realidade aumentada?
+The proposed objective of this dissertation is to develop a system that is capable of tracking basketball players, by collecting data from them and calculating game metrics, like shoots and passes, in order to provide insights about player and team performance in real-time. However, the methodologies applied in this work could be applied to track players of other sports, by changing the metric algorithms and the places from where the data is collected.
 
 Several sports are often practiced indoors, which prevents the use of \gls{GPS} positioning. In this cases, a tracking system using \gls{IMU} sensors like accelerometers or gyroscopes can be used. In order to test this tracking system, basketball was the sport chosen.
 
@@ -72,10 +64,8 @@ Summarizing, the main goal of this dissertation is to study and analyse ways to 
 The expected contributions of this dissertation are:
 \begin{enumerate}
     \item Exploratory analysis of relevant basketball metrics, obtained from \gls{IMU} sensor data
-    \item Implementation of a body sensor using a wireless communication protocol to transmit data
+    \item Implementation of a body sensor using a wireless communication protocol to transmit data, and an analysis of the quality and avaiability of the data collected from the sensors
     \item Development of a system prototype that collects data from \gls{IMU} sensors, analyses it and displays the insights for the players and the team
-    %TODO Relativamente à terceira contribuição nada é dito sobre a "qualidade" dos dados que seriam obtidos!
-% Existiam algumas expectativas sobre os resultados finais que poderiam ser atingidos com este trabalho? Os resultados foram de acordo com estas espetativas?
     \item Publication of a paper in international conference proceedings
 \end{enumerate}
 
