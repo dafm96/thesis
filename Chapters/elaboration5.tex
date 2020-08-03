@@ -16,12 +16,6 @@ To measure the availability of data, it is retrieved from the \gls{IMU} Sensors,
 This measurements will be made in an open space, changing 3 factors: the Raspberry Pi version (3B+ vs 4); the distance between the Raspberry Pi and the \gls{IMU} Sensors; the number of \gls{IMU} Sensors.
 
 The results from the different versions of the Raspberry Pi are displayed in Figures \ref{fig:datalossrPi3} and \ref{fig:datalossrPi4}. Between the two versions there is a big discrepancy in the percentage of samples lost, right from the closest distance. While Raspberry Pi 3B+ presents values between 5 and 10 percent, Raspberry Pi 4 has values between 0 and 1 percent. From there, every distance has a higher sample loss registered in Raspberry Pi 3B+ than in Raspberry Pi 4. This has to do with the introduction of the new version of Bluetooth 5.0 in the newer version of the Raspberry Pi.
-\begin{figure}
-    \centering
-    \includegraphics[width=.7\textwidth]{PacketLoss(RaspberryPi3).pdf}
-    \caption{Percentage of data loss (Raspberry Pi 3B+)}
-    \label{fig:datalossrPi3}
-\end{figure}
 
 Increasing the number of devices doesn't seem to correlate with a bigger sample loss. Even though sometimes the highest number of devices has the higher percentage of lost samples, that doesn't always verifies.
 
@@ -29,64 +23,37 @@ However, increasing the distance increases, in the vast majority of the cases, t
 
 There are some outliers, like the sudden decrease at 12 meters in Figure~\ref{fig:datalossrPi3}, or the peak of percentage of lost samples using 1 device, at 9 meters, in Figure~\ref{fig:datalossrPi4}. These could be caused by other bluetooth devices in the proximity, or other sources of noise, or the unreliable quality of the sensors. The interference of other devices wasn't studied in this work, but in a basketball court with hundreds of fans using a consumer technology like bluetooth, this could be a problem in terms of communication performance.
 
-\begin{figure}
+\begin{figure}[htpb]
     \centering
-    \includegraphics[width=.7\textwidth]{PacketLoss(RaspberryPi4).pdf}
-    \caption{Percentage of data loss (Raspberry Pi 4)}
-    \label{fig:datalossrPi4}
+    \subcaptionbox{Percentage of data loss (Raspberry Pi 3B+)\label{fig:datalossrPi3}}%
+    {\includegraphics[width=.5\textwidth]{/presentation/loss_3.pdf}}%
+    \subcaptionbox{Percentage of data loss (Raspberry Pi 4)\label{fig:datalossrPi4}}%
+    {\includegraphics[width=.5\textwidth]{/presentation/loss_4.pdf}}%
+    \caption{Data avaiability}
+    \label{fig:avaiability}
 \end{figure}
 
 \subsection{Data Quality}
-%TODO tabelas muito distantes uma da outra
-%TODO mudar para gráfico da defesa?
-Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Tables \ref{tab:qualexample1} and \ref{tab:qualexample2} show two examples of the first 20 samples collected from two different sensors, both placed side by side, in a plane surface. The rest of the samples were omitted, since these are enough to illustrate the big picture.
+Regarding data quality, the raw data from a still sensor in a leveled surface will be analysed. Figure \ref{fig:quality} shows the first 20 samples collected from the IMU used in this work, placed in a flat surface. The rest of the samples were omitted, since these are enough to illustrate the big picture.
 
-As we can see by comparing the first row with the remaining, the values are quite different. This might be caused by residual values left by the previous session. The data from the first row should be discarded, as it doesn't correspond to reality.
+As we can see by comparing the first values with the remaining, the values are quite different. This might be caused by residual values left by the previous session. The data from the first row should be discarded, as it doesn't correspond to reality.
 
-%TODO Explicar melhor!
-Ignoring the first row, the data we see is very noisy. The sensors aren't moving, yet the gyroscope shows significant values in the $X$ axis of Table~\ref{tab:qualexample1} and $X$ and $Y$ axis of Table~\ref{tab:qualexample2}. With a still device, these values should be zero, or close to zero. The $Z$ axis of the gyroscope in Table~\ref{tab:qualexample1} is the one that is closest to being zero.
+In the accelerometer graph, the only axis that should have some value other than zero should be the $Z$ axis, and it should be the value of the force of gravity ($\approx 9,8 m/s^2$ ). In the example, the values of the $Z$ axis is lower than what it should be, and there is acceleration recorded in the $X$ and $Y$ axis, when there should be none, as the sensors are in a leveled surface. This may happen due to incorrect internal placement of the sensor inside its housing, leading to incorrect readings when the housing is leveled.
 
-In the accelerometer, the only axis that should have some value other than zero should be the z axis, and it should be the value of the force of gravity ($\approx 9,8 m/s^2$ ). In the examples, the values are lower than what they should be, and there is acceleration in the x and y axis, when there should be none, as the sensors are in a leveled surface. This may happen due to incorrect internal placement of the sensor inside its housing, leading to incorrect readings when the housing is leveled.
+Regarding the gyroscope graph, as the sensor is still, all the axis should be zero, or close to zero. Yet, the gyroscope shows significant values inand $X$ and $Y$ axis (different than 0). The $Z$ axis of the gyroscope is the one that is closest to being zero.
 
 One way of correcting these errors is by removing the bias of the gyroscope values. This can be done by collecting data from each axis of the gyroscope, while the \gls{IMU} sensor is still, and to average the values of each axis. This gives the average bias. Then, for each sample, this calculated average bias should be subtracted from the gyroscope readings. The algorithm used for tracking the players reccomends the use of this correction to the gyroscope values, as it improves the algorithm performance.
 
-\begin{table}[]
+\begin{figure}[htpb]
     \centering
-    \caption{Data Quality Example 1}
-    \label{tab:qualexample1}
-    \begin{tabular}{lllllll}
-        \textbf{time} & \textbf{accX}    & \textbf{accY}     & \textbf{accZ}    & \textbf{gyrX}    & \textbf{gyrY}    & \textbf{gyrZ}     \\\cline{1-7}
-        0,02    & -4,16082 & -1,82440 & 8,18885 & 0,19548 & -0,11718 & -0,08842 \\
-        0,04    & 0,68071  & -0,42111 & 9,64837 & 0,16725 & -0,07457 & -0,01704 \\
-        0,06    & 0,69985  & -0,43666 & 9,64238 & 0,16778 & -0,07404 & -0,01704 \\
-        0,08    & 0,70224  & -0,47135 & 9,64597 & 0,16832 & -0,07457 & -0,01651 \\
-        0,10    & 0,69028  & -0,43905 & 9,64597 & 0,16725 & -0,07564 & -0,01545 \\
-        0,12    & 0,68669  & -0,45101 & 9,63521 & 0,16991 & -0,07564 & -0,01545 \\
-        0,14    & 0,70224  & -0,44743 & 9,61965 & 0,16672 & -0,07457 & -0,01651 \\
-        0,16    & 0,68071  & -0,44743 & 9,64358 & 0,16778 & -0,07617 & -0,01545 \\
-        0,18    & 0,69148  & -0,47374 & 9,62205 & 0,16619 & -0,07457 & -0,01758 \\
-        0,20    & 0,69507  & -0,44025 & 9,62683 & 0,16725 & -0,07510 & -0,01598
-    \end{tabular}
-\end{table}
-
-\begin{table}[]
-    \centering
-    \caption{Data Quality Example 2}
-    \label{tab:qualexample2}
-    \begin{tabular}{lllllll}
-        \textbf{time} & \textbf{accX}    & \textbf{accY}     & \textbf{accZ}    & \textbf{gyrX}    & \textbf{gyrY}    & \textbf{gyrZ}     \\\cline{1-7}
-        0,02    & -5,80936 & -2,53741 & 8,16612 & 0,17844 & -0,25194 & -0,07617 \\
-        0,04    & -0,99295 & -0,16868 & 9,77996 & 0,14009 & -0,29882 & -0,03569 \\
-        0,06    & -0,98338 & -0,13758 & 9,75723 & 0,14328 & -0,30041 & -0,03622 \\
-        0,08    & -0,98936 & -0,16868 & 9,74288 & 0,14115 & -0,30041 & -0,03462 \\
-        0,10    & -0,98697 & -0,16509 & 9,73211 & 0,14168 & -0,29988 & -0,03569 \\
-        0,12    & -0,99175 & -0,14954 & 9,77159 & 0,14168 & -0,30095 & -0,03622 \\
-        0,14    & -0,99056 & -0,17107 & 9,76919 & 0,14115 & -0,29988 & -0,03569 \\
-        0,16    & -0,99534 & -0,15791 & 9,75125 & 0,14115 & -0,30148 & -0,03622 \\
-        0,18    & -0,98218 & -0,16390 & 9,77039 & 0,14328 & -0,30041 & -0,03729 \\
-        0,20    & -0,99534 & -0,16509 & 9,74288 & 0,14062 & -0,29882 & -0,03515
-    \end{tabular}
-\end{table}
+    \subcaptionbox{Accelerometer\label{fig:quality_acc}}%
+    {\includegraphics[width=0.75\linewidth]{/presentation/quality_acc.pdf}}%
+    \\
+    \subcaptionbox{Gyroscope\label{fig:quality_gyr}}%
+    {\includegraphics[width=0.75\linewidth]{/presentation/quality_gyr.pdf}}%
+    \caption{Data Quality}
+    \label{fig:quality}
+\end{figure}
 
 
 \section{Metrics Performance}
