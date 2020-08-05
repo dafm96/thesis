@@ -1,7 +1,7 @@
 %!TEX root = ../elaboration.tex
 \chapter{System Implementation}
 \label{cha:implementation}
-\epigraph{This chapter presents the implementation of the system proposed in Chapter~\ref{cha:systemProposal}. It starts by describing the data collected from the players. Afterwards, the performance metrics are explained, and finally the details of the implementation are illustrated.}
+\epigraph{This chapter presents the implementation of the system proposed in Chapter~\ref{cha:systemProposal}. It starts by describing the data collected from the players. Afterwards, the performance metrics are explained, and finally the details of the implementation are illustrated. The code implemented on the server can be consulted in \url{https://github.com/dafm96/BLE_SportsTracker}, and the code implemented in the Rasberry Pi's can be consulted in \url{https://github.com/dafm96/BLE_SportsTracker_rPi}. }
 
 \section{Movement and Player Data}
 \label{sec:data}
@@ -61,7 +61,7 @@ Fischer proposes a simple and effective way to implement an accurate pedestrian 
 
 \begin{figure}
     \centering
-    \includegraphics[width=.6\textwidth]{tutorial_methodology.pdf}
+    \includegraphics[width=.5\textwidth]{tutorial_methodology.pdf}
     \caption[Fischer's Pedestrian Tracking Algorithm]{Fischer's Pedestrian Tracking Algorithm~\cite{Fischer2013}}
     \label{fig:methodology}
 \end{figure}
@@ -123,7 +123,7 @@ The analysis of dribbling is made using an \gls{IMU} Sensor placed in the wrist 
 \end{figure}
 By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded that the Y-Axis from the accelerometer (the movement to the front or to the back of the arm) and the X-Axis of the gyroscope (rotating the hand up or down) were the most important axis to analyse the dribbling movement. The graphs shown in Figure~\ref{fig:graphdribble} present the plot of a sequence of 20 dribbles, with data from the Y-Axis of the accelerometer and the X-Axis of the gyroscope.
 
-\begin{figure}[htbp]
+\begin{figure}[!htbp]
     \centering
     \subcaptionbox{Accelerometer y-axis graph\label{fig:accDribble}}%
     {\includegraphics[width=0.8\linewidth]{dribble_acc.pdf}}%
@@ -136,9 +136,10 @@ By collecting data from the \gls{IMU} Sensor placed in the hand, we concluded th
 
 To detect if it is a dribble, the algorithm finds a peak in the accelerometer values, and checks if both accelerometer and gyroscope values are above a certain threshold. If they meet this criteria, a Fourier analysis is made to confirm that the frequency of the movement matches the frequency of a dribble, discarding other arm movements that could lead to erroneous detection of dribbles.
 
+\pagebreak
+
 Listing~\ref{lst:dribbleAlgorithm} shows the implemented algorithm, that receives data in real-time from the \gls{IMU} sensor placed in the wrist.
 
-%TODO rever código
 \lstset{language=JAVA,
     showstringspaces=false,
     caption=Dribble Detection Algorithm,
@@ -149,6 +150,7 @@ dataGyroX = [];
 ENDANALYSIS = 25;
 FOURIER_MAXTHRESHOLD = 0.1;
 FOURIER_MINTHRESHOLD = 0.035;
+dribbling = false;
 analyzeData(accY, gyrX) {
     dataAccY.push(accY);
     dataGyroX.push(gyroX);
@@ -184,12 +186,32 @@ analyzeData(accY, gyrX) {
                         && fourierAccMax > FOURIER_MINTHRESHOLD
                         && fourierGyroMax > FOURIER_MINTHRESHOLD){
                             nDribbles = countDribbles();
-                            sendDribbles(nDribbles);
+                            return nDribbles;
                         }
                 }
             }
         }
     }
+};
+
+countDribbles() {
+    max = 0;
+    maxFound = false;
+    dribbleCount = 0;
+    for (var i = 0; i < this.dataGyroX.length; i++) {
+        var sample = this.dataGyroX[i];
+        if (sample > max) {
+            max = sample;
+            if (max > GYRO_THRESHOLD)
+                maxFound = true;
+        }
+        else if (sample < 0 && maxFound) {
+            dribbleCount++;
+            maxFound = false;
+            max = 0;
+        }
+    }
+    return dribbleCount;
 };
 \end{lstlisting}
 
@@ -209,14 +231,14 @@ As identified by the numbers in figure~\ref{fig:jumpacc}, a jump is composed by 
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.5\textwidth]{jump.pdf}
+    \includegraphics[width=.3\textwidth]{jump.pdf}
     \caption{Jump X Acceleration}
     \label{fig:jumpacc}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    \includegraphics[width=.7\textwidth]{jumpSteps.pdf}
+    \includegraphics[width=.5\textwidth]{jumpSteps.pdf}
     \caption[Jump Phases]{Jump Phases~\cite{Cheraghi2017}}
     \label{fig:jumpsteps}
 \end{figure}
